@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!-- By: Bryan Blancas -->
+<html lang="en-us">
+
+<head>
+  <title>NKI Graphs</title>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1">
+  <link rel="icon" href="css/images/JET-Favicon-Red-32x32.png" type="image/x-icon" />
+
+  <!-- This is the main css file for the default theme -->
+<!-- injector:theme -->
+<link rel="stylesheet" href="css/redwood/17.0.3/web/redwood.min.css" id="basestyles" />
+<link rel="stylesheet" href="css/theme-redwood/17.0.3/web/theme.css" id="themestyle" />
+<!-- endinjector -->
+  <!-- This contains icon fonts used by the starter template -->
+<!-- injector:font -->
+<link rel="stylesheet" id="uxiconFont" href="https://static.oracle.com/cdn/fnd/gallery/2404.0.0/images/iconfont/ojuxIconFont.min.css" />
+<!-- endinjector:font -->
+
+  <!-- This is where you would add any app specific styling -->
+  <link rel="stylesheet" href="css/app.css" type="text/css" />
+
+</head>
+<body
+    class="oj-web-applayout-body"
+    style="background-color: white"
+  >
+    <div
+      id="globalBody"
+      class="oj-web-applayout-page"
+    >
+      <!--
+         ** Oracle JET V11.1.0 web application header pattern.
+         ** Please see the demos under Cookbook/Patterns/App Shell: Web
+         ** and the CSS documentation under Support/API Docs/Non-Component Styling
+         ** on the JET website for more information on how to use this pattern.
+      -->
+      <header
+        role="banner"
+        class="oj-web-applayout-header"
+      >
+        <div
+          class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center"
+        >
+          <div class="oj-flex-bar-middle oj-sm-align-items-baseline">
+            <h3
+              class="oj-sm-only-hide oj-sm-padding-2x-horizontal"
+              style="color: mediumpurple"
+              title="Application Name"
+            >
+              NKI
+            </h3>
+            <h6>Graphs</h6>
+          </div>
+          <div class="oj-flex-bar-end">
+            <!-- Responsive Toolbar -->
+            <div class="oj-flex">BryCa ❤️</div>
+            <!-- <oj-toolbar>
+            <oj-menu-button id="userMenu" display="[[smScreen() ? 'icons' : 'all']]" chroming="borderless">
+              <span>
+                <oj-bind-text value="[[userLogin]]"></oj-bind-text>
+              </span>
+              <span slot="endIcon"
+                :class="[[{'oj-icon demo-appheader-avatar': smScreen(), 'oj-component-icon oj-button-menu-dropdown-icon': !smScreen()}]]"></span>
+              <oj-menu id="menu1" slot="menu">
+                <oj-option id="pref" value="pref">Preferences</oj-option>
+                <oj-option id="help" value="help">Help</oj-option>
+                <oj-option id="about" value="about">About</oj-option>
+                <oj-option id="out" value="out">Sign Out</oj-option>
+              </oj-menu>
+            </oj-menu-button>
+          </oj-toolbar> -->
+          </div>
+        </div>
+      </header>
+      <div
+        role="main"
+        class="oj-web-applayout-max-width oj-web-applayout-content"
+      >
+        <div class="oj-flex">
+          <!-- Controls -->
+          <div class="oj-flex-item oj-border">
+            <!-- Forms -->
+            <oj-bind-for-each
+              data="[[dataProvider]]"
+              as="curCat"
+            >
+              <template>
+                <div class="oj-flex oj-sm-padding-4x">
+                  <div class="oj-flex-item oj-sm-6">
+                    <div class="oj-flex">
+                      <div
+                        class="oj-flex-item oj-sm-padding-2x-horizontal oj-sm-1"
+                      >
+                        <oj-button
+                          class="oj-button-sm oj-sm-margin-2x-vertical"
+                          chroming="borderless"
+                          display="icons"
+                          on-oj-action="[[handleRemoveCategory]]"
+                        >
+                          <span
+                            slot="startIcon"
+                            class="oj-ux-ico-close"
+                          ></span>
+                        </oj-button>
+                      </div>
+                      <div
+                        class="oj-flex-item oj-sm-padding-2x-horizontal oj-sm-8"
+                      >
+                        <oj-input-text
+                          :id="{{curCat.observableIndex()+'catname'}}"
+                          value="{{curCat.data.name}}"
+                          label-hint="Category"
+                          label-edge="inside"
+                          required="true"
+                        />
+                      </div>
+                      <div
+                        class="oj-flex-item oj-sm-padding-2x-horizontal oj-sm-3"
+                      >
+                        <oj-input-text
+                          :id="{{curCat.observableIndex()+'color'}}"
+                          value="{{curCat.data.color}}"
+                          label-hint="Color"
+                          label-edge="inside"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="oj-flex-item oj-sm-6">
+                    <div class="oj-flex">
+                      <div
+                        class="oj-flex-item oj-sm-padding-2x-horizontal oj-sm-4"
+                      >
+                        <oj-input-number
+                          :id="{{curCat.observableIndex()+'value'}}"
+                          value="{{curCat.data.value}}"
+                          label-hint="Value"
+                          on-value-changed="[[handleCatValueChanged]]"
+                          required="true"
+                        />
+                      </div>
+                      <div
+                        class="oj-flex-item oj-sm-padding-2x-horizontal oj-sm-8"
+                      >
+                        <div class="oj-flex">
+                          <oj-select-single
+                            :id="{{curCat.observableIndex()+'scale'}}"
+                            data="[[scalesDp]]"
+                            value="{{curCat.data.scale}}"
+                            on-value-changed="[[handleCatValueChanged]]"
+                            label-hint="Scale"
+                            required="true"
+                          />
+                        </div>
+                        <div class="oj-flex oj-sm-justify-content-flex-end">
+                          Percentil:
+                          <oj-bind-text value="[[curCat.data.peScale]]" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </oj-bind-for-each>
+            <!-- Button controls -->
+            <div class="oj-flex oj-sm-padding-4x">
+              <div class="oj-flex oj-sm-justify-content-flex-end oj-sm-12">
+                <oj-button
+                  id="addCategory"
+                  class="oj-sm-padding-4x-horizontal"
+                  chroming="solid"
+                  on-oj-action="[[handleAddCategory]]"
+                  >Add Category</oj-button
+                >
+                <oj-button
+                  id="graph"
+                  chroming="callToAction"
+                  on-oj-action="[[handleGraph]]"
+                  >Graph</oj-button
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div
+          class="oj-flex oj-sm-justify-content-flex-start oj-sm-padding-2x oj-sm-8 oj-border"
+        >
+          <div class="oj-flex-item oj-sm-2">
+            <oj-input-number
+              value="{{maxY}}"
+              label-hint="Max Graph Value"
+            />
+          </div>
+        </div> -->
+
+        <div class="oj-flex oj-sm-padding-2x-top">
+          <div
+            class="oj-flex-item oj-sm-2 oj-sm-padding-2x-horizontal oj-border"
+          >
+            <div class="oj-flex-item">
+              <h5>Graph Settings</h5>
+            </div>
+            <div class="oj-flex-item oj-sm-padding-1x-vertical">
+              <oj-input-number
+                :id="maxy"
+                value="{{maxY}}"
+                label-hint="Max Graph Value"
+              />
+            </div>
+            <div class="oj-flex-item oj-sm-padding-1x-vertical">
+              <oj-input-number
+                :id="stepy"
+                value="{{stepY}}"
+                label-hint="Y Min Step"
+              />
+            </div>
+          </div>
+          <div class="oj-flex-item oj-sm-10">
+            <oj-chart
+              id="polarChart"
+              coordinate-system="polar"
+              type="bar"
+              stack="on"
+              polar-grid-shape="circle"
+              data="[[chartDataDp]]"
+              animation-on-display="auto"
+              animation-on-data-change="auto"
+              legend.position="bottom"
+              y-axis.max="[[maxY]]"
+              y-axis.step="[[stepY]]"
+              hover-behavior="dim"
+            >
+              <template
+                slot="itemTemplate"
+                data-oj-as="item"
+              >
+                <oj-chart-item
+                  value="[[item.data.value]]"
+                  group-id="[[ [item.data.group] ]]"
+                  series-id="[[item.data.group]]"
+                />
+              </template>
+              <template
+                slot="seriesTemplate"
+                data-oj-as="series"
+              >
+                <oj-chart-series color="[[series.items[0].data.color]]" />
+              </template>
+            </oj-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- This injects script tags for the main javascript files -->
+<!-- injector:scripts -->
+<script type='text/javascript' src='js/libs/require/require.js'></script>
+<script type='text/javascript' src='js/bundle.js'></script>
+<!-- endinjector -->
+  </body>
+</html>
