@@ -1,0 +1,1 @@
+define(["knockout"],(function(e){return{getGraphCatModel:()=>({name:e.observable("Categoría 1"),value:e.observable(),scale:e.observable("pc"),peScale:e.observable(),color:e.observable()}),getDataItemForChart:(e,a)=>({id:a,group:e.name(),value:e.peScale(),color:e.color()})}}));

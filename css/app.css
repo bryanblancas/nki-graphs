@@ -1,43 +1,54 @@
-/*
-    Document   : override
-    Created on : <date>
-    Author     : <author>
-    Description:
-        This is where any of your application specific styles should be included
-*/
-.demo-oracle-icon {
-    width:137px;
-    height:18px
+@font-face {
+  font-family: 'Poppings';
+  src: url('./fonts/Poppins-Regular.ttf') format('truetype');
 }
 
-.demo-oracle-icon:before {
-    content:url("images/oracle_logo.svg")
+body.nki-graphs-main{
+    background-color: white !important;
+    font-family: 'Poppings', sans-serif !important; 
 }
-
-html:not([dir="rtl"]) .demo-oracle-icon {
-    padding-right:4px
+.application-name-emphasis{
+    color: mediumpurple;
+    font-weight: 900;
+    font-size: 2.5rem;
 }
-
-html[dir="rtl"] .demo-oracle-icon {
-    padding-left:4px
+.application-name{
+    font-weight: 700;
+    font-size: 1.5rem;
 }
-
-.demo-oracle-icon:before {
-    display:inline
+.purple-btn{
+    background-color: mediumpurple;
+    border-radius: 7%;
 }
-
-.demo-appheader-avatar {
-    width:24px;
-    height:24px
+.white-text{
+    color: white;
 }
-
-.demo-appheader-avatar:before {
-    content:url("images/avatar_24px.png")
+.rounded-borders{
+    border-radius: 0.4rem;
 }
-@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi), (min-resolution: 1.5dppx) {
-    .demo-appheader-avatar:before {
-        content:url("images/avatar_24px_2x.png");
-        -webkit-transform:translate(-25%, -25%) scale(0.5);
-        transform:translate(-25%, -25%) scale(0.5)
-    }
+.section-title{
+    margin: 0.5rem;
+    font-weight: bolder;
+    font-size: 1.3rem;
+}
+.custom-label{
+    font-size: var(--oj-label-inside-edge-font-size);
+    font-weight: var(--oj-label-inside-edge-font-weight);
+    color: var(--oj-label-inside-edge-color);
+}
+.small-icon{
+    font-size: medium;
+}
+.bottom-label{
+    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-color);
+    font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);
+    font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);
+}
+.hidden-easter-egg{
+    opacity: 0;
+    transition: all 100ms;
+    cursor: grabbing;
+}
+.hidden-easter-egg:hover{
+    opacity: 0.08;
 }
