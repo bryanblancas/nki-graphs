@@ -3,52 +3,128 @@
   src: url('./fonts/Poppins-Regular.ttf') format('truetype');
 }
 
-body.nki-graphs-main{
-    background-color: white !important;
-    font-family: 'Poppings', sans-serif !important; 
+body.nki-graphs-main {
+  --chart-container-title-section-height: 72px;
+  --chart-container-footer-section-height: 18px;
+  --chart-container-chart-section-min-height: 500px;
+  --chart-container-chart-section-max-height: 1000px;
+  --categories-form-max-height: 20vh;
+  --shadow-grey-color: #a19e9e;
+  background-color: white !important;
+  font-family: 'Poppings', sans-serif !important;
 }
-.application-name-emphasis{
-    color: mediumpurple;
-    font-weight: 900;
-    font-size: 2.5rem;
+
+.application-name-emphasis {
+  color: mediumpurple;
+  font-weight: 900;
+  font-size: 2.5rem;
 }
-.application-name{
-    font-weight: 700;
-    font-size: 1.5rem;
+
+.application-name {
+  font-weight: 700;
+  font-size: 1.5rem;
 }
-.purple-btn{
-    background-color: mediumpurple;
-    border-radius: 7%;
+
+.purple-btn {
+  background-color: mediumpurple;
+  border-radius: 7%;
 }
-.white-text{
-    color: white;
+
+.white-text {
+  color: white;
 }
-.rounded-borders{
-    border-radius: 0.4rem;
+
+.rounded-borders {
+  border-radius: 0.4rem;
 }
-.section-title{
-    margin: 0.5rem;
-    font-weight: bolder;
-    font-size: 1.3rem;
+
+.section-title {
+  margin: 0.5rem;
+  font-weight: bolder;
+  font-size: 1.3rem;
 }
-.custom-label{
-    font-size: var(--oj-label-inside-edge-font-size);
-    font-weight: var(--oj-label-inside-edge-font-weight);
-    color: var(--oj-label-inside-edge-color);
+
+.custom-label {
+  font-size: var(--oj-label-inside-edge-font-size);
+  font-weight: var(--oj-label-inside-edge-font-weight);
+  color: var(--oj-label-inside-edge-color);
 }
-.small-icon{
-    font-size: medium;
+
+.small-icon {
+  font-size: medium;
 }
-.bottom-label{
-    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-color);
-    font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);
-    font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);
+
+.bottom-label {
+  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-color);
+  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);
+  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);
+  text-align: end;
 }
-.hidden-easter-egg{
-    opacity: 0;
-    transition: all 100ms;
-    cursor: grabbing;
+
+.hidden-easter-egg {
+  opacity: 0;
+  transition: all 100ms;
+  cursor: grabbing;
 }
-.hidden-easter-egg:hover{
-    opacity: 0.08;
+
+.hidden-easter-egg:hover {
+  opacity: 0.08;
+}
+
+.app-container {
+  margin-bottom: 4rem;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  resize: vertical;
+  overflow: auto;
+  min-height: calc(var(--chart-container-title-section-height) + var(--chart-container-footer-section-height) + var(--chart-container-chart-section-min-height));
+  max-height: calc(var(--chart-container-title-section-height) + var(--chart-container-footer-section-height) + var(--chart-container-chart-section-max-height));
+  border: 1px solid #cccccc81;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  padding: 2rem;
+  padding-top: 0;
+}
+
+.chart-section {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title-section {
+  height: var(--chart-container-title-section-height);
+}
+
+.footer-section {
+  height: var(--chart-container-footer-section-height);
+}
+
+.nki-graph-style {
+  min-height: var(--chart-container-chart-section-min-height);
+  max-height: var(--chart-container-chart-section-max-height);
+  height: 100%;
+}
+
+.purple-text {
+  color: mediumpurple
+}
+
+.delete-category-icon {
+  color: var(--shadow-grey-color);
+}
+
+.categories-form {
+  overflow-y: auto;
+  max-height: var(--categories-form-max-height);
+}
+
+.category-number-label {
+  font-size: x-large;
+  color: var(--shadow-grey-color);
 }

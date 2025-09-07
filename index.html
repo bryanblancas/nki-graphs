@@ -23,13 +23,7 @@
     <link rel="stylesheet" href="css/app.css" type="text/css" />
   </head>
   <body class="oj-web-applayout-body nki-graphs-main">
-    <div id="globalBody" class="oj-web-applayout-page">
-      <!--
-         ** Oracle JET V11.1.0 web application header pattern.
-         ** Please see the demos under Cookbook/Patterns/App Shell: Web
-         ** and the CSS documentation under Support/API Docs/Non-Component Styling
-         ** on the JET website for more information on how to use this pattern.
-      -->
+    <div id="globalBody" class="oj-web-applayout-page app-container">
       <header role="banner" class="oj-web-applayout-header">
         <div class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center">
           <div class="oj-flex-bar-middle oj-sm-align-items-baseline">
@@ -46,23 +40,7 @@
             <p class="application-name">Graphs</p>
           </div>
           <div class="oj-flex-bar-end">
-            <!-- Responsive Toolbar -->
             <div class="oj-flex hidden-easter-egg">BryCa ❤️</div>
-            <!-- <oj-toolbar>
-            <oj-menu-button id="userMenu" display="[[smScreen() ? 'icons' : 'all']]" chroming="borderless">
-              <span>
-                <oj-bind-text value="[[userLogin]]"></oj-bind-text>
-              </span>
-              <span slot="endIcon"
-                :class="[[{'oj-icon demo-appheader-avatar': smScreen(), 'oj-component-icon oj-button-menu-dropdown-icon': !smScreen()}]]"></span>
-              <oj-menu id="menu1" slot="menu">
-                <oj-option id="pref" value="pref">Preferences</oj-option>
-                <oj-option id="help" value="help">Help</oj-option>
-                <oj-option id="about" value="about">About</oj-option>
-                <oj-option id="out" value="out">Sign Out</oj-option>
-              </oj-menu>
-            </oj-menu-button>
-          </oj-toolbar> -->
           </div>
         </div>
       </header>
@@ -119,6 +97,87 @@
             </div>
           </oj-c-popup>
         </div>
+        <!-- Graph Settings modal -->
+        <div>
+          <oj-c-popup
+            opened="[[graphSettingsOpened]]"
+            launcher="[[ `#${btnOpenGraphSettingsId}`]]"
+            placement="end"
+            auto-dismiss="focusLoss"
+            modality="modeless"
+            tail="simple"
+            on-oj-close="[[ () => graphSettingsOpened(false) ]]"
+          >
+            <div class="oj-flex">
+              <div class="oj-flex-item oj-sm-12 oj-sm-padding-4x oj-border rounded-borders">
+                <div class="oj-flex-item">
+                  <p class="section-title">Ajustes del Gráfico</p>
+                  <hr />
+                </div>
+                <div class="oj-flex-item oj-sm-padding-1x-vertical">
+                  <oj-input-number
+                    id="maxy"
+                    value="{{maxY}}"
+                    label-hint="Valor Máximo"
+                  ></oj-input-number>
+                </div>
+                <div class="oj-flex-item oj-sm-padding-1x-vertical">
+                  <oj-input-number
+                    id="stepy"
+                    value="{{stepY}}"
+                    label-hint="Salto Mínimo"
+                  ></oj-input-number>
+                </div>
+                <div class="oj-flex-item oj-sm-padding-1x-vertical">
+                  <oj-select-single
+                    id="legendPositionSelect"
+                    data="[[legendPositionDp]]"
+                    value="{{legendPosition}}"
+                    label-hint="Leyendas"
+                  ></oj-select-single>
+                </div>
+                <div class="oj-flex-item oj-sm-padding-1x-vertical">
+                  <span class="custom-label">Tipo de Gráfico</span>
+                  <oj-c-buttonset-single
+                    id="chartTypeBtn"
+                    display="label"
+                    items="[[chartTypeOptions]]"
+                    value="{{chartType}}"
+                    layout-width="equal"
+                    aria-label="Tipo de Gráfico"
+                  >
+                  </oj-c-buttonset-single>
+                </div>
+                <div class="oj-flex-item oj-sm-padding-1x-vertical">
+                  <span class="custom-label">Etiquetas</span>
+                  <oj-c-buttonset-single
+                    id="labelPositionBtn"
+                    display="label"
+                    items="[[labelPositionOptions]]"
+                    value="{{labelPosition}}"
+                    layout-width="equal"
+                    aria-label="Data Labels"
+                    disabled="[[chartType() === 'cartesian' ? false : true]]"
+                  >
+                  </oj-c-buttonset-single>
+                </div>
+                <div class="oj-flex-item oj-sm-padding-1x-vertical">
+                  <span class="custom-label">Orientación</span>
+                  <oj-c-buttonset-single
+                    id="labelPositionBtn"
+                    display="label"
+                    items="[[orientationOptions]]"
+                    value="{{chartOrientation}}"
+                    layout-width="equal"
+                    aria-label="Chart Orientation"
+                    disabled="[[chartType() === 'cartesian' ? false : true]]"
+                  >
+                  </oj-c-buttonset-single>
+                </div>
+              </div>
+            </div>
+          </oj-c-popup>
+        </div>
         <!-- Graph data form -->
         <div class="oj-flex">
           <!-- Controls -->
@@ -128,7 +187,19 @@
               class="oj-flex oj-sm-padding-2x-top oj-sm-padding-4x-horizontal oj-sm-justify-content-flex-between"
             >
               <div class="oj-flex-item">
-                <p class="section-title">Datos del Gráfico</p>
+                <div class="oj-flex">
+                  <p class="section-title">
+                    <oj-bind-if test="[[templateApplied()]]">
+                      <oj-bind-text value="[[templateAppliedName]]"></oj-bind-text>
+                    </oj-bind-if>
+                    <oj-bind-if test="[[!templateApplied()]]"> [Gráfico sin nombre] </oj-bind-if>
+                  </p>
+                  <graph-templates
+                    get-current-chart="[[handleGetCurrentGraph]]"
+                    apply-chart-template="[[handleApplyGraph]]"
+                    on-chart-saved="[[handleGraphSaved]]"
+                  ></graph-templates>
+                </div>
               </div>
               <div class="oj-flex-item">
                 <div class="oj-flex oj-sm-justify-content-flex-end oj-sm-12">
@@ -159,153 +230,137 @@
             </div>
             <hr />
             <!-- Forms -->
-            <oj-bind-for-each data="[[dataProvider]]" as="curCat">
-              <template>
-                <div class="oj-flex oj-sm-padding-1x">
-                  <div class="oj-flex-item oj-sm-padding-2x oj-sm-2 oj-lg-1">
-                    <oj-button
-                      class="oj-button-sm oj-sm-margin-2x-vertical"
-                      chroming="borderless"
-                      display="icons"
-                      on-oj-action="[[handleRemoveCategory]]"
-                    >
-                      <span class="material-icons"> close </span>
-                    </oj-button>
-                  </div>
-                  <div class="oj-flex-item oj-sm-padding-2x oj-sm-10 oj-lg-4">
-                    <oj-input-text
-                      :id="{{curCat.observableIndex()+'catname'}}"
-                      value="{{curCat.data.name}}"
-                      label-hint="Categoría"
-                      label-edge="inside"
-                      required="true"
-                    />
-                  </div>
-                  <div
-                    class="oj-flex-item oj-sm-padding-2x-horizontal oj-sm-padding-2x-top oj-sm-6 oj-lg-2"
-                  >
-                    <div class="oj-flex">
-                      <oj-input-text
-                        :id="{{curCat.observableIndex()+'color'}}"
-                        value="{{curCat.data.color}}"
-                        label-hint="Color"
-                        label-edge="inside"
-                      />
-                    </div>
-                    <div class="oj-flex oj-sm-justify-content-flex-end">
-                      <oj-c-button
-                        id="btnChooseColor"
-                        size="sm"
-                        chroming="ghost"
-                        label="Escoger"
-                        class="oj-sm-padding-0x-top"
-                        on-oj-action="[[openListener]]"
-                      >
-                        <span slot="endIcon" class="material-icons small-icon"> north_east </span>
-                      </oj-c-button>
-                    </div>
-                  </div>
-                  <div class="oj-flex-item oj-sm-padding-2x oj-sm-6 oj-lg-2">
-                    <oj-input-number
-                      :id="{{curCat.observableIndex()+'value'}}"
-                      value="{{curCat.data.value}}"
-                      label-hint="Valor"
-                      on-value-changed="[[handleCatValueChanged]]"
-                      required="true"
-                    />
-                  </div>
-                  <div class="oj-flex-item oj-sm-padding-2x oj-sm-12 oj-lg-3">
-                    <div class="oj-flex">
-                      <oj-select-single
-                        :id="{{curCat.observableIndex()+'scale'}}"
-                        data="[[scalesDp]]"
-                        value="{{curCat.data.scale}}"
-                        on-value-changed="[[handleCatValueChanged]]"
-                        label-hint="Escala"
-                        required="true"
-                      />
+            <div class="categories-form">
+              <oj-bind-for-each data="[[dataProvider]]">
+                <template data-oj-as="curCat">
+                  <div class="oj-flex oj-sm-padding-1x">
+                    <div class="oj-flex-item oj-sm-padding-2x oj-sm-10 oj-lg-4">
+                      <div class="oj-flex oj-sm-align-items-center">
+                        <div
+                          class="oj-flex-item oj-sm-padding-2x-end category-number-label"
+                          style="flex-grow: 0"
+                        >
+                          <oj-bind-text
+                            value="[[ `${curCat.observableIndex() + 1}:`]]"
+                          ></oj-bind-text>
+                        </div>
+                        <div class="oj-flex-item">
+                          <oj-input-text
+                            :id="[[getCategoryNameInputId(curCat.observableIndex())]]"
+                            value="{{curCat.data.name}}"
+                            label-hint="Categoría"
+                            label-edge="inside"
+                            required="true"
+                          >
+                          </oj-input-text>
+                        </div>
+                      </div>
                     </div>
                     <div
-                      class="oj-flex oj-sm-justify-content-flex-end bottom-label oj-sm-padding-2x-top"
+                      class="oj-flex-item oj-sm-padding-2x-horizontal oj-sm-padding-2x-top oj-sm-6 oj-lg-2"
                     >
-                      Percentil:
-                      <oj-bind-text value="[[curCat.data.peScale]]" />
+                      <div class="oj-flex">
+                        <oj-input-text
+                          :id="[[curCat.observableIndex()+'color']]"
+                          value="{{curCat.data.color}}"
+                          label-hint="Color"
+                          label-edge="inside"
+                        ></oj-input-text>
+                      </div>
+                      <div class="oj-flex oj-sm-justify-content-flex-end">
+                        <oj-c-button
+                          id="btnChooseColor"
+                          size="sm"
+                          chroming="ghost"
+                          label="Escoger"
+                          display="all"
+                          class="oj-sm-padding-0x-top"
+                          on-oj-action="[[openListener]]"
+                        >
+                          <span slot="endIcon" class="material-icons small-icon"> north_east </span>
+                        </oj-c-button>
+                      </div>
+                    </div>
+                    <div class="oj-flex-item oj-sm-padding-2x oj-sm-6 oj-lg-2">
+                      <oj-input-number
+                        :id="[[curCat.observableIndex()+'value']]"
+                        value="{{curCat.data.value}}"
+                        label-hint="Valor"
+                        on-value-changed="[[handleCatValueChanged]]"
+                        required="true"
+                      ></oj-input-number>
+                    </div>
+                    <div class="oj-flex-item oj-sm-padding-2x oj-sm-12 oj-lg-3">
+                      <div class="oj-flex">
+                        <oj-select-single
+                          :id="[[curCat.observableIndex()+'scale']]"
+                          data="[[scalesDp]]"
+                          value="{{curCat.data.scale}}"
+                          on-value-changed="[[handleCatValueChanged]]"
+                          label-hint="Escala"
+                          required="true"
+                        ></oj-select-single>
+                      </div>
+                      <div
+                        class="oj-flex oj-sm-justify-content-flex-end bottom-label oj-sm-padding-2x-top"
+                      >
+                        Percentil:
+                        <oj-bind-text value="[[curCat.data.peScale]]"></oj-bind-text>
+                      </div>
+                    </div>
+                    <div class="oj-flex-item oj-sm-padding-2x oj-sm-2 oj-lg-1">
+                      <oj-bind-if test="[[graphCategories().length > 1]]">
+                        <oj-button
+                          class="oj-button-sm oj-sm-margin-2x-vertical"
+                          chroming="borderless"
+                          display="icons"
+                          on-oj-action="[[handleRemoveCategory]]"
+                        >
+                          <div class="oj-flex oj-sm-align-items-center">
+                            <span class="material-icons delete-category-icon">
+                              delete_forever
+                            </span>
+                          </div>
+                        </oj-button>
+                      </oj-bind-if>
                     </div>
                   </div>
-                </div>
-                <oj-bind-if test="[[curCat.observableIndex() < graphCategories().length - 1]]">
-                  <hr />
-                </oj-bind-if>
-              </template>
-            </oj-bind-for-each>
+                  <oj-bind-if test="[[curCat.observableIndex() < graphCategories().length - 1]]">
+                    <hr />
+                  </oj-bind-if>
+                </template>
+              </oj-bind-for-each>
+            </div>
           </div>
         </div>
         <!-- Graph settings and Graph -->
-        <div class="oj-flex oj-sm-padding-4x-top">
-          <div
-            class="oj-flex-item oj-sm-12 oj-lg-2 oj-sm-padding-2x-horizontal oj-border rounded-borders"
-          >
-            <div class="oj-flex-item">
-              <p class="section-title">Ajustes del Gráfico</p>
-              <hr />
-            </div>
-            <div class="oj-flex-item oj-sm-padding-1x-vertical">
-              <oj-input-number :id="maxy" value="{{maxY}}" label-hint="Valor Máximo" />
-            </div>
-            <div class="oj-flex-item oj-sm-padding-1x-vertical">
-              <oj-input-number :id="stepy" value="{{stepY}}" label-hint="Salto Mínimo" />
-            </div>
-            <div class="oj-flex-item oj-sm-padding-1x-vertical">
-              <oj-select-single
-                :id="legendPositionSelect"
-                data="[[legendPositionDp]]"
-                value="{{legendPosition}}"
-                label-hint="Leyendas"
-              />
-            </div>
-            <div class="oj-flex-item oj-sm-padding-1x-vertical">
-              <span class="custom-label">Tipo de Gráfico</span>
-              <oj-c-buttonset-single
-                :id="chartTypeBtn"
-                display="label"
-                items="[[chartTypeOptions]]"
-                value="{{chartType}}"
-                layout-width="equal"
-                aria-label="Tipo de Gráfico"
+        <div class="chart-container">
+          <!-- Chart title and settings -->
+          <div class="title-section">
+            <div class="oj-flex oj-sm-align-items-center">
+              <h3>
+                <oj-bind-if test="[[templateApplied()]]">
+                  <oj-bind-text value="[[templateAppliedName]]"></oj-bind-text>
+                </oj-bind-if>
+                <oj-bind-if test="[[!templateApplied()]]"> [Gráfico sin nombre] </oj-bind-if>
+              </h3>
+              <oj-button
+                :id="[[btnOpenGraphSettingsId]]"
+                class="oj-button-sm oj-sm-margin-2x-vertical"
+                chroming="borderless"
+                display="icons"
+                on-oj-action="[[() => graphSettingsOpened(true)]]"
               >
-              </oj-c-buttonset-single>
-            </div>
-            <div class="oj-flex-item oj-sm-padding-1x-vertical">
-              <span class="custom-label">Etiquetas</span>
-              <oj-c-buttonset-single
-                :id="labelPositionBtn"
-                display="label"
-                items="[[labelPositionOptions]]"
-                value="{{labelPosition}}"
-                layout-width="equal"
-                aria-label="Data Labels"
-                disabled="[[chartType() === 'cartesian' ? false : true]]"
-              >
-              </oj-c-buttonset-single>
-            </div>
-            <div class="oj-flex-item oj-sm-padding-1x-vertical">
-              <span class="custom-label">Orientación</span>
-              <oj-c-buttonset-single
-                :id="labelPositionBtn"
-                display="label"
-                items="[[orientationOptions]]"
-                value="{{chartOrientation}}"
-                layout-width="equal"
-                aria-label="Chart Orientation"
-                disabled="[[chartType() === 'cartesian' ? false : true]]"
-              >
-              </oj-c-buttonset-single>
+                <div class="oj-flex oj-sm-align-items-center">
+                  <span class="material-icons purple-text"> settings </span>
+                </div>
+              </oj-button>
             </div>
           </div>
           <!-- Chart -->
-          <div class="oj-flex-item oj-sm-12 oj-lg-10 oj-md-padding-4x-horizontal">
+          <div class="chart-section">
             <oj-chart
-              id="polarChart"
+              id="nki-graph"
               coordinate-system="[[ chartType ]]"
               type="bar"
               stack="on"
@@ -320,6 +375,7 @@
               y-axis.step="[[stepY]]"
               hover-behavior="dim"
               orientation="[[chartOrientation]]"
+              class="nki-graph-style"
             >
               <template slot="itemTemplate" data-oj-as="item">
                 <oj-chart-item
@@ -327,15 +383,16 @@
                   group-id="[[ [item.data.group] ]]"
                   series-id="[[item.data.group]]"
                   label="[[item.data.value]]"
-                />
+                ></oj-chart-item>
               </template>
               <template slot="seriesTemplate" data-oj-as="series">
-                <oj-chart-series color="[[series.items[0].data.color]]" />
+                <oj-chart-series color="[[series.items[0].data.color]]"></oj-chart-series>
               </template>
             </oj-chart>
-            <div class="oj-flex oj-sm-justify-content-flex-end bottom-label">
-              Hecho con NKI Graphs
-            </div>
+          </div>
+          <!-- NKI Legend -->
+          <div class="footer-section">
+            <p class="bottom-label">Hecho con NKI Graphs</p>
           </div>
         </div>
       </div>

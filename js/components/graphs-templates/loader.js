@@ -1,0 +1,1 @@
+define(["ojs/ojcomposite","text!./graph-templates-view.html","./graph-templates-viewModel","text!./graph-templates-component.json","css!./graph-templates-styles"],(function(e,t,a,s){e.register("graph-templates",{metadata:JSON.parse(s),view:t,viewModel:a})}));

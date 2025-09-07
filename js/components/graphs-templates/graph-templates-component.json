@@ -1,0 +1,21 @@
+{
+  "name": "graph-components",
+  "version": "1.0.0",
+  "jetVersion": "~17.0.0",
+  "properties": {
+    "getCurrentChart": {
+      "type": "function",
+      "required": true
+    },
+    "applyChartTemplate": {
+      "type": "function",
+      "required": true
+    },
+    "onChartSaved": {
+      "type": "function",
+      "required": true
+    }
+  },
+  "methods": {},
+  "events": {}
+}
