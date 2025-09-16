@@ -1,0 +1,8 @@
+<div id="dragCategories" class="dragCat-container">
+  <oj-bind-for-each data="[[$properties.data]]">
+    <template>
+      <!-- Template slot for list items with default template and alias -->
+      <oj-bind-template-slot name="item" data="[[$current.data]]"> </oj-bind-template-slot>
+    </template>
+  </oj-bind-for-each>
+</div>

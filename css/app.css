@@ -3,13 +3,40 @@
   src: url('./fonts/Poppins-Regular.ttf') format('truetype');
 }
 
+:root {
+  --nkiGraphs-chartCont-header-height: 72px;
+  --nkiGraphs-chartCont-footer-height: 18px;
+  --nkiGraphs-chartCont-chart-min-height: 300px;
+  --nkiGraphs-chartCont-chart-max-height: 1000px;
+  --nkiGraphs-transition-duration: 0.3s;
+  --nkiGraphs-clickIcon-cont-hover-color: #e9e9e986;
+  --nkiGraphs-icon-color: #c0c0c0;
+  --nkiGraphs-icon-hover-color: mediumpurple;
+  --nkiGraphs-icon-size: 20px;
+  --nkiGraphs-border-color: #cccccc81;
+  --nkiGraphs-warn-icon-color: rgb(172, 41, 41);
+  --nkiGraphs-text-muted: #6b7280;
+  --nkiCard-body-bg: #f3f4f6;
+  --nkiCard-bg: #ffffff;
+  --nkiCard-text-dark: #1f2937;
+  --nkiCard-text-darker: #111827;
+  --nkiCard-color-line: rgb(79, 70, 229);
+  --nkiCard-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --nkiCard-padding-x: 1.5rem;
+  --nkiCard-padding-y: 0.5rem;
+  --nkiCard-gap: 1rem;
+  --nkiCard-icon-gap: 8px;
+  --nkiCard-border-radius: 12px;
+  --nkiCard-color-line-width: 24px;
+  --nkiCard-category-size: 1.2rem;
+  --nkiCard-category-margin-y: 0.2em;
+  --nkiCard-value-size: 1.5rem;
+  --nkiCard-scale-size: 0.875rem;
+  --nkiCard-scale-margin-top: -0.5rem;
+  --nkiCard-font-weight-bold: 700;
+}
+
 body.nki-graphs-main {
-  --chart-container-title-section-height: 72px;
-  --chart-container-footer-section-height: 18px;
-  --chart-container-chart-section-min-height: 500px;
-  --chart-container-chart-section-max-height: 1000px;
-  --categories-form-max-height: 20vh;
-  --shadow-grey-color: #a19e9e;
   background-color: white !important;
   font-family: 'Poppings', sans-serif !important;
 }
@@ -23,19 +50,6 @@ body.nki-graphs-main {
 .application-name {
   font-weight: 700;
   font-size: 1.5rem;
-}
-
-.purple-btn {
-  background-color: mediumpurple;
-  border-radius: 7%;
-}
-
-.white-text {
-  color: white;
-}
-
-.rounded-borders {
-  border-radius: 0.4rem;
 }
 
 .section-title {
@@ -75,14 +89,24 @@ body.nki-graphs-main {
   margin-bottom: 4rem;
 }
 
-.chart-container {
+.nkiGraphs-chart-data-container {
+  border: 1px solid var(--nkiGraphs-border-color);
+  border-radius: 8px;
+}
+
+.nkiGraphs-chart-data-container .nkiGraphs-chart-data-controls {
+  border-bottom: 1px solid var(--nkiGraphs-border-color);
+  padding: 0.6em;
+}
+
+.nkiGraphs-chart-container {
   display: flex;
   flex-direction: column;
   resize: vertical;
   overflow: auto;
-  min-height: calc(var(--chart-container-title-section-height) + var(--chart-container-footer-section-height) + var(--chart-container-chart-section-min-height));
-  max-height: calc(var(--chart-container-title-section-height) + var(--chart-container-footer-section-height) + var(--chart-container-chart-section-max-height));
-  border: 1px solid #cccccc81;
+  min-height: calc(var(--nkiGraphs-chartCont-header-height) + var(--nkiGraphs-chartCont-footer-height) + var(--nkiGraphs-chartCont-chart-min-height));
+  max-height: calc(var(--nkiGraphs-chartCont-header-height) + var(--nkiGraphs-chartCont-footer-height) + var(--nkiGraphs-chartCont-chart-max-height));
+  border: 1px solid var(--nkiGraphs-border-color);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 2rem;
@@ -98,33 +122,192 @@ body.nki-graphs-main {
 }
 
 .title-section {
-  height: var(--chart-container-title-section-height);
+  height: var(--nkiGraphs-chartCont-header-height);
 }
 
 .footer-section {
-  height: var(--chart-container-footer-section-height);
+  height: var(--nkiGraphs-chartCont-footer-height);
 }
 
 .nki-graph-style {
-  min-height: var(--chart-container-chart-section-min-height);
-  max-height: var(--chart-container-chart-section-max-height);
+  min-height: var(--nkiGraphs-chartCont-chart-min-height);
+  max-height: var(--nkiGraphs-chartCont-chart-max-height);
   height: 100%;
 }
 
-.purple-text {
-  color: mediumpurple
+.nkiCard-container {
+  width: 100%;
+  max-width: 250px;
+  min-width: 175px;
+  background-color: var(--nkiCard-bg);
+  border-radius: var(--nkiCard-border-radius);
+  border: 1px solid var(--nkiGraphs-border-color);
+  box-shadow: var(--nkiCard-shadow);
+  padding: var(--nkiCard-padding-y) var(--nkiCard-padding-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--nkiCard-gap);
+  position: relative;
+  margin: 0em 0.3em 0.6em 0.3em;
+  cursor: grab;
 }
 
-.delete-category-icon {
-  color: var(--shadow-grey-color);
+.nkiCard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.categories-form {
+.nkiCard-category {
+  font-size: var(--nkiCard-category-size);
+  font-weight: var(--nkiCard-font-weight-bold);
+  color: var(--nkiCard-text-dark);
+}
+
+h3.nkiCard-category {
+  margin: var(--nkiCard-category-margin-y) 0px;
+}
+
+.nkiCard-value {
+  font-size: var(--nkiCard-value-size);
+  font-weight: var(--nkiCard-font-weight-bold);
+  color: var(--nkiCard-text-darker);
+  line-height: 1;
+}
+
+.nkiCard-scale {
+  font-size: var(--nkiCard-scale-size);
+  color: var(--nkiGraphs-text-muted);
+  margin-top: var(--nkiCard-scale-margin-top);
+}
+
+.nkiCard-color-line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--nkiCard-color-line-width);
+  height: 100%;
+  border-top-right-radius: var(--nkiCard-border-radius);
+  border-bottom-right-radius: var(--nkiCard-border-radius);
+  /* background-color: var(--nkiCard-color-line); */
+}
+
+.nkiCard-icon-container {
+  position: absolute;
+  bottom: var(--nkiCard-padding-y);
+  right: var(--nkiCard-padding-x);
+  display: flex;
+  gap: var(--nkiCard-icon-gap);
+  font-size: smaller;
+}
+
+.nkiEditCat-dialog {
+  width: 500px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.nkiEditCat-dialog.nkiEditCat-wide-dialog {
+  width: 1000px;
+}
+
+.nkiEditCat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--nkiGraphs-border-color);
+}
+
+.nkiEditCat-body {
+  padding: 24px;
+}
+
+.nkiEditCat-container {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.nkiEditCat-column {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nkiEditCat-column-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+}
+
+.nkiEditCat-column-right {
   overflow-y: auto;
-  max-height: var(--categories-form-max-height);
+  flex: 2;
 }
 
-.category-number-label {
-  font-size: x-large;
-  color: var(--shadow-grey-color);
+.nkiEditCat-footer {
+  border-top: 1px solid var(--nkiGraphs-border-color);
+  padding: 16px 24px;
+  flex: 1 1 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nkiGraphs-main-btn {
+  background-color: mediumpurple;
+  border-radius: 7%;
+}
+
+.nkiGraphs-white-text {
+  color: white;
+}
+
+.nkiGraphs-clickable-icon {
+  width: var(--nkiGraphs-icon-size);
+  height: var(--nkiGraphs-icon-size);
+  color: var(--nkiGraphs-icon-color);
+  transition: color var(--nkiGraphs-transition-duration) ease-in-out;
+  transform: translateX(-3px);
+  cursor: pointer;
+}
+
+.nkiGraphs-clickable-icon:hover {
+  color: var(--nkiGraphs-icon-hover-color);
+}
+
+.nkiGraphs-clickable-icon.nkiGraphs-warn-icon:hover {
+  color: var(--nkiGraphs-warn-icon-color);
+}
+
+.nkiGraphs-clickable-icon-cont {
+  cursor: pointer;
+  transition: background-color var(--nkiGraphs-transition-duration) ease-in-out;
+  width: calc(var(--nkiGraphs-icon-size) * 2);
+  height: calc(var(--nkiGraphs-icon-size) * 2);
+  border-radius: 0.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nkiGraphs-clickable-icon-cont:hover {
+  background-color: var(--nkiGraphs-clickIcon-cont-hover-color);
+}
+
+.nkiGraphs-clickable-icon-cont:hover .nkiGraphs-clickable-icon {
+  color: var(--nkiGraphs-icon-hover-color);
+}
+
+.nkiGraphs-clickable-icon-cont:active {
+  background-color: var(--nkiGraphs-icon-hover-color);
+}
+
+.nkiGraphs-clickable-icon-cont:active .nkiGraphs-clickable-icon {
+  color: white;
 }

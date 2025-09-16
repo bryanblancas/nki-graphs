@@ -8,6 +8,7 @@
     <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1" />
     <link rel="icon" href="css/images/nkiLogo.png" type="image/x-icon" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
     <!-- This is the main css file for the default theme -->
 <!-- injector:theme -->
@@ -45,58 +46,6 @@
         </div>
       </header>
       <div role="main" class="oj-web-applayout-max-width oj-web-applayout-content">
-        <!-- Modal -->
-        <div>
-          <oj-c-popup
-            id="chooseColorModal"
-            opened="{{opened}}"
-            launcher="#btnChooseColor"
-            auto-dismiss="none"
-            modality="modal"
-            anchor="window"
-            tail="none"
-          >
-            <div class="oj-sm-padding-4x rounded-borders">
-              <div class="oj-flex">
-                Color para &nbsp;
-                <span style="font-weight: bold"
-                  ><oj-bind-text value="[[curCategoryName]]"></oj-bind-text
-                ></span>
-              </div>
-              <div class="oj-flex oj-sm-6 oj-sm-padding-2x-vertical">
-                <oj-color-spectrum
-                  label-hint="Selecciona un Color"
-                  label-edge="none"
-                  value="{{curColorSelected}}"
-                ></oj-color-spectrum>
-              </div>
-              <div class="oj-flex oj-sm-12 oj-sm-justify-content-center">
-                <oj-button
-                  id="closeModalBtn"
-                  class="oj-sm-padding-4x-horizontal oj-button-sm"
-                  chroming="solid"
-                  on-oj-action="[[cancelListener]]"
-                >
-                  <span slot="startIcon" class="oj-sm-padding-2x-top"
-                    ><span class="material-icons"> close </span></span
-                  >
-                  Cerrar</oj-button
-                >
-                <oj-button
-                  id="applyColorBtn"
-                  chroming="solid"
-                  class="purple-btn oj-button-sm"
-                  on-oj-action="[[applyColor]]"
-                >
-                  <span slot="startIcon" class="white-text oj-sm-padding-2x-top"
-                    ><span class="material-icons"> arrow_downward </span></span
-                  >
-                  <div class="white-text">Aplicar</div></oj-button
-                >
-              </div>
-            </div>
-          </oj-c-popup>
-        </div>
         <!-- Graph Settings modal -->
         <div>
           <oj-c-popup
@@ -178,163 +127,194 @@
             </div>
           </oj-c-popup>
         </div>
-        <!-- Graph data form -->
-        <div class="oj-flex">
-          <!-- Controls -->
-          <div class="oj-flex-item oj-border rounded-borders">
-            <!-- Section title -->
-            <div
-              class="oj-flex oj-sm-padding-2x-top oj-sm-padding-4x-horizontal oj-sm-justify-content-flex-between"
-            >
-              <div class="oj-flex-item">
-                <div class="oj-flex">
-                  <p class="section-title">
-                    <oj-bind-if test="[[templateApplied()]]">
-                      <oj-bind-text value="[[templateAppliedName]]"></oj-bind-text>
-                    </oj-bind-if>
-                    <oj-bind-if test="[[!templateApplied()]]"> [Gráfico sin nombre] </oj-bind-if>
-                  </p>
-                  <graph-templates
-                    get-current-chart="[[handleGetCurrentGraph]]"
-                    apply-chart-template="[[handleApplyGraph]]"
-                    on-chart-saved="[[handleGraphSaved]]"
-                  ></graph-templates>
-                </div>
+        <!-- Category form modal -->
+        <div>
+          <oj-c-popup
+            opened="[[categoryFormOpened]]"
+            auto-dismiss="focusLoss"
+            modality="modal"
+            anchor="window"
+            tail="none"
+            on-oj-close="[[ () => categoryFormOpened(false) ]]"
+          >
+            <div class="nkiEditCat-dialog nkiEditCat-wide-dialog">
+              <div class="nkiEditCat-header">
+                <h4>Editar categoría</h4>
+                <oj-button
+                  class="oj-button-sm oj-sm-margin-2x-vertical"
+                  chroming="borderless"
+                  display="icons"
+                  on-oj-action="[[() => categoryFormOpened(false)]]"
+                >
+                  <span class="material-icons"> close </span>
+                </oj-button>
               </div>
-              <div class="oj-flex-item">
-                <div class="oj-flex oj-sm-justify-content-flex-end oj-sm-12">
-                  <oj-button
-                    id="addCategory"
-                    class="oj-sm-padding-4x-horizontal"
-                    chroming="solid"
-                    on-oj-action="[[handleAddCategory]]"
-                  >
-                    <span slot="startIcon" class="oj-sm-padding-2x-top"
-                      ><span class="material-icons"> add </span></span
-                    >
-                    Agregar Categoría</oj-button
-                  >
-                  <oj-button
-                    id="graph"
-                    chroming="solid"
-                    class="purple-btn"
-                    on-oj-action="[[handleGraph]]"
-                  >
-                    <span slot="startIcon" class="white-text oj-sm-padding-2x-top"
-                      ><span class="material-icons"> query_stats </span></span
-                    >
-                    <div class="white-text">Graficar</div></oj-button
-                  >
-                </div>
-              </div>
-            </div>
-            <hr />
-            <!-- Forms -->
-            <div class="categories-form">
-              <oj-bind-for-each data="[[dataProvider]]">
-                <template data-oj-as="curCat">
-                  <div class="oj-flex oj-sm-padding-1x">
-                    <div class="oj-flex-item oj-sm-padding-2x oj-sm-10 oj-lg-4">
-                      <div class="oj-flex oj-sm-align-items-center">
-                        <div
-                          class="oj-flex-item oj-sm-padding-2x-end category-number-label"
-                          style="flex-grow: 0"
-                        >
-                          <oj-bind-text
-                            value="[[ `${curCat.observableIndex() + 1}:`]]"
-                          ></oj-bind-text>
-                        </div>
-                        <div class="oj-flex-item">
-                          <oj-input-text
-                            :id="[[getCategoryNameInputId(curCat.observableIndex())]]"
-                            value="{{curCat.data.name}}"
-                            label-hint="Categoría"
-                            label-edge="inside"
-                            required="true"
-                          >
-                          </oj-input-text>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="oj-flex-item oj-sm-padding-2x-horizontal oj-sm-padding-2x-top oj-sm-6 oj-lg-2"
-                    >
-                      <div class="oj-flex">
-                        <oj-input-text
-                          :id="[[curCat.observableIndex()+'color']]"
-                          value="{{curCat.data.color}}"
-                          label-hint="Color"
-                          label-edge="inside"
-                        ></oj-input-text>
-                      </div>
-                      <div class="oj-flex oj-sm-justify-content-flex-end">
-                        <oj-c-button
-                          id="btnChooseColor"
-                          size="sm"
-                          chroming="ghost"
-                          label="Escoger"
-                          display="all"
-                          class="oj-sm-padding-0x-top"
-                          on-oj-action="[[openListener]]"
-                        >
-                          <span slot="endIcon" class="material-icons small-icon"> north_east </span>
-                        </oj-c-button>
-                      </div>
-                    </div>
-                    <div class="oj-flex-item oj-sm-padding-2x oj-sm-6 oj-lg-2">
-                      <oj-input-number
-                        :id="[[curCat.observableIndex()+'value']]"
-                        value="{{curCat.data.value}}"
-                        label-hint="Valor"
-                        on-value-changed="[[handleCatValueChanged]]"
+              <div class="nkiEditCat-body">
+                <div class="nkiEditCat-container">
+                  <div class="nkiEditCat-column nkiEditCat-column-left">
+                    <oj-color-spectrum
+                      label-hint="Selecciona un Color"
+                      label-edge="none"
+                      value="{{curCategoryColorToUpdate}}"
+                    ></oj-color-spectrum>
+                  </div>
+                  <div class="nkiEditCat-column nkiEditCat-column-right">
+                    <div class="oj-flex oj-sm-12 oj-sm-margin-4x-vertical">
+                      <oj-input-text
+                        value="{{curCategoryNameToUpdate}}"
+                        label-hint="Categoría"
+                        label-edge="inside"
                         required="true"
-                      ></oj-input-number>
+                        length.max="50"
+                      >
+                      </oj-input-text>
                     </div>
-                    <div class="oj-flex-item oj-sm-padding-2x oj-sm-12 oj-lg-3">
-                      <div class="oj-flex">
+                    <div class="oj-flex oj-sm-12 oj-sm-margin-4x-vertical">
+                      <div class="oj-flex-item oj-sm-4 oj-sm-padding-2x-end">
+                        <oj-input-number
+                          value="{{curCategoryValueToUpdate}}"
+                          on-value-changed="[[handleCatValueChanged]]"
+                          label-hint="Valor"
+                          required="true"
+                        ></oj-input-number>
+                      </div>
+                      <div class="oj-flex-item oj-sm-8 oj-sm-padding-2x-start">
                         <oj-select-single
-                          :id="[[curCat.observableIndex()+'scale']]"
                           data="[[scalesDp]]"
-                          value="{{curCat.data.scale}}"
+                          value="{{curCategoryScaleToUpdate}}"
                           on-value-changed="[[handleCatValueChanged]]"
                           label-hint="Escala"
                           required="true"
                         ></oj-select-single>
                       </div>
-                      <div
-                        class="oj-flex oj-sm-justify-content-flex-end bottom-label oj-sm-padding-2x-top"
-                      >
-                        Percentil:
-                        <oj-bind-text value="[[curCat.data.peScale]]"></oj-bind-text>
-                      </div>
                     </div>
-                    <div class="oj-flex-item oj-sm-padding-2x oj-sm-2 oj-lg-1">
-                      <oj-bind-if test="[[graphCategories().length > 1]]">
-                        <oj-button
-                          class="oj-button-sm oj-sm-margin-2x-vertical"
-                          chroming="borderless"
-                          display="icons"
-                          on-oj-action="[[handleRemoveCategory]]"
-                        >
-                          <div class="oj-flex oj-sm-align-items-center">
-                            <span class="material-icons delete-category-icon">
-                              delete_forever
-                            </span>
-                          </div>
-                        </oj-button>
-                      </oj-bind-if>
+                    <div class="oj-flex oj-sm-justify-content-flex-end">
+                      Equivalencia Percentil:
+                      <oj-bind-text value="[[curCategoryPeScaleToUpdate]]"></oj-bind-text>
                     </div>
                   </div>
-                  <oj-bind-if test="[[curCat.observableIndex() < graphCategories().length - 1]]">
-                    <hr />
+                </div>
+              </div>
+              <div class="nkiEditCat-footer">
+                <div class="nkiEditCat-footer-left"></div>
+                <div class="nkiEditCat-footer-right">
+                  <oj-button
+                    chroming="solid"
+                    class="nkiGraphs-main-btn"
+                    on-oj-action="[[handleSaveEditCategory]]"
+                  >
+                    <span slot="startIcon" class="nkiGraphs-white-text oj-sm-padding-2x-top"
+                      ><span class="material-icons"> save </span></span
+                    >
+                    <div class="nkiGraphs-white-text">Guardar</div></oj-button
+                  >
+                </div>
+              </div>
+            </div>
+          </oj-c-popup>
+        </div>
+        <!-- Graph data form -->
+        <div class="nkiGraphs-chart-data-container">
+          <!-- Section title -->
+          <div class="oj-flex oj-sm-justify-content-flex-between nkiGraphs-chart-data-controls">
+            <div class="oj-flex-item">
+              <div class="oj-flex">
+                <p class="section-title">
+                  <oj-bind-if test="[[templateApplied()]]">
+                    <oj-bind-text value="[[templateAppliedName]]"></oj-bind-text>
                   </oj-bind-if>
-                </template>
-              </oj-bind-for-each>
+                  <oj-bind-if test="[[!templateApplied()]]"> [Gráfico sin nombre] </oj-bind-if>
+                </p>
+                <graph-templates
+                  get-current-chart="[[handleGetCurrentGraph]]"
+                  apply-chart-template="[[handleApplyGraph]]"
+                  on-chart-saved="[[handleGraphSaved]]"
+                >
+                  <div slot="select" class="nkiGraphs-clickable-icon-cont">
+                    <span class="material-icons nkiGraphs-clickable-icon"> install_desktop </span>
+                  </div>
+                  <div slot="save" class="nkiGraphs-clickable-icon-cont">
+                    <span class="material-icons nkiGraphs-clickable-icon"> save </span>
+                  </div>
+                </graph-templates>
+              </div>
+            </div>
+            <div class="oj-flex-item">
+              <div class="oj-flex oj-sm-justify-content-flex-end oj-sm-12">
+                <oj-button
+                  id="addCategory"
+                  class="oj-sm-padding-4x-horizontal"
+                  chroming="solid"
+                  on-oj-action="[[handleAddCategory]]"
+                >
+                  <span slot="startIcon" class="oj-sm-padding-2x-top"
+                    ><span class="material-icons"> add </span></span
+                  >
+                  Agregar Categoría</oj-button
+                >
+                <oj-button
+                  id="graph"
+                  chroming="solid"
+                  class="nkiGraphs-main-btn"
+                  on-oj-action="[[handleGraph]]"
+                >
+                  <span slot="startIcon" class="nkiGraphs-white-text oj-sm-padding-2x-top"
+                    ><span class="material-icons"> query_stats </span></span
+                  >
+                  <div class="nkiGraphs-white-text">Graficar</div></oj-button
+                >
+              </div>
             </div>
           </div>
+          <!-- Categories -->
+          <draggable-categories
+            data="[[graphCategories]]"
+            on-sort-end="[[handleCategoriesOnSortEnd]]"
+          >
+            <template slot="item" data-oj-as="currentCategory">
+              <div class="nkiCard-container" :id="[[currentCategory.id]]">
+                <!-- Vertical color line on the right side -->
+                <div
+                  class="nkiCard-color-line"
+                  :style.background-color="[[currentCategory.color]]"
+                ></div>
+                <!-- Header with Category -->
+                <div class="nkiCard-header">
+                  <h3 class="nkiCard-category">
+                    <oj-bind-text value="[[ currentCategory.name ]]"></oj-bind-text>
+                  </h3>
+                </div>
+                <!-- Main Value -->
+                <div class="nkiCard-value">
+                  <oj-bind-text value="[[ currentCategory.value ?? '--' ]]"></oj-bind-text>
+                </div>
+                <!-- Scale Text -->
+                <div class="nkiCard-scale">
+                  <oj-bind-text value="[[ scalesObject[currentCategory.scale] ]]"></oj-bind-text>
+                </div>
+                <!-- Container for the icons, now at the bottom right -->
+                <div class="nkiCard-icon-container">
+                  <!-- Edit Icon -->
+                  <span
+                    class="material-icons nkiGraphs-clickable-icon"
+                    on-click="[[handleEditCategory]]"
+                  >
+                    edit
+                  </span>
+                  <!-- Delete Icon -->
+                  <span
+                    class="material-icons nkiGraphs-clickable-icon nkiGraphs-warn-icon"
+                    on-click="[[handleRemoveCategory]]"
+                  >
+                    delete_forever
+                  </span>
+                </div>
+              </div>
+            </template>
+          </draggable-categories>
         </div>
         <!-- Graph settings and Graph -->
-        <div class="chart-container">
+        <div class="nkiGraphs-chart-container">
           <!-- Chart title and settings -->
           <div class="title-section">
             <div class="oj-flex oj-sm-align-items-center">
@@ -344,17 +324,15 @@
                 </oj-bind-if>
                 <oj-bind-if test="[[!templateApplied()]]"> [Gráfico sin nombre] </oj-bind-if>
               </h3>
-              <oj-button
-                :id="[[btnOpenGraphSettingsId]]"
-                class="oj-button-sm oj-sm-margin-2x-vertical"
-                chroming="borderless"
-                display="icons"
-                on-oj-action="[[() => graphSettingsOpened(true)]]"
-              >
-                <div class="oj-flex oj-sm-align-items-center">
-                  <span class="material-icons purple-text"> settings </span>
-                </div>
-              </oj-button>
+
+              <div class="nkiGraphs-clickable-icon-cont" :id="[[btnOpenGraphSettingsId]]">
+                <span
+                  class="material-icons nkiGraphs-clickable-icon"
+                  on-click="[[() => graphSettingsOpened(true)]]"
+                >
+                  settings
+                </span>
+              </div>
             </div>
           </div>
           <!-- Chart -->

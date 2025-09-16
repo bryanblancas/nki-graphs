@@ -1,198 +1,180 @@
 <div class="oj-flex">
-  <div class="oj-flex-item">
-    <oj-button
-      :id="[[applyTmplBtnId]]"
-      class="oj-button-sm oj-sm-margin-2x-vertical"
-      chroming="borderless"
-      display="icons"
-      on-oj-action="[[handleOpenApplyTmplModal]]"
-    >
-      <span class="material-icons gTmpl-icon"> install_desktop </span>
-    </oj-button>
+  <div on-click="[[() => saveTmplOpened(true)]]">
+    <oj-bind-slot name="save"></oj-bind-slot>
   </div>
-  <div class="oj-flex-item">
-    <oj-button
-      :id="[[saveTmplBtnId]]"
-      class="oj-button-sm oj-sm-margin-2x-vertical"
-      chroming="borderless"
-      display="icons"
-      on-oj-action="[[() => {saveTmplOpened(true)}]]"
-    >
-      <span class="material-icons gTmpl-icon"> save </span>
-    </oj-button>
+  <div on-click="[[handleOpenApplyTmplModal]]">
+    <oj-bind-slot name="select"></oj-bind-slot>
   </div>
-
-  <!-- Save Template modal -->
-  <oj-c-popup
-    :id="[[saveTmplModalId]]"
-    launcher="[[`#${saveTmplBtnId}`]]"
-    opened="[[saveTmplOpened]]"
-    auto-dismiss="none"
-    modality="modal"
-    anchor="window"
-    tail="none"
-  >
-    <div class="gTmpl-dialog">
-      <div class="gTmpl-header">
-        <h4>Guardar gráfico</h4>
-        <oj-button
-          class="oj-button-sm oj-sm-margin-2x-vertical"
-          chroming="borderless"
-          display="icons"
-          on-oj-action="[[() => {saveTmplOpened(false)}]]"
+</div>
+<oj-c-popup
+  :id="[[saveTmplModalId]]"
+  launcher="[[`#${saveTmplBtnId}`]]"
+  opened="[[saveTmplOpened]]"
+  auto-dismiss="none"
+  modality="modal"
+  anchor="window"
+  tail="none"
+>
+  <div class="gTmpl-dialog">
+    <div class="gTmpl-header">
+      <h4>Guardar gráfico</h4>
+      <oj-button
+        class="oj-button-sm oj-sm-margin-2x-vertical"
+        chroming="borderless"
+        display="icons"
+        on-oj-action="[[() => {saveTmplOpened(false)}]]"
+      >
+        <span class="material-icons"> close </span>
+      </oj-button>
+    </div>
+    <div class="gTmpl-body">
+      <form>
+        <oj-input-text
+          value="{{chartTmplName}}"
+          label-hint="Nombre"
+          label-edge="inside"
+          required="true"
         >
-          <span class="material-icons"> close </span>
-        </oj-button>
-      </div>
-      <div class="gTmpl-body">
-        <form>
-          <oj-input-text
-            value="{{chartTmplName}}"
-            label-hint="Nombre"
-            label-edge="inside"
-            required="true"
-          >
-          </oj-input-text>
-          <oj-text-area
-            value="{{chartTmplDesc}}"
-            label-hint="Descripción"
-            label-edge="inside"
-            rows="3"
-            class="oj-sm-padding-2x-top"
-          >
-          </oj-text-area>
-        </form>
-        <oj-bind-if test="[[showError()]]">
-          <span class="gTmpl-error-text">
-            <oj-bind-text value="[[errorMessage]]"></oj-bind-text>
-          </span>
-        </oj-bind-if>
-        <div>
-          <ul class="gTmpl-help-text">
-            <li>Tus gráficos se guardan en la caché del navegador.</li>
-            <li>Gráficos con el mismo nombre se sobreescriben.</li>
-            <li>Máximo 20 gráficos guardados.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="gTmpl-footer">
-        <div class="gTmpl-footer-left"></div>
-        <div class="gTmpl-footer-right">
-          <oj-button
-            chroming="solid"
-            class="gTmpl-main-btn"
-            on-oj-action="[[handleSaveChartTmplClick]]"
-          >
-            <span slot="startIcon" class="gTmpl-white-text oj-sm-padding-2x-top"
-              ><span class="material-icons"> save </span></span
-            >
-            <div class="gTmpl-white-text">Guardar</div></oj-button
-          >
-        </div>
+        </oj-input-text>
+        <oj-text-area
+          value="{{chartTmplDesc}}"
+          label-hint="Descripción"
+          label-edge="inside"
+          rows="3"
+          class="oj-sm-padding-2x-top"
+        >
+        </oj-text-area>
+      </form>
+      <oj-bind-if test="[[showError()]]">
+        <span class="gTmpl-error-text">
+          <oj-bind-text value="[[errorMessage]]"></oj-bind-text>
+        </span>
+      </oj-bind-if>
+      <div>
+        <ul class="gTmpl-help-text">
+          <li>Tus gráficos se guardan en la caché del navegador.</li>
+          <li>Gráficos con el mismo nombre se sobreescriben.</li>
+          <li>Máximo 20 gráficos guardados.</li>
+        </ul>
       </div>
     </div>
-  </oj-c-popup>
-
-  <!-- Load Template modal -->
-  <oj-c-popup
-    opened="[[applyTmplOpened]]"
-    auto-dismiss="none"
-    modality="modal"
-    anchor="window"
-    tail="none"
-  >
-    <div class="gTmpl-dialog gTmpl-wide-dialog">
-      <div class="gTmpl-header">
-        <h4>Cargar gráfico</h4>
+    <div class="gTmpl-footer">
+      <div class="gTmpl-footer-left"></div>
+      <div class="gTmpl-footer-right">
         <oj-button
-          class="oj-button-sm oj-sm-margin-2x-vertical"
-          chroming="borderless"
-          display="icons"
-          on-oj-action="[[() => {applyTmplOpened(false)}]]"
+          chroming="solid"
+          class="gTmpl-main-btn"
+          on-oj-action="[[handleSaveChartTmplClick]]"
         >
-          <span class="material-icons"> close </span>
-        </oj-button>
+          <span slot="startIcon" class="gTmpl-white-text oj-sm-padding-2x-top"
+            ><span class="material-icons"> save </span></span
+          >
+          <div class="gTmpl-white-text">Guardar</div></oj-button
+        >
       </div>
-      <div class="gTmpl-body">
-        <div class="gTmpl-container">
-          <!-- Left Column: Contains two rows -->
-          <div class="gTmpl-column gTmpl-column-left">
-            <div class="gTmpl-row gTmpl-row-select">
-              <oj-select-single
-                id="chartTmplSelectList"
-                data="[[templatesDP]]"
-                value="{{selectedChart}}"
-                label-hint="Selecciona un gráfico"
-                required="true"
-                item-text="name"
-                on-value-changed="[[handleSelectedChartChange]]"
-              ></oj-select-single>
-              <p class="gTmpl-error-text">
-                <oj-bind-if test="[[showError]]">
-                  <oj-bind-text value="[[errorMessage]]"></oj-bind-text
-                ></oj-bind-if>
-              </p>
-            </div>
-            <div class="gTmpl-row gTmpl-row-content">
-              <h6><span class="gTmpl-title">Detalles del gráfico</span></h6>
-              <oj-bind-if test="[[!selectedChartObj()]]">
-                <p class="gTmpl-help-text">Selecciona un gráfico para ver su información</p>
-              </oj-bind-if>
-              <oj-bind-if test="[[selectedChartObj()]]">
-                <p>
-                  <strong>Name:</strong>
-                  <oj-bind-text value="[[selectedChartObj().name]]"></oj-bind-text>
-                </p>
-                <p>
-                  <strong>Description:</strong>
-                  <oj-bind-text value="[[selectedChartObj().description]]"></oj-bind-text>
-                </p>
-              </oj-bind-if>
-            </div>
-          </div>
+    </div>
+  </div>
+</oj-c-popup>
 
-          <!-- Right Column: Contains a single row with a summary -->
-          <div class="gTmpl-column gTmpl-column-right gTmpl-summary-list">
-            <h6>Categorías</h6>
+<!-- Load Template modal -->
+<oj-c-popup
+  opened="[[applyTmplOpened]]"
+  auto-dismiss="none"
+  modality="modal"
+  anchor="window"
+  tail="none"
+>
+  <div class="gTmpl-dialog gTmpl-wide-dialog">
+    <div class="gTmpl-header">
+      <h4>Cargar gráfico</h4>
+      <oj-button
+        class="oj-button-sm oj-sm-margin-2x-vertical"
+        chroming="borderless"
+        display="icons"
+        on-oj-action="[[() => {applyTmplOpened(false)}]]"
+      >
+        <span class="material-icons"> close </span>
+      </oj-button>
+    </div>
+    <div class="gTmpl-body">
+      <div class="gTmpl-container">
+        <!-- Left Column: Contains two rows -->
+        <div class="gTmpl-column gTmpl-column-left">
+          <div class="gTmpl-row gTmpl-row-select">
+            <oj-select-single
+              id="chartTmplSelectList"
+              data="[[templatesDP]]"
+              value="{{selectedChart}}"
+              label-hint="Selecciona un gráfico"
+              required="true"
+              item-text="name"
+              on-value-changed="[[handleSelectedChartChange]]"
+            ></oj-select-single>
+            <p class="gTmpl-error-text">
+              <oj-bind-if test="[[showError]]">
+                <oj-bind-text value="[[errorMessage]]"></oj-bind-text
+              ></oj-bind-if>
+            </p>
+          </div>
+          <div class="gTmpl-row gTmpl-row-content">
+            <h6><span class="gTmpl-title">Detalles del gráfico</span></h6>
             <oj-bind-if test="[[!selectedChartObj()]]">
               <p class="gTmpl-help-text">Selecciona un gráfico para ver su información</p>
             </oj-bind-if>
             <oj-bind-if test="[[selectedChartObj()]]">
-              <ul>
-                <oj-bind-for-each data="[[selectedChartObj().chartData.categories ]]">
-                  <template data-oj-as="curCat">
-                    <li>
-                      <strong><oj-bind-text value="[[curCat.data.name]]"></oj-bind-text></strong>
-                    </li>
-                  </template>
-                </oj-bind-for-each>
-              </ul>
+              <p>
+                <strong>Name:</strong>
+                <oj-bind-text value="[[selectedChartObj().name]]"></oj-bind-text>
+              </p>
+              <p>
+                <strong>Description:</strong>
+                <oj-bind-text value="[[selectedChartObj().description]]"></oj-bind-text>
+              </p>
             </oj-bind-if>
           </div>
         </div>
-      </div>
-      <div class="gTmpl-footer">
-        <div class="gTmpl-footer-left">
-          <oj-button chroming="solid" on-oj-action="[[handleRemoveChartTmplClick]]">
-            <span slot="startIcon" class="oj-sm-padding-2x-top"
-              ><span class="material-icons"> delete </span></span
-            >
-            Borrar</oj-button
-          >
-        </div>
-        <div class="gTmpl-footer-right">
-          <oj-button
-            chroming="solid"
-            class="gTmpl-main-btn"
-            on-oj-action="[[handleApplyChartTmplClick]]"
-          >
-            <span slot="startIcon" class="gTmpl-white-text oj-sm-padding-2x-top"
-              ><span class="material-icons"> install_desktop</span></span
-            >
-            <div class="gTmpl-white-text">Aplicar</div></oj-button
-          >
+
+        <!-- Right Column: Contains a single row with a summary -->
+        <div class="gTmpl-column gTmpl-column-right gTmpl-summary-list">
+          <h6>Categorías</h6>
+          <oj-bind-if test="[[!selectedChartObj()]]">
+            <p class="gTmpl-help-text">Selecciona un gráfico para ver su información</p>
+          </oj-bind-if>
+          <oj-bind-if test="[[selectedChartObj()]]">
+            <ul>
+              <oj-bind-for-each data="[[selectedChartObj().chartData.categories ]]">
+                <template data-oj-as="curCat">
+                  <li>
+                    <strong><oj-bind-text value="[[curCat.data.name]]"></oj-bind-text></strong>
+                  </li>
+                </template>
+              </oj-bind-for-each>
+            </ul>
+          </oj-bind-if>
         </div>
       </div>
     </div>
-  </oj-c-popup>
-</div>
+    <div class="gTmpl-footer">
+      <div class="gTmpl-footer-left">
+        <oj-button chroming="solid" on-oj-action="[[handleRemoveChartTmplClick]]">
+          <span slot="startIcon" class="oj-sm-padding-2x-top"
+            ><span class="material-icons"> delete </span></span
+          >
+          Borrar</oj-button
+        >
+      </div>
+      <div class="gTmpl-footer-right">
+        <oj-button
+          chroming="solid"
+          class="gTmpl-main-btn"
+          on-oj-action="[[handleApplyChartTmplClick]]"
+        >
+          <span slot="startIcon" class="gTmpl-white-text oj-sm-padding-2x-top"
+            ><span class="material-icons"> install_desktop</span></span
+          >
+          <div class="gTmpl-white-text">Aplicar</div></oj-button
+        >
+      </div>
+    </div>
+  </div>
+</oj-c-popup>

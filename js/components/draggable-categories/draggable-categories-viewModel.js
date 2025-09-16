@@ -1,0 +1,1 @@
+define(["ojs/ojcontext","knockout","jquery","./draggable-categories-utils"],(function(e,t,o,n){function i(e){this.properties=e.properties}return i.prototype.bindingsApplied=function(){const e=document.getElementById("dragCategories");Sortable.create(e,{animation:150,easing:"cubic-bezier(1, 0, 0, 1)",onEnd:this.properties.onSortEnd,scroll:!0})},i}));

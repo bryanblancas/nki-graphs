@@ -1,0 +1,1 @@
+define(["ojs/ojcomposite","text!./draggable-categories-view.html","./draggable-categories-viewModel","text!./draggable-categories-component.json","css!./draggable-categories-styles"],(function(e,a,t,g){e.register("draggable-categories",{metadata:JSON.parse(g),view:a,viewModel:t})}));
