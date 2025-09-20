@@ -7,3 +7,8 @@
   padding-top: 1rem;
   margin: 0 1em 0 1em;
 }
+
+.dc-noData {
+  color: gray;
+  font-size: small;
+}

@@ -281,7 +281,7 @@
           </div>
           <!-- Categories -->
           <draggable-categories
-            data="[[graphCategories]]"
+            data="[[JSON.stringify(graphCategories())]]"
             on-sort-end="[[handleCategoriesOnSortEnd]]"
           >
             <template slot="item" data-oj-as="currentCategory">

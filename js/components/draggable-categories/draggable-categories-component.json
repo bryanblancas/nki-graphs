@@ -4,7 +4,7 @@
   "jetVersion": "~17.0.0",
   "properties": {
     "data": {
-      "type": "array",
+      "type": "string",
       "required": true
     },
     "onSortEnd": {
