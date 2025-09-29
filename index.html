@@ -2,7 +2,7 @@
 <!-- By: Bryan Blancas -->
 <html lang="en-us">
   <head>
-    <title>NKI Graphs</title>
+    <title>nki Graphs</title>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1" />
@@ -24,7 +24,13 @@
     <link rel="stylesheet" href="css/app.css" type="text/css" />
   </head>
   <body class="oj-web-applayout-body nki-graphs-main">
+    <!-- Messages toast -->
     <div id="globalBody" class="oj-web-applayout-page app-container">
+      <oj-c-message-toast
+        data="[[toastMessagesDP]]"
+        position="top"
+        on-oj-close="[[closeToastMessage]]"
+      ></oj-c-message-toast>
       <header role="banner" class="oj-web-applayout-header">
         <div class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center">
           <div class="oj-flex-bar-middle oj-sm-align-items-baseline">
@@ -36,9 +42,10 @@
               class="oj-sm-padding-2x-top"
             />
             <p class="oj-sm-padding-2x-end application-name-emphasis" title="Application Name">
-              NKI
+              nki
             </p>
             <p class="application-name">Graphs</p>
+            <span class="nkiGraphs-version-text">v3.4.0</span>
           </div>
           <div class="oj-flex-bar-end">
             <div class="oj-flex hidden-easter-egg">BryCa ❤️</div>
@@ -166,6 +173,7 @@
                         label-hint="Categoría"
                         label-edge="inside"
                         required="true"
+                        translations.required="[[ inputTextTranslations ]]"
                         length.max="50"
                       >
                       </oj-input-text>
@@ -176,6 +184,7 @@
                         label-hint="Color"
                         label-edge="inside"
                         on-value-changed="[[handleColorInputTextChange]]"
+                        length.max="35"
                       >
                       </oj-input-text>
                       <span class="nkiGraphs-warn-text">
@@ -189,6 +198,7 @@
                           on-value-changed="[[handleCatValueChanged]]"
                           label-hint="Valor"
                           required="true"
+                          translations.required="[[ inputTextTranslations ]]"
                         ></oj-input-number>
                       </div>
                       <div class="oj-flex-item oj-sm-8 oj-sm-padding-2x-start">
@@ -198,12 +208,18 @@
                           on-value-changed="[[handleCatValueChanged]]"
                           label-hint="Escala"
                           required="true"
+                          translations.required="[[ inputTextTranslations ]]"
                         ></oj-select-single>
                       </div>
                     </div>
                     <div class="oj-flex oj-sm-justify-content-flex-end">
                       Equivalencia Percentil:
-                      <oj-bind-text value="[[curCategoryPeScaleToUpdate]]"></oj-bind-text>
+                      <oj-bind-text value="[[curCategoryPeScaleToUpdate() ?? '-']]"></oj-bind-text>
+                    </div>
+                    <div class="oj-flex oj-sm-padding-4x-top">
+                      <span class="nkiGraphs-warn-text">
+                        <oj-bind-text value="[[editCategoryErrorMessage]]"></oj-bind-text>
+                      </span>
                     </div>
                   </div>
                 </div>

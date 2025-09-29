@@ -34,6 +34,8 @@
           label-hint="Nombre"
           label-edge="inside"
           required="true"
+          translations.required="[[ inputTextTranslations ]]"
+          length.max="50"
         >
         </oj-input-text>
         <oj-text-area
@@ -42,6 +44,8 @@
           label-edge="inside"
           rows="3"
           class="oj-sm-padding-2x-top"
+          length.counter="remaining"
+          length.max="200"
         >
         </oj-text-area>
       </form>
@@ -107,6 +111,7 @@
               value="{{selectedChart}}"
               label-hint="Selecciona un gráfico"
               required="true"
+              translations.required="[[ inputTextTranslations ]]"
               item-text="name"
               on-value-changed="[[handleSelectedChartChange]]"
             ></oj-select-single>

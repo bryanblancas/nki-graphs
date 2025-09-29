@@ -8,7 +8,7 @@
 }
 
 .gTmpl-error-text {
-  color: red;
+  color: var(--oj-core-danger-3);
   font-size: small;
 }
 

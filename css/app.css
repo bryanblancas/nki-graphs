@@ -83,7 +83,7 @@ body.nki-graphs-main {
 }
 
 .hidden-easter-egg:hover {
-  opacity: 0.08;
+  opacity: 0.06;
 }
 
 .app-container {
@@ -316,4 +316,10 @@ h3.nkiCard-category {
 .nkiGraphs-warn-text {
   color: var(--nkiGraphs-warn-text);
   font-size: smaller;
+}
+
+.nkiGraphs-version-text {
+  color: var(--nkiGraphs-text-muted);
+  font-size: 0.9em;
+  margin-left: 0.3em;
 }
