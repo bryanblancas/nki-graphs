@@ -45,7 +45,7 @@
               nki
             </p>
             <p class="application-name">Graphs</p>
-            <span class="nkiGraphs-version-text">v3.4.0</span>
+            <span class="nkiGraphs-version-text">v3.5.0</span>
           </div>
           <div class="oj-flex-bar-end">
             <div class="oj-flex hidden-easter-egg">BryCa ❤️</div>
@@ -383,6 +383,8 @@
               hover-behavior="dim"
               orientation="[[chartOrientation]]"
               class="nki-graph-style"
+              drilling="on"
+              on-oj-item-drill="[[ handleItemDrilling ]]"
             >
               <template slot="itemTemplate" data-oj-as="item">
                 <oj-chart-item
