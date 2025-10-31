@@ -1,0 +1,14 @@
+{
+  "name": "reference-areas",
+  "version": "1.0.0",
+  "jetVersion": "~17.0.0",
+  "properties": {
+    "areas": {
+      "type": "array",
+      "writeback": true,
+      "required": true
+    }
+  },
+  "methods": {},
+  "events": {}
+}

@@ -23,9 +23,9 @@
     <!-- This is where you would add any app specific styling -->
     <link rel="stylesheet" href="css/app.css" type="text/css" />
   </head>
-  <body class="oj-web-applayout-body nki-graphs-main">
+  <body class="oj-web-applayout-body nkiGraphs-main">
     <!-- Messages toast -->
-    <div id="globalBody" class="oj-web-applayout-page app-container">
+    <div id="globalBody" class="oj-web-applayout-page nkiGraph-app-container">
       <oj-c-message-toast
         data="[[toastMessagesDP]]"
         position="top"
@@ -41,14 +41,12 @@
               height="50"
               class="oj-sm-padding-2x-top"
             />
-            <p class="oj-sm-padding-2x-end application-name-emphasis" title="Application Name">
-              nki
-            </p>
-            <p class="application-name">Graphs</p>
-            <span class="nkiGraphs-version-text">v3.5.1</span>
+            <p class="oj-sm-padding-2x-end nkiGraphs-app-name-high" title="Application Name">nki</p>
+            <p class="nkiGraphs-app-name">Graphs</p>
+            <span class="nkiGraphs-version-text">v3.6.0</span>
           </div>
           <div class="oj-flex-bar-end">
-            <div class="oj-flex hidden-easter-egg">BryCa ❤️</div>
+            <div class="oj-flex nkiGraphs-egg">BryCa ❤️</div>
           </div>
         </div>
       </header>
@@ -58,77 +56,107 @@
           <oj-c-popup
             opened="[[graphSettingsOpened]]"
             launcher="[[ `#${btnOpenGraphSettingsId}`]]"
-            placement="end"
             auto-dismiss="focusLoss"
-            modality="modeless"
-            tail="simple"
+            modality="modal"
+            tail="none"
+            anchor="window"
             on-oj-close="[[ () => graphSettingsOpened(false) ]]"
           >
-            <div class="oj-flex">
-              <div class="oj-flex-item oj-sm-12 oj-sm-padding-4x oj-border rounded-borders">
-                <div class="oj-flex-item">
-                  <p class="section-title">Ajustes del Gráfico</p>
-                  <hr />
-                </div>
-                <div class="oj-flex-item oj-sm-padding-1x-vertical">
-                  <oj-input-number
-                    id="maxy"
-                    value="{{maxY}}"
-                    label-hint="Valor Máximo"
-                  ></oj-input-number>
-                </div>
-                <div class="oj-flex-item oj-sm-padding-1x-vertical">
-                  <oj-input-number
-                    id="stepy"
-                    value="{{stepY}}"
-                    label-hint="Salto Mínimo"
-                  ></oj-input-number>
-                </div>
-                <div class="oj-flex-item oj-sm-padding-1x-vertical">
-                  <oj-select-single
-                    id="legendPositionSelect"
-                    data="[[legendPositionDp]]"
-                    value="{{legendPosition}}"
-                    label-hint="Leyendas"
-                  ></oj-select-single>
-                </div>
-                <div class="oj-flex-item oj-sm-padding-1x-vertical">
-                  <span class="custom-label">Tipo de Gráfico</span>
-                  <oj-c-buttonset-single
-                    id="chartTypeBtn"
-                    display="label"
-                    items="[[chartTypeOptions]]"
-                    value="{{chartType}}"
-                    layout-width="equal"
-                    aria-label="Tipo de Gráfico"
-                  >
-                  </oj-c-buttonset-single>
-                </div>
-                <div class="oj-flex-item oj-sm-padding-1x-vertical">
-                  <span class="custom-label">Etiquetas</span>
-                  <oj-c-buttonset-single
-                    id="labelPositionBtn"
-                    display="label"
-                    items="[[labelPositionOptions]]"
-                    value="{{labelPosition}}"
-                    layout-width="equal"
-                    aria-label="Data Labels"
-                    disabled="[[chartType() === 'cartesian' ? false : true]]"
-                  >
-                  </oj-c-buttonset-single>
-                </div>
-                <div class="oj-flex-item oj-sm-padding-1x-vertical">
-                  <span class="custom-label">Orientación</span>
-                  <oj-c-buttonset-single
-                    id="labelPositionBtn"
-                    display="label"
-                    items="[[orientationOptions]]"
-                    value="{{chartOrientation}}"
-                    layout-width="equal"
-                    aria-label="Chart Orientation"
-                    disabled="[[chartType() === 'cartesian' ? false : true]]"
-                  >
-                  </oj-c-buttonset-single>
+            <div class="nkiDialog-dialog nkiDialog-wide-dialog">
+              <div class="nkiDialog-header">
+                <h4>Ajustes del gráfico <span>Los cambios se aplican automáticamente</span></h4>
+                <oj-button
+                  class="oj-button-sm oj-sm-margin-2x-vertical"
+                  chroming="borderless"
+                  display="icons"
+                  on-oj-action="[[ () => graphSettingsOpened(false) ]]"
+                >
+                  <span class="material-icons nkiDialog-close-icon"> close </span>
+                </oj-button>
+              </div>
+              <div class="nkiDialog-body">
+                <div class="nkiDialog-container nkiDialog-settings-height">
+                  <div class="nkiDialog-column nkiDialog-column-width">
+                    <div class="nkiDialog-column-title">
+                      <div class="start">
+                        <span class="nkiGraphs-strong-text">Estilo del gráfico</span>
+                      </div>
+                    </div>
+                    <div class="nkiDialog-column-content">
+                      <div class="nkiDialog-flex-row nkiDialog-flex-justify">
+                        <div>
+                          <oj-input-number
+                            id="maxy"
+                            value="{{maxY}}"
+                            label-hint="Valor Máximo"
+                          ></oj-input-number>
+                        </div>
+                        <div>
+                          <oj-input-number
+                            id="stepy"
+                            value="{{stepY}}"
+                            label-hint="Salto Mínimo"
+                          ></oj-input-number>
+                        </div>
+                        <div class="oj-flex-item">
+                          <oj-select-single
+                            id="legendPositionSelect"
+                            data="[[legendPositionDp]]"
+                            value="{{legendPosition}}"
+                            label-hint="Leyendas"
+                          ></oj-select-single>
+                        </div>
+                      </div>
+                      <div class="nkiDialog-flex-row nkiDialog-flex-justify">
+                        <div>
+                          <span class="nkiGraphs-cst-lbl">Tipo de Gráfico</span>
+                          <oj-c-buttonset-single
+                            id="chartTypeBtn"
+                            display="label"
+                            items="[[chartTypeOptions]]"
+                            value="{{chartType}}"
+                            layout-width="equal"
+                            aria-label="Tipo de Gráfico"
+                          >
+                          </oj-c-buttonset-single>
+                        </div>
+                        <div>
+                          <span class="nkiGraphs-cst-lbl">Etiquetas</span>
+                          <oj-c-buttonset-single
+                            id="labelPositionBtn"
+                            display="label"
+                            items="[[labelPositionOptions]]"
+                            value="{{labelPosition}}"
+                            layout-width="equal"
+                            aria-label="Data Labels"
+                            disabled="[[chartType() === 'cartesian' ? false : true]]"
+                          >
+                          </oj-c-buttonset-single>
+                        </div>
+                        <div>
+                          <span class="nkiGraphs-cst-lbl">Orientación</span>
+                          <oj-c-buttonset-single
+                            id="labelPositionBtn"
+                            display="label"
+                            items="[[orientationOptions]]"
+                            value="{{chartOrientation}}"
+                            layout-width="equal"
+                            aria-label="Chart Orientation"
+                            disabled="[[chartType() === 'cartesian' ? false : true]]"
+                          >
+                          </oj-c-buttonset-single>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="nkiDialog-column-title">
+                      <div class="start">
+                        <span class="nkiGraphs-strong-text">Areas de referencia</span>
+                      </div>
+                    </div>
+                    <div class="nkiDialog-column-content">
+                      <reference-areas areas="{{ referenceAreas }}"> </reference-areas>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -144,8 +172,8 @@
             tail="none"
             on-oj-close="[[ () => categoryFormOpened(false) ]]"
           >
-            <div class="nkiEditCat-dialog nkiEditCat-wide-dialog">
-              <div class="nkiEditCat-header">
+            <div class="nkiDialog-dialog nkiDialog-wide-dialog">
+              <div class="nkiDialog-header">
                 <h4>Editar categoría</h4>
                 <oj-button
                   class="oj-button-sm oj-sm-margin-2x-vertical"
@@ -153,12 +181,12 @@
                   display="icons"
                   on-oj-action="[[() => categoryFormOpened(false)]]"
                 >
-                  <span class="material-icons"> close </span>
+                  <span class="material-icons nkiDialog-close-icon"> close </span>
                 </oj-button>
               </div>
-              <div class="nkiEditCat-body">
-                <div class="nkiEditCat-container">
-                  <div class="nkiEditCat-column nkiEditCat-column-left">
+              <div class="nkiDialog-body">
+                <div class="nkiDialog-container">
+                  <div class="nkiDialog-column nkiDialog-column-left">
                     <oj-color-spectrum
                       label-hint="Selecciona un Color"
                       label-edge="none"
@@ -166,7 +194,7 @@
                       on-value-changed="[[handleColorSpectrumChange]]"
                     ></oj-color-spectrum>
                   </div>
-                  <div class="nkiEditCat-column nkiEditCat-column-right">
+                  <div class="nkiDialog-column nkiDialog-column-right">
                     <div class="oj-flex oj-sm-12 oj-sm-margin-4x-vertical">
                       <oj-input-text
                         value="{{curCategoryNameToUpdate}}"
@@ -224,9 +252,9 @@
                   </div>
                 </div>
               </div>
-              <div class="nkiEditCat-footer">
-                <div class="nkiEditCat-footer-left"></div>
-                <div class="nkiEditCat-footer-right">
+              <div class="nkiDialog-footer">
+                <div class="nkiDialog-footer-left"></div>
+                <div class="nkiDialog-footer-right">
                   <oj-button
                     chroming="solid"
                     class="nkiGraphs-main-btn"
@@ -248,7 +276,7 @@
           <div class="oj-flex oj-sm-justify-content-flex-between nkiGraphs-chart-data-controls">
             <div class="oj-flex-item">
               <div class="oj-flex">
-                <p class="section-title">
+                <p class="nkiGraphs-section-title">
                   <oj-bind-if test="[[templateApplied()]]">
                     <oj-bind-text value="[[templateAppliedName]]"></oj-bind-text>
                   </oj-bind-if>
@@ -354,13 +382,12 @@
                 <oj-bind-if test="[[!templateApplied()]]"> [Gráfico sin nombre] </oj-bind-if>
               </h3>
 
-              <div class="nkiGraphs-clickable-icon-cont" :id="[[btnOpenGraphSettingsId]]">
-                <span
-                  class="material-icons nkiGraphs-clickable-icon"
-                  on-click="[[() => graphSettingsOpened(true)]]"
-                >
-                  settings
-                </span>
+              <div
+                class="nkiGraphs-clickable-icon-cont"
+                :id="[[btnOpenGraphSettingsId]]"
+                on-click="[[() => graphSettingsOpened(true)]]"
+              >
+                <span class="material-icons nkiGraphs-clickable-icon"> settings </span>
               </div>
             </div>
           </div>
@@ -379,10 +406,11 @@
               animation-on-data-change="slideToLeft"
               legend.position="[[legendPosition]]"
               y-axis.max="[[maxY]]"
+              y-axis.reference-objects="[[yReferenceObjects]]"
               y-axis.step="[[stepY]]"
               hover-behavior="dim"
               orientation="[[chartOrientation]]"
-              class="nki-graph-style"
+              class="nkiGraphs-graph-style"
               drilling="on"
               on-oj-item-drill="[[ handleItemDrilling ]]"
             >
@@ -401,7 +429,7 @@
           </div>
           <!-- NKI Legend -->
           <div class="footer-section">
-            <p class="bottom-label">Hecho con NKI Graphs</p>
+            <p class="nkiGraphs-btm-lbl">Hecho con NKI Graphs</p>
           </div>
         </div>
       </div>

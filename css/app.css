@@ -37,56 +37,52 @@
   --nkiCard-font-weight-bold: 700;
 }
 
-body.nki-graphs-main {
+body.nkiGraphs-main {
   background-color: white !important;
   font-family: 'Poppings', sans-serif !important;
 }
 
-.application-name-emphasis {
+.nkiGraphs-app-name-high {
   color: mediumpurple;
   font-weight: 900;
   font-size: 2.5rem;
 }
 
-.application-name {
+.nkiGraphs-app-name {
   font-weight: 700;
   font-size: 1.5rem;
 }
 
-.section-title {
+.nkiGraphs-section-title {
   margin: 0.5rem;
   font-weight: bolder;
   font-size: 1.3rem;
 }
 
-.custom-label {
+.nkiGraphs-cst-lbl {
   font-size: var(--oj-label-inside-edge-font-size);
   font-weight: var(--oj-label-inside-edge-font-weight);
   color: var(--oj-label-inside-edge-color);
 }
 
-.small-icon {
-  font-size: medium;
-}
-
-.bottom-label {
+.nkiGraphs-btm-lbl {
   color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-color);
   font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);
   font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);
   text-align: end;
 }
 
-.hidden-easter-egg {
+.nkiGraphs-egg {
   opacity: 0;
   transition: all 100ms;
   cursor: grabbing;
 }
 
-.hidden-easter-egg:hover {
+.nkiGraphs-egg:hover {
   opacity: 0.06;
 }
 
-.app-container {
+.nkiGraph-app-container {
   margin-bottom: 4rem;
 }
 
@@ -130,7 +126,7 @@ body.nki-graphs-main {
   height: var(--nkiGraphs-chartCont-footer-height);
 }
 
-.nki-graph-style {
+.nkiGraphs-graph-style {
   min-height: var(--nkiGraphs-chartCont-chart-min-height);
   max-height: var(--nkiGraphs-chartCont-chart-max-height);
   height: 100%;
@@ -202,56 +198,88 @@ h3.nkiCard-category {
   font-size: smaller;
 }
 
-.nkiEditCat-dialog {
+.nkiDialog-dialog {
   width: 500px;
   margin: 20px auto;
   display: flex;
   flex-direction: column;
 }
 
-.nkiEditCat-dialog.nkiEditCat-wide-dialog {
+.nkiDialog-dialog.nkiDialog-wide-dialog {
   width: 1000px;
 }
 
-.nkiEditCat-header {
+.nkiDialog-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
+  padding: 0.5em 2em;
   border-bottom: 1px solid var(--nkiGraphs-border-color);
 }
 
-.nkiEditCat-body {
-  padding: 24px;
+.nkiDialog-header h4 span {
+  font-size: 0.5em;
+  font-weight: normal;
+  color: var(--nkiGraphs-text-muted);
 }
 
-.nkiEditCat-container {
+.nkiDialog-body {
+  padding: 1em;
+}
+
+.nkiDialog-container {
   width: 100%;
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
 }
 
-.nkiEditCat-column {
+.nkiDialog-column {
   background-color: #fff;
   border-radius: 8px;
-  padding: 20px;
+  padding: 1em;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.nkiEditCat-column-left {
+.nkiDialog-column-left {
   display: flex;
   flex-direction: column;
   gap: 20px;
   flex: 1;
 }
 
-.nkiEditCat-column-right {
+.nkiDialog-column-right {
   overflow-y: auto;
   flex: 2;
 }
 
-.nkiEditCat-footer {
+.nkiDialog-column-width {
+  width: 100%;
+}
+
+.nkiDialog-column-content {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+}
+
+.nkiDialog-flex-row {
+  gap: 1em;
+  display: flex;
+  flex-direction: row;
+  margin: 0.5em;
+}
+
+.nkiDialog-flex-justify {
+  justify-content: space-between;
+}
+
+.nkiDialog-settings-height {
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.nkiDialog-footer {
   border-top: 1px solid var(--nkiGraphs-border-color);
   padding: 16px 24px;
   flex: 1 1 100%;
@@ -322,4 +350,27 @@ h3.nkiCard-category {
   color: var(--nkiGraphs-text-muted);
   font-size: 0.9em;
   margin-left: 0.3em;
+}
+
+.nkiDialog-close-icon {
+  vertical-align: middle;
+}
+
+.nkiGraphs-strong-text {
+  font-weight: bolder;
+}
+
+.nkiDialog-column-title {
+  margin-block: unset;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nkiDialog-column-title .start {
+  flex-grow: 1;
+}
+
+.nkiDialog-column-title .end {
+  flex-grow: 0;
 }

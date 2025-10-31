@@ -1,0 +1,1 @@
+define(["ojs/ojcomposite","text!./reference-areas-view.html","./reference-areas-viewModel","text!./reference-areas-component.json","css!./reference-areas-styles"],(function(e,r,a,s){e.register("reference-areas",{metadata:JSON.parse(s),view:r,viewModel:a})}));

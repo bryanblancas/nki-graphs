@@ -120,7 +120,7 @@
   flex-direction: column;
   gap: 20px;
   min-width: 300px;
-  max-height: 284px;
+  max-height: fit-content;
 }
 
 /* Styles for the right column */
@@ -129,7 +129,7 @@
   /* Takes up 1 part of the available space */
   min-width: 250px;
   overflow-y: auto;
-  max-height: 284px;
+  max-height: 320px;
 }
 
 /* Styles for the rows in the left column */
@@ -168,4 +168,7 @@ select {
 .gTmpl-summary-list li {
   padding: 8px 0;
   color: #555;
+  border-left: 5px solid red;
+  margin: 0.5em 0 0.5em 0;
+  padding-left: 0.5em;
 }

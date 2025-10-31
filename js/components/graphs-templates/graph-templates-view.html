@@ -135,6 +135,12 @@
                 <strong>Description:</strong>
                 <oj-bind-text value="[[selectedChartObj().description]]"></oj-bind-text>
               </p>
+              <p>
+                <strong>Areas de referencia:</strong>
+                <oj-bind-text
+                  value="[[selectedChartObj().chartData?.graphSettings?.referenceAreas?.length ?? 0]]"
+                ></oj-bind-text>
+              </p>
             </oj-bind-if>
           </div>
         </div>
@@ -149,8 +155,8 @@
             <ul>
               <oj-bind-for-each data="[[selectedChartObj().chartData.categories ]]">
                 <template data-oj-as="curCat">
-                  <li>
-                    <strong><oj-bind-text value="[[curCat.data.name]]"></oj-bind-text></strong>
+                  <li :style.border-color="[[curCat.data.color]]">
+                    <span><oj-bind-text value="[[curCat.data.name]]"></oj-bind-text></span>
                   </li>
                 </template>
               </oj-bind-for-each>

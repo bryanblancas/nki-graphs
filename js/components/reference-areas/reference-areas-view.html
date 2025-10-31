@@ -1,0 +1,74 @@
+<div class="refA-main">
+  <div class="title">
+    <div class="start">
+      <span class="nkiGraphs-strong-text"></span>
+      <div class="subHeader">
+        <span> Mostrar Leyendas </span>
+        <oj-switch
+          value="{{displayInLegend}}"
+          on-value-changed="[[handleDisplayInLegendChange]]"
+        ></oj-switch>
+      </div>
+    </div>
+    <div class="end">
+      <div class="nkiGraphs-clickable-icon-cont" on-click="[[ addArea ]]">
+        <span class="material-icons nkiGraphs-clickable-icon"> add </span>
+      </div>
+    </div>
+  </div>
+  <div class="body">
+    <oj-bind-for-each data="[[mappedAreas]]">
+      <template data-oj-as="area">
+        <div class="refA-row">
+          <div class="stripe" :style.background-color="[[area.data.color]]"></div>
+          <div class="form">
+            <div class="name">
+              <oj-c-input-text
+                value="{{area.data.name}}"
+                label-hint="Nombre"
+                required="true"
+                on-value-changed="[[handleValueChanged]]"
+              ></oj-c-input-text>
+            </div>
+            <div class="number">
+              <oj-c-input-number
+                value="{{area.data.low}}"
+                label-hint="Bajo"
+                required="true"
+                on-value-changed="[[handleValueChanged]]"
+              ></oj-c-input-number>
+            </div>
+            <div class="number">
+              <oj-c-input-number
+                value="{{area.data.high}}"
+                label-hint="Alto"
+                required="true"
+                on-value-changed="[[handleValueChanged]]"
+              ></oj-c-input-number>
+            </div>
+            <div class="color">
+              <oj-c-input-text
+                value="{{area.data.color}}"
+                label-hint="Color"
+                on-value-changed="[[handleValueChanged]]"
+              ></oj-c-input-text>
+            </div>
+            <div class="number">
+              <div class="nkiGraphs-clickable-icon-cont" on-click="[[() => removeArea(area)]]">
+                <span class="material-icons nkiGraphs-clickable-icon"> close </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+      <template slot="noData">
+        <span>No hay áreas de referencia</span>
+      </template>
+    </oj-bind-for-each>
+  </div>
+  <div class="footer">
+    <span class="error">
+      <oj-bind-text value="[[globalErrm]]"></oj-bind-text>
+    </span>
+  </div>
+</div>

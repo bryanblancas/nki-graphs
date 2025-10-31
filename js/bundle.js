@@ -291,7 +291,7 @@ define('ojs/ojarraydataprovider',["ojs/ojcore-base","ojs/ojdataprovider","ojs/oj
 class s{constructor(e,t){this.data=e,this.options=t,this._subscribeObservableArray(e);let r=!1;null!=t&&null!=t.keys&&(r=!0,this._keys=t.keys),this._impl=new i.ArrayDataProviderImpl({...t,get keyAttributes(){return t?.keyAttributes??t?.idAttribute}},{getData:()=>this._getRowData(),getKeys:()=>this._getKeys(),generateKeysIfNeeded:e=>this._generateKeysIfNeeded(e),mergeSortCriteria:e=>this._mergeSortCriteria(e),getSortComparator:e=>this._getSortComparator(e),dispatchEvent:e=>this.dispatchEvent(e),supportAbortController:!0,getKeyForDelete:(e,t)=>this._getKeyForDelete(e,t),spliceKeys:(...e)=>this._keys.splice(...e),keysSpecified:r})}containsKeys(e){return this._impl.containsKeys(e)}fetchByKeys(e){return this._impl.fetchByKeys(e)}fetchByOffset(e){return this._impl.fetchByOffset(e)}fetchFirst(e){return this._impl.fetchFirst(e)}getCapability(e){return i.getCapability(e)}static getCapability(e){return i.getCapability(e)}getTotalSize(){return this._impl.getTotalSize()}isEmpty(){return this._impl.isEmpty()}createOptimizedKeySet(e){return i.createOptimizedKeySet(e)}createOptimizedKeyMap(e){return i.createOptimizedKeyMap(e)}_getRowData(){return a(this.data)}_getKeys(){return a(this._keys)}_subscribeObservableArray(e){if(!(e instanceof Array)){if(!this._isObservableArray(e))throw new Error("Invalid data type. ArrayDataProvider only supports Array or observableArray.");e.subscribe(e=>this._impl.queueMutationEvent(e),null,"arrayChange"),e.subscribe(e=>this._impl.flushQueue(),null,"change")}}_getKeyForDelete(e,t){let r=this._impl.getId(e.value);return null==r&&(r=t?e.index:this._getKeys()[e.index]),r}_isObservableArray(e){return"function"==typeof e&&e.subscribe&&!(void 0===e.destroyAll)}_generateKeysIfNeeded(e){return null==this._keys&&(this._keys=e(),!0)}_getSortComparator(e){return(r,s)=>{const a=null!=this.options?this.options.sortComparators:null;let o,n,l,u,y,p;for(o=0;o<e.length;o++){n=e[o].direction,l=e[o].attribute,u=null,null!=a&&(u=a.comparators.get(l)),y=i.getVal(r.value,l),p=i.getVal(s.value,l),u||(u=t.SortUtils.getNaturalSortComparator());const h="descending"===n?-1:1,c=u(y,p)*h;if(0!==c)return c}return 0}}_mergeSortCriteria(e){const t=null!=this.options?this.options.implicitSort:null;return null==t?e:null==e?t:void 0}}const a=e=>!e||e instanceof Array?e:e();return r.EventTargetMixin.applyMixin(s),e._registerLegacyNamespaceProp("ArrayDataProvider",s),s});
 //# sourceMappingURL=ojarraydataprovider.js.map;
 define('equivalences/scalesEquivalences',[],(function(){const e={pc:[1,1,1,2,2,4,4,7,13,18,22,27,33,37,41,48,52,58,63,67,73,78,82,87,93,96,96,98,98,98,99,99,99,99],s:[1,1,2,7,11,14,16,21,27,31,35,38,41,44,46,49,51,54,56,59,62,65,69,73,79,84,85,89,91,93,96,98,99,99],de:[1,1,1,1,2,2,2,3,3,4,4,4,5,5,5,5,6,6,6,6,7,7,7,8,8,9,9,9,10,10,10,10,10,10],en:[1,1,1,1,1,1,2,2,3,3,3,4,4,4,5,5,5,5,6,6,6,7,7,7,8,8,9,9,9,9,9,9,9,9],t:[25,26,26,28,30,32,33,36,39,41,42,44,46,47,48,49,51,52,53,55,56,58,59,62,64,67,68,70,71,72,73,74,75,76],cl:[62,63,64,67,71,73,75,78,83,86,89,91,93,95,97,99,101,103,105,107,109,111,114,117,122,126,126,129,131,132,135,136,137,138],pe:[2,3,3,3,4,5,5,6,7,7,8,8,9,9,9,10,10,11,11,11,12,12,13,13,14,15,15,16,16,16,17,17,17,18],z:[-2.5,-2.45,-2.4,-2.17,-1.96,-1.81,-1.7,-1.44,-1.15,-.93,-.76,-.6,-.45,-.32,-.19,-.06,.06,.19,.32,.45,.6,.76,.93,1.15,1.44,1.7,1.75,1.96,2.05,2.15,2.3,2.4,2.45,2.5]};return{transformScaleToPercentile:(l,a)=>{if("pc"===a)return l;const c=e[a],n=e.pc;let t=0;for(;t<c.length;){if(!(c[t]<l)){if(c[t]===l)break;t--;break}t++}return n[t]},SCALES_LOV:[{value:"pc",label:"Percentil"},{value:"s",label:"S Escala típica"},{value:"de",label:"Decatipo"},{value:"en",label:"Eneatipo"},{value:"t",label:"T Escala típica"},{value:"cl",label:"Cl Escala Típica"},{value:"pe",label:"Puntuación Escalar"},{value:"z",label:"Puntuación Z"}]}}));
-define('utils/utils',["knockout"],(function(e){return{getGraphCatModel:e=>void 0===e?{name:"Nueva categoría",value:0,scale:"pc",peScale:0,color:"",id:crypto.randomUUID()}:{name:e.name,value:e.value,scale:e.scale,peScale:e.peScale,color:e.color,id:e.id??crypto.randomUUID()},getDataItemForChart:e=>({...e,group:e.name,value:e.peScale??0,color:e.color}),CATEGORIES_VALIDATIONS:{MAX_NUMBER_OF_CATEGORIES:40,ON_MAX_SUMMARY:"Máximo de categorías",ON_MAX_DETAIL:"El límite máximo de categorías en un gráfico es de 50."},TOAST_MESSAGES_AUTO_TIMEOUT_MS:3e3,INPUT_TEXT_TRANSLATIONS:{messageDetail:"Completa este campo",message:"chiales"},EDIT_CAT_ERROR_MESSAGE:"Completa el formulario correctamente (nombre, valor y escala)."}}));
+define('utils/utils',["knockout"],(function(e){return{getGraphCatModel:e=>void 0===e?{name:"Nueva categoría",value:0,scale:"pc",peScale:0,color:"",id:crypto.randomUUID()}:{name:e.name,value:e.value,scale:e.scale,peScale:e.peScale,color:e.color,id:e.id??crypto.randomUUID()},getDataItemForChart:e=>({...e,group:e.name,value:e.peScale??0,color:e.color}),CATEGORIES_VALIDATIONS:{MAX_NUMBER_OF_CATEGORIES:40,ON_MAX_SUMMARY:"Máximo de categorías",ON_MAX_DETAIL:"El límite máximo de categorías en un gráfico es de 50."},TOAST_MESSAGES_AUTO_TIMEOUT_MS:3e3,INPUT_TEXT_TRANSLATIONS:{messageDetail:"Completa este campo",message:"chiales"},EDIT_CAT_ERROR_MESSAGE:"Completa el formulario correctamente (nombre, valor y escala).",getReferenceObjects:e=>e.map((e=>({text:e.name,type:"area",low:e.low,high:e.high,color:e.color,displayInLegend:e.displayInLegend,location:"back"})))}}));
 /**
  * @license
  * Copyright (c) 2014, 2024, Oracle and/or its affiliates.
@@ -2935,7 +2935,7 @@ define('text',['module'], function (module) {
 });
 
 
-define('text!components/graphs-templates/graph-templates-view.html',[],function () { return '<div class="oj-flex">\r\n  <div on-click="[[() => saveTmplOpened(true)]]">\r\n    <oj-bind-slot name="save"></oj-bind-slot>\r\n  </div>\r\n  <div on-click="[[handleOpenApplyTmplModal]]">\r\n    <oj-bind-slot name="select"></oj-bind-slot>\r\n  </div>\r\n</div>\r\n<oj-c-popup\r\n  :id="[[saveTmplModalId]]"\r\n  launcher="[[`#${saveTmplBtnId}`]]"\r\n  opened="[[saveTmplOpened]]"\r\n  auto-dismiss="none"\r\n  modality="modal"\r\n  anchor="window"\r\n  tail="none"\r\n>\r\n  <div class="gTmpl-dialog">\r\n    <div class="gTmpl-header">\r\n      <h4>Guardar gráfico</h4>\r\n      <oj-button\r\n        class="oj-button-sm oj-sm-margin-2x-vertical"\r\n        chroming="borderless"\r\n        display="icons"\r\n        on-oj-action="[[() => {saveTmplOpened(false)}]]"\r\n      >\r\n        <span class="material-icons"> close </span>\r\n      </oj-button>\r\n    </div>\r\n    <div class="gTmpl-body">\r\n      <form>\r\n        <oj-input-text\r\n          value="{{chartTmplName}}"\r\n          label-hint="Nombre"\r\n          label-edge="inside"\r\n          required="true"\r\n          translations.required="[[ inputTextTranslations ]]"\r\n          length.max="50"\r\n        >\r\n        </oj-input-text>\r\n        <oj-text-area\r\n          value="{{chartTmplDesc}}"\r\n          label-hint="Descripción"\r\n          label-edge="inside"\r\n          rows="3"\r\n          class="oj-sm-padding-2x-top"\r\n          length.counter="remaining"\r\n          length.max="200"\r\n        >\r\n        </oj-text-area>\r\n      </form>\r\n      <oj-bind-if test="[[showError()]]">\r\n        <span class="gTmpl-error-text">\r\n          <oj-bind-text value="[[errorMessage]]"></oj-bind-text>\r\n        </span>\r\n      </oj-bind-if>\r\n      <div>\r\n        <ul class="gTmpl-help-text">\r\n          <li>Tus gráficos se guardan en la caché del navegador.</li>\r\n          <li>Gráficos con el mismo nombre se sobreescriben.</li>\r\n          <li>Máximo 20 gráficos guardados.</li>\r\n        </ul>\r\n      </div>\r\n    </div>\r\n    <div class="gTmpl-footer">\r\n      <div class="gTmpl-footer-left"></div>\r\n      <div class="gTmpl-footer-right">\r\n        <oj-button\r\n          chroming="solid"\r\n          class="gTmpl-main-btn"\r\n          on-oj-action="[[handleSaveChartTmplClick]]"\r\n        >\r\n          <span slot="startIcon" class="gTmpl-white-text oj-sm-padding-2x-top"\r\n            ><span class="material-icons"> save </span></span\r\n          >\r\n          <div class="gTmpl-white-text">Guardar</div></oj-button\r\n        >\r\n      </div>\r\n    </div>\r\n  </div>\r\n</oj-c-popup>\r\n\r\n<!-- Load Template modal -->\r\n<oj-c-popup\r\n  opened="[[applyTmplOpened]]"\r\n  auto-dismiss="none"\r\n  modality="modal"\r\n  anchor="window"\r\n  tail="none"\r\n>\r\n  <div class="gTmpl-dialog gTmpl-wide-dialog">\r\n    <div class="gTmpl-header">\r\n      <h4>Cargar gráfico</h4>\r\n      <oj-button\r\n        class="oj-button-sm oj-sm-margin-2x-vertical"\r\n        chroming="borderless"\r\n        display="icons"\r\n        on-oj-action="[[() => {applyTmplOpened(false)}]]"\r\n      >\r\n        <span class="material-icons"> close </span>\r\n      </oj-button>\r\n    </div>\r\n    <div class="gTmpl-body">\r\n      <div class="gTmpl-container">\r\n        <!-- Left Column: Contains two rows -->\r\n        <div class="gTmpl-column gTmpl-column-left">\r\n          <div class="gTmpl-row gTmpl-row-select">\r\n            <oj-select-single\r\n              id="chartTmplSelectList"\r\n              data="[[templatesDP]]"\r\n              value="{{selectedChart}}"\r\n              label-hint="Selecciona un gráfico"\r\n              required="true"\r\n              translations.required="[[ inputTextTranslations ]]"\r\n              item-text="name"\r\n              on-value-changed="[[handleSelectedChartChange]]"\r\n            ></oj-select-single>\r\n            <p class="gTmpl-error-text">\r\n              <oj-bind-if test="[[showError]]">\r\n                <oj-bind-text value="[[errorMessage]]"></oj-bind-text\r\n              ></oj-bind-if>\r\n            </p>\r\n          </div>\r\n          <div class="gTmpl-row gTmpl-row-content">\r\n            <h6><span class="gTmpl-title">Detalles del gráfico</span></h6>\r\n            <oj-bind-if test="[[!selectedChartObj()]]">\r\n              <p class="gTmpl-help-text">Selecciona un gráfico para ver su información</p>\r\n            </oj-bind-if>\r\n            <oj-bind-if test="[[selectedChartObj()]]">\r\n              <p>\r\n                <strong>Name:</strong>\r\n                <oj-bind-text value="[[selectedChartObj().name]]"></oj-bind-text>\r\n              </p>\r\n              <p>\r\n                <strong>Description:</strong>\r\n                <oj-bind-text value="[[selectedChartObj().description]]"></oj-bind-text>\r\n              </p>\r\n            </oj-bind-if>\r\n          </div>\r\n        </div>\r\n\r\n        <!-- Right Column: Contains a single row with a summary -->\r\n        <div class="gTmpl-column gTmpl-column-right gTmpl-summary-list">\r\n          <h6>Categorías</h6>\r\n          <oj-bind-if test="[[!selectedChartObj()]]">\r\n            <p class="gTmpl-help-text">Selecciona un gráfico para ver su información</p>\r\n          </oj-bind-if>\r\n          <oj-bind-if test="[[selectedChartObj()]]">\r\n            <ul>\r\n              <oj-bind-for-each data="[[selectedChartObj().chartData.categories ]]">\r\n                <template data-oj-as="curCat">\r\n                  <li>\r\n                    <strong><oj-bind-text value="[[curCat.data.name]]"></oj-bind-text></strong>\r\n                  </li>\r\n                </template>\r\n              </oj-bind-for-each>\r\n            </ul>\r\n          </oj-bind-if>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class="gTmpl-footer">\r\n      <div class="gTmpl-footer-left">\r\n        <oj-button chroming="solid" on-oj-action="[[handleRemoveChartTmplClick]]">\r\n          <span slot="startIcon" class="oj-sm-padding-2x-top"\r\n            ><span class="material-icons"> delete </span></span\r\n          >\r\n          Borrar</oj-button\r\n        >\r\n      </div>\r\n      <div class="gTmpl-footer-right">\r\n        <oj-button\r\n          chroming="solid"\r\n          class="gTmpl-main-btn"\r\n          on-oj-action="[[handleApplyChartTmplClick]]"\r\n        >\r\n          <span slot="startIcon" class="gTmpl-white-text oj-sm-padding-2x-top"\r\n            ><span class="material-icons"> install_desktop</span></span\r\n          >\r\n          <div class="gTmpl-white-text">Aplicar</div></oj-button\r\n        >\r\n      </div>\r\n    </div>\r\n  </div>\r\n</oj-c-popup>\r\n';});
+define('text!components/graphs-templates/graph-templates-view.html',[],function () { return '<div class="oj-flex">\r\n  <div on-click="[[() => saveTmplOpened(true)]]">\r\n    <oj-bind-slot name="save"></oj-bind-slot>\r\n  </div>\r\n  <div on-click="[[handleOpenApplyTmplModal]]">\r\n    <oj-bind-slot name="select"></oj-bind-slot>\r\n  </div>\r\n</div>\r\n<oj-c-popup\r\n  :id="[[saveTmplModalId]]"\r\n  launcher="[[`#${saveTmplBtnId}`]]"\r\n  opened="[[saveTmplOpened]]"\r\n  auto-dismiss="none"\r\n  modality="modal"\r\n  anchor="window"\r\n  tail="none"\r\n>\r\n  <div class="gTmpl-dialog">\r\n    <div class="gTmpl-header">\r\n      <h4>Guardar gráfico</h4>\r\n      <oj-button\r\n        class="oj-button-sm oj-sm-margin-2x-vertical"\r\n        chroming="borderless"\r\n        display="icons"\r\n        on-oj-action="[[() => {saveTmplOpened(false)}]]"\r\n      >\r\n        <span class="material-icons"> close </span>\r\n      </oj-button>\r\n    </div>\r\n    <div class="gTmpl-body">\r\n      <form>\r\n        <oj-input-text\r\n          value="{{chartTmplName}}"\r\n          label-hint="Nombre"\r\n          label-edge="inside"\r\n          required="true"\r\n          translations.required="[[ inputTextTranslations ]]"\r\n          length.max="50"\r\n        >\r\n        </oj-input-text>\r\n        <oj-text-area\r\n          value="{{chartTmplDesc}}"\r\n          label-hint="Descripción"\r\n          label-edge="inside"\r\n          rows="3"\r\n          class="oj-sm-padding-2x-top"\r\n          length.counter="remaining"\r\n          length.max="200"\r\n        >\r\n        </oj-text-area>\r\n      </form>\r\n      <oj-bind-if test="[[showError()]]">\r\n        <span class="gTmpl-error-text">\r\n          <oj-bind-text value="[[errorMessage]]"></oj-bind-text>\r\n        </span>\r\n      </oj-bind-if>\r\n      <div>\r\n        <ul class="gTmpl-help-text">\r\n          <li>Tus gráficos se guardan en la caché del navegador.</li>\r\n          <li>Gráficos con el mismo nombre se sobreescriben.</li>\r\n          <li>Máximo 20 gráficos guardados.</li>\r\n        </ul>\r\n      </div>\r\n    </div>\r\n    <div class="gTmpl-footer">\r\n      <div class="gTmpl-footer-left"></div>\r\n      <div class="gTmpl-footer-right">\r\n        <oj-button\r\n          chroming="solid"\r\n          class="gTmpl-main-btn"\r\n          on-oj-action="[[handleSaveChartTmplClick]]"\r\n        >\r\n          <span slot="startIcon" class="gTmpl-white-text oj-sm-padding-2x-top"\r\n            ><span class="material-icons"> save </span></span\r\n          >\r\n          <div class="gTmpl-white-text">Guardar</div></oj-button\r\n        >\r\n      </div>\r\n    </div>\r\n  </div>\r\n</oj-c-popup>\r\n\r\n<!-- Load Template modal -->\r\n<oj-c-popup\r\n  opened="[[applyTmplOpened]]"\r\n  auto-dismiss="none"\r\n  modality="modal"\r\n  anchor="window"\r\n  tail="none"\r\n>\r\n  <div class="gTmpl-dialog gTmpl-wide-dialog">\r\n    <div class="gTmpl-header">\r\n      <h4>Cargar gráfico</h4>\r\n      <oj-button\r\n        class="oj-button-sm oj-sm-margin-2x-vertical"\r\n        chroming="borderless"\r\n        display="icons"\r\n        on-oj-action="[[() => {applyTmplOpened(false)}]]"\r\n      >\r\n        <span class="material-icons"> close </span>\r\n      </oj-button>\r\n    </div>\r\n    <div class="gTmpl-body">\r\n      <div class="gTmpl-container">\r\n        <!-- Left Column: Contains two rows -->\r\n        <div class="gTmpl-column gTmpl-column-left">\r\n          <div class="gTmpl-row gTmpl-row-select">\r\n            <oj-select-single\r\n              id="chartTmplSelectList"\r\n              data="[[templatesDP]]"\r\n              value="{{selectedChart}}"\r\n              label-hint="Selecciona un gráfico"\r\n              required="true"\r\n              translations.required="[[ inputTextTranslations ]]"\r\n              item-text="name"\r\n              on-value-changed="[[handleSelectedChartChange]]"\r\n            ></oj-select-single>\r\n            <p class="gTmpl-error-text">\r\n              <oj-bind-if test="[[showError]]">\r\n                <oj-bind-text value="[[errorMessage]]"></oj-bind-text\r\n              ></oj-bind-if>\r\n            </p>\r\n          </div>\r\n          <div class="gTmpl-row gTmpl-row-content">\r\n            <h6><span class="gTmpl-title">Detalles del gráfico</span></h6>\r\n            <oj-bind-if test="[[!selectedChartObj()]]">\r\n              <p class="gTmpl-help-text">Selecciona un gráfico para ver su información</p>\r\n            </oj-bind-if>\r\n            <oj-bind-if test="[[selectedChartObj()]]">\r\n              <p>\r\n                <strong>Name:</strong>\r\n                <oj-bind-text value="[[selectedChartObj().name]]"></oj-bind-text>\r\n              </p>\r\n              <p>\r\n                <strong>Description:</strong>\r\n                <oj-bind-text value="[[selectedChartObj().description]]"></oj-bind-text>\r\n              </p>\r\n              <p>\r\n                <strong>Areas de referencia:</strong>\r\n                <oj-bind-text\r\n                  value="[[selectedChartObj().chartData?.graphSettings?.referenceAreas?.length ?? 0]]"\r\n                ></oj-bind-text>\r\n              </p>\r\n            </oj-bind-if>\r\n          </div>\r\n        </div>\r\n\r\n        <!-- Right Column: Contains a single row with a summary -->\r\n        <div class="gTmpl-column gTmpl-column-right gTmpl-summary-list">\r\n          <h6>Categorías</h6>\r\n          <oj-bind-if test="[[!selectedChartObj()]]">\r\n            <p class="gTmpl-help-text">Selecciona un gráfico para ver su información</p>\r\n          </oj-bind-if>\r\n          <oj-bind-if test="[[selectedChartObj()]]">\r\n            <ul>\r\n              <oj-bind-for-each data="[[selectedChartObj().chartData.categories ]]">\r\n                <template data-oj-as="curCat">\r\n                  <li :style.border-color="[[curCat.data.color]]">\r\n                    <span><oj-bind-text value="[[curCat.data.name]]"></oj-bind-text></span>\r\n                  </li>\r\n                </template>\r\n              </oj-bind-for-each>\r\n            </ul>\r\n          </oj-bind-if>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class="gTmpl-footer">\r\n      <div class="gTmpl-footer-left">\r\n        <oj-button chroming="solid" on-oj-action="[[handleRemoveChartTmplClick]]">\r\n          <span slot="startIcon" class="oj-sm-padding-2x-top"\r\n            ><span class="material-icons"> delete </span></span\r\n          >\r\n          Borrar</oj-button\r\n        >\r\n      </div>\r\n      <div class="gTmpl-footer-right">\r\n        <oj-button\r\n          chroming="solid"\r\n          class="gTmpl-main-btn"\r\n          on-oj-action="[[handleApplyChartTmplClick]]"\r\n        >\r\n          <span slot="startIcon" class="gTmpl-white-text oj-sm-padding-2x-top"\r\n            ><span class="material-icons"> install_desktop</span></span\r\n          >\r\n          <div class="gTmpl-white-text">Aplicar</div></oj-button\r\n        >\r\n      </div>\r\n    </div>\r\n  </div>\r\n</oj-c-popup>\r\n';});
 
 define('components/graphs-templates/graph-templates-utils',[],(function(){const r="nki-graphs-templates",e=()=>{const e=localStorage.getItem(r);if(!e)return null;try{return JSON.parse(e)}catch(r){return console.error("Failed to parse JSON from localStorage:",r),null}};return{getChartTemplates:e,saveChartTemplate:t=>{try{const o=e()||[];if(o.length>=20)return"Máximo de 20 gráficos alcanzado.";const a=o.findIndex((r=>r.name===t.name));-1!==a?o[a]=t:o.push(t);const n=JSON.stringify(o);return localStorage.setItem(r,n),!0}catch(r){return console.error("Failed to serialize or save to localStorage:",r),"Hubo un error al momento de guardar el gráfico."}},saveChartTemplates:e=>{try{if(!Array.isArray(e))return"El argumento debe ser un array.";const t=JSON.stringify(e);return localStorage.setItem(r,t),!0}catch(r){return console.error("Failed to serialize or save to localStorage:",r),"Hubo un error al momento de guardar los gráficos."}}}}));
 define('components/graphs-templates/graph-templates-viewModel',["ojs/ojcontext","knockout","jquery","./graph-templates-utils","../../utils/utils","ojs/ojarraydataprovider","oj-c/popup","ojs/ojinputtext","ojs/ojselectsingle"],(function(t,e,r,s,a,i){function l(t){this.properties=t.properties,this._initState(),this._defineAuxiliars(),this._defineHandlers()}return l.prototype._initState=function(){this.saveTmplBtnId="saveChartTmplBtn",this.saveTmplModalId="saveChartTmplModal",this.applyTmplBtnId="applyChartTmplBtn",this.applyTmplModalId="applyChartTmplModal",this.saveTmplOpened=e.observable(!1),this.applyTmplOpened=e.observable(!1),this.chartTmplName=e.observable(""),this.chartTmplDesc=e.observable(""),this.showError=e.observable(!1),this.errorMessage=e.observable(""),this.selectedChart=e.observable(null),this.selectedChartObj=e.observable(null),this.templates=e.observableArray([]),this.templatesDP=new i(this.templates,{keyAttributes:"name"}),this.inputTextTranslations=a.INPUT_TEXT_TRANSLATIONS},l.prototype._defineAuxiliars=function(){this._preventDefault=t=>t.detail?.originalEvent?.preventDefault(),this._getChartTemplFromName=t=>{const e=this.templates().findIndex((e=>e.name===t));if(e>-1){const t=this.templates()[e];return t.index=e,t}return null}},l.prototype._defineHandlers=function(){this.handleApplyChartTmpl=t=>{this._preventDefault(t),console.log("handleApplyChartTmpl")},this.handleSaveChartTmplClick=t=>{this._preventDefault(t),this._saveChartTmpl()},this.handleOpenApplyTmplModal=t=>{this._preventDefault(t),this._bindTemplates(),this.applyTmplOpened(!0)},this.handleSelectedChartChange=()=>{this._setState({showError:!1,errorMessage:""});const t=this.selectedChart();this.selectedChartObj(this._getChartTemplFromName(t))},this.handleApplyChartTmplClick=t=>{this._preventDefault(t),this._applyChartTempl()},this.handleRemoveChartTmplClick=t=>{this._preventDefault(t),this._removeChartTmpl()}},l.prototype._saveChartTmpl=function(){this._setState({showError:!1});const t=this.chartTmplName(),e=this.chartTmplDesc();if(!this._canSaveCurrentChartTmpl(t,e))return void this._setState({showError:!0,errorMessage:"Por favor, completa el formulario"});const r={name:t,description:e,chartData:this.properties.getCurrentChart()},a=s.saveChartTemplate(r);!0===a?(this.saveTmplOpened(!1),this.chartTmplName(),this.chartTmplDesc(),this.properties.onChartSaved(r)):this._setState({showError:!0,errorMessage:a})},l.prototype._setState=function({showError:t,errorMessage:e}){void 0!==t&&this.showError(t),void 0!==e&&this.errorMessage(e)},l.prototype._canSaveCurrentChartTmpl=function(t,e){return!!t&&!("string"==typeof e&&e.length>100)},l.prototype._bindTemplates=function(){const t=s.getChartTemplates()||[];this.templates(t)},l.prototype._applyChartTempl=function(){const t=this.selectedChartObj();t?(this.properties.applyChartTemplate(t.name,t.chartData),this.selectedChart(null),this.selectedChartObj(null),this.applyTmplOpened(!1)):this._setState({showError:!0,errorMessage:"Selecciona un gráfico"})},l.prototype._removeChartTmpl=function(){const t=this.selectedChartObj();if(!t)return void this._setState({showError:!0,errorMessage:"Selecciona un gráfico"});const e=t.index;this.templates.remove((t=>t.index===e));!0!==s.saveChartTemplates(this.templates())&&this._setState({showError:!0,errorMessage:"Hubo un error al eliminar el gráfico."})},l}));
@@ -2956,7 +2956,2421 @@ define('text!components/draggable-categories/draggable-categories-component.json
 
 define('css!components/draggable-categories/draggable-categories-styles',[],function(){});
 define('components/draggable-categories/loader',["ojs/ojcomposite","text!./draggable-categories-view.html","./draggable-categories-viewModel","text!./draggable-categories-component.json","css!./draggable-categories-styles"],(function(e,a,t,g){e.register("draggable-categories",{metadata:JSON.parse(g),view:a,viewModel:t})}));
-define('appController',["ojs/ojcontext","knockout","jquery","ojs/ojarraydataprovider","./equivalences/scalesEquivalences","./utils/utils","ojs/ojcolor","ojs/ojknockout","ojs/ojinputtext","ojs/ojinputnumber","ojs/ojselectsingle","oj-c/buttonset-single","oj-c/button","oj-c/popup","ojs/ojchart","ojs/ojcolorspectrum","oj-c/message-toast","./components/graphs-templates/loader","./components/draggable-categories/loader"],(function(e,t,a,o,r,i,s){function l(){this._initializeVars(),this._initializeDP(),this._initializeListeners()}return l.prototype._initializeVars=function(){this.graphCategories=t.observableArray([i.getGraphCatModel()]),this.chartData=t.observableArray([]),this.maxY=t.observable(100),this.stepY=t.observable(10),this.legendPosition=t.observable("bottom"),this.chartType=t.observable("polar"),this.curIdx=t.observable(),this.curCategoryName=t.observable(),this.curColorSelected=t.observable(),this.labelPosition=t.observable("auto"),this.chartOrientation=t.observable("vertical"),this.templateApplied=t.observable(!1),this.templateAppliedName=t.observable(""),this.graphSettingsOpened=t.observable(!1),this.btnOpenGraphSettingsId="btnOpenGraphSettings",this.categoryFormOpened=t.observable(!1),this.curCategoryNameToUpdate=t.observable(),this.curCategoryValueToUpdate=t.observable(),this.curCategoryColorToUpdate=t.observable(),this.curCategoryScaleToUpdate=t.observable(),this.curCategoryIdToUpdate=t.observable(),this.curCategoryPeScaleToUpdate=t.observable(),this.curColorAuxiliar=t.observable(),this.colorInputErrorMessage=t.observable(""),this.toastMessages=t.observableArray([]),this.inputTextTranslations=i.INPUT_TEXT_TRANSLATIONS,this.editCategoryErrorMessage=t.observable("")},l.prototype._initializeDP=function(){this.scalesDp=new o(r.SCALES_LOV,{keyAttributes:"value"}),this.scalesObject=r.SCALES_LOV.reduce(((e,t)=>({...e,[t.value]:t.label})),{}),this.chartTypeOptions=[{label:"Bar",value:"cartesian"},{label:"Polar",value:"polar"}],this.labelPositionOptions=[{label:"Ver",value:"auto"},{label:"Ocultar",value:"none"}],this.orientationOptions=[{label:"Vertical",value:"vertical"},{label:"Horizontal",value:"horizontal"}],this.legendPositionDp=new o([{value:"start",label:"Izquierda"},{value:"end",label:"Derecha"},{value:"bottom",label:"Abajo"},{value:"top",label:"Arriba"}],{keyAttributes:"value"}),this.chartDataDp=new o(this.chartData,{keyAttributes:"id"}),this.toastMessagesDP=new o(this.toastMessages,{keyAttributes:"id"})},l.prototype._initializeListeners=function(){this.handleGraph=()=>this._refreshGraph(),this.handleCatValueChanged=()=>{this.curCategoryPeScaleToUpdate(this._convertToPercentile(this.curCategoryValueToUpdate(),this.curCategoryScaleToUpdate()))},this.closeToastMessage=e=>{this._deleteToastMessage(e.detail.key)},this.handleAddCategory=()=>{this._addCategory()},this.handleRemoveCategory=(e,t)=>{this._deleteCategory(t.id)},this.handleGetCurrentGraph=()=>this._getCurrentGraph(),this.handleApplyGraph=(e,t)=>this._applyGraph(e,t),this.handleGraphSaved=e=>{this.templateApplied(!0),this.templateAppliedName(e.name)},this.handleItemDrilling=e=>{this._prepareEditCategory(e.detail.data.itemData)},this.handleEditCategory=(e,t)=>{this._prepareEditCategory(t)},this.handleSaveEditCategory=()=>{this._editCategory()},this.handleCategoriesOnSortEnd=e=>this._handleCategoriesSorting(e),this.handleColorInputTextChange=e=>{try{const e=this.curColorAuxiliar();if(e){const t=new s(e);this.curCategoryColorToUpdate(t),this.colorInputErrorMessage("")}}catch(e){this.colorInputErrorMessage("Color Inválido"),this.curCategoryColorToUpdate("")}},this.handleColorSpectrumChange=e=>{this.curColorAuxiliar(this.curCategoryColorToUpdate().toString())}},l.prototype._getCurrentGraph=function(){return{categories:this.graphCategories().map((e=>i.getGraphCatModel(e))),graphSettings:{maxY:this.maxY(),stepY:this.stepY(),legendPosition:this.legendPosition(),chartType:this.chartType(),chartOrientation:this.chartOrientation(),labelPosition:this.labelPosition()}}},l.prototype._applyGraph=function(e,t){this.templateApplied(!0),this.templateAppliedName(e);const{graphSettings:a,categories:o}=t;if(void 0===a||void 0===o)return;this.maxY(a.maxY),this.stepY(a.stepY),this.legendPosition(a.legendPosition),this.chartType(a.chartType),this.chartOrientation(a.chartOrientation),this.labelPosition(a.labelPosition);const r=o.map((e=>{const t=i.getGraphCatModel();return t.name=e.name,t.value=e.value,t.scale=e.scale,t.peScale=e.peScale,t.color=e.color,t}));this.graphCategories(r),this._refreshGraph()},l.prototype._handleCategoriesSorting=function(e){const t=e.oldDraggableIndex,a=e.newDraggableIndex;if(t===a)return;const o=this.graphCategories(),r=o.splice(t,1)[0];this._deleteCategoryCardFromDOM(r.id),o.splice(a,0,r),this.graphCategories([...o]),this._refreshGraph()},l.prototype._deleteCategoryCardFromDOM=function(e){const t=a(`#${e}`);t.length>0&&t.remove()},l.prototype._convertToPercentile=function(e,t){return""!==e&&t?r.transformScaleToPercentile(e,t):null},l.prototype._addToastMessage=function(e){this.toastMessages.push({...e,id:crypto.randomUUID(),autoTimeout:i.TOAST_MESSAGES_AUTO_TIMEOUT_MS})},l.prototype._deleteToastMessage=function(e){this.toastMessages.remove((t=>t.id===e))},l.prototype._deleteCategory=function(e){this.graphCategories.remove((t=>t.id===e)),this._refreshGraph()},l.prototype._refreshGraph=function(){const e=this.graphCategories().map((e=>i.getDataItemForChart(e)));this.chartData(e)},l.prototype._addCategory=function(e=void 0){if(this.graphCategories().length===i.CATEGORIES_VALIDATIONS.MAX_NUMBER_OF_CATEGORIES)return void this._addToastMessage({severity:"warning",summary:i.CATEGORIES_VALIDATIONS.ON_MAX_SUMMARY,detail:i.CATEGORIES_VALIDATIONS.ON_MAX_DETAIL});const t=i.getGraphCatModel(e);this.graphCategories.push(t),this._prepareEditCategory(t)},l.prototype._prepareEditCategory=function(e){this.curCategoryIdToUpdate(e.id),this.curCategoryNameToUpdate(e.name),this.curCategoryValueToUpdate(e.value),this.curCategoryScaleToUpdate(e.scale),this.curCategoryPeScaleToUpdate(e.peScale);const t=e.color?new s(e.color):"";this.curCategoryColorToUpdate(t),this.curColorAuxiliar(t.toString()),this.colorInputErrorMessage(""),this.categoryFormOpened(!0)},l.prototype._editCategory=function(){const e=this.curCategoryIdToUpdate(),t=this.curCategoryNameToUpdate(),a=this.curCategoryValueToUpdate(),o=this.curCategoryScaleToUpdate(),r=this.curCategoryPeScaleToUpdate(),s=this.curCategoryColorToUpdate()?this.curCategoryColorToUpdate().toString():"";if(!t||""===a||!o)return void this.editCategoryErrorMessage(i.EDIT_CAT_ERROR_MESSAGE);this.editCategoryErrorMessage();const l=this.graphCategories().find((t=>t.id===e)),h=i.getGraphCatModel({name:t,value:a,scale:o,peScale:r,color:s,id:e});this.graphCategories.replace(l,h),this.categoryFormOpened(!1),this._refreshGraph()},e.getPageContext().getBusyContext().applicationBootstrapComplete(),new l}));
+
+define('text!components/reference-areas/reference-areas-view.html',[],function () { return '<div class="refA-main">\r\n  <div class="title">\r\n    <div class="start">\r\n      <span class="nkiGraphs-strong-text"></span>\r\n      <div class="subHeader">\r\n        <span> Mostrar Leyendas </span>\r\n        <oj-switch\r\n          value="{{displayInLegend}}"\r\n          on-value-changed="[[handleDisplayInLegendChange]]"\r\n        ></oj-switch>\r\n      </div>\r\n    </div>\r\n    <div class="end">\r\n      <div class="nkiGraphs-clickable-icon-cont" on-click="[[ addArea ]]">\r\n        <span class="material-icons nkiGraphs-clickable-icon"> add </span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class="body">\r\n    <oj-bind-for-each data="[[mappedAreas]]">\r\n      <template data-oj-as="area">\r\n        <div class="refA-row">\r\n          <div class="stripe" :style.background-color="[[area.data.color]]"></div>\r\n          <div class="form">\r\n            <div class="name">\r\n              <oj-c-input-text\r\n                value="{{area.data.name}}"\r\n                label-hint="Nombre"\r\n                required="true"\r\n                on-value-changed="[[handleValueChanged]]"\r\n              ></oj-c-input-text>\r\n            </div>\r\n            <div class="number">\r\n              <oj-c-input-number\r\n                value="{{area.data.low}}"\r\n                label-hint="Bajo"\r\n                required="true"\r\n                on-value-changed="[[handleValueChanged]]"\r\n              ></oj-c-input-number>\r\n            </div>\r\n            <div class="number">\r\n              <oj-c-input-number\r\n                value="{{area.data.high}}"\r\n                label-hint="Alto"\r\n                required="true"\r\n                on-value-changed="[[handleValueChanged]]"\r\n              ></oj-c-input-number>\r\n            </div>\r\n            <div class="color">\r\n              <oj-c-input-text\r\n                value="{{area.data.color}}"\r\n                label-hint="Color"\r\n                on-value-changed="[[handleValueChanged]]"\r\n              ></oj-c-input-text>\r\n            </div>\r\n            <div class="number">\r\n              <div class="nkiGraphs-clickable-icon-cont" on-click="[[() => removeArea(area)]]">\r\n                <span class="material-icons nkiGraphs-clickable-icon"> close </span>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </template>\r\n      <template slot="noData">\r\n        <span>No hay áreas de referencia</span>\r\n      </template>\r\n    </oj-bind-for-each>\r\n  </div>\r\n  <div class="footer">\r\n    <span class="error">\r\n      <oj-bind-text value="[[globalErrm]]"></oj-bind-text>\r\n    </span>\r\n  </div>\r\n</div>\r\n';});
+
+define('components/reference-areas/reference-areas-utils',["knockout"],(function(e){const a=a=>({...a,name:e.observable(a.name),high:e.observable(a.high),low:e.observable(a.low),color:e.observable(a.color)});return{mapAreasToObservables:e=>e.map((e=>a(e))),mapObservablesToAreas:e=>e.map((e=>(e=>({...e,name:e.name(),high:e.high(),low:e.low(),color:e.color()}))(e))),getAreaObject:e=>a({name:e.name??"area",high:0,low:0,color:null,displayInLegend:e.displayInLegend??!0}),REF_AREAS_VALIDATION:{max:10,maxErrm:"Máximo número de áreas (10) alcanzado."}}}));
+define('@oracle/oraclejet-preact/useAccessibleContext-23e8a333',['exports', 'preact/hooks', 'preact'], (function(e,t,c){"use strict";const n=c.createContext({UNSAFE_ariaLabelledBy:void 0});e.AccessibleContext=n,e.useAccessibleContext=function(){return t.useContext(n)}}));
+//# sourceMappingURL=useAccessibleContext-23e8a333.js.map
+;
+define('@oracle/oraclejet-preact/hooks/UNSAFE_useAccessibleContext',['exports', '../useAccessibleContext-23e8a333', 'preact/hooks', 'preact'], (function(e,s,t,c){"use strict";e.AccessibleContext=s.AccessibleContext,e.useAccessibleContext=s.useAccessibleContext,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=UNSAFE_useAccessibleContext.js.map
+;
+define('@oracle/oraclejet-preact/FormContext-5130e198',['exports', 'preact'], (function(t,e){"use strict";const s={isDisabled:!1,isFormLayout:!1,isReadonly:!1,labelEdge:"inside",labelStartWidth:"33%",labelWrapping:"wrap",textAlign:"start",userAssistanceDensity:"reflow"},a=e.createContext(s);t.DefaultFormContext=s,t.FormContext=a}));
+//# sourceMappingURL=FormContext-5130e198.js.map
+;
+define('@oracle/oraclejet-preact/useFormContext-30acdd33',['exports', 'preact/hooks', './FormContext-5130e198'], (function(t,e,o){"use strict";t.useFormContext=function(){const t=e.useContext(o.FormContext);return Object.assign({},o.DefaultFormContext,t)}}));
+//# sourceMappingURL=useFormContext-30acdd33.js.map
+;
+define('@oracle/oraclejet-preact/hooks/UNSAFE_useFormContext',['exports', '../FormContext-5130e198', '../useFormContext-30acdd33', 'preact', 'preact/hooks'], (function(e,t,o,r,n){"use strict";e.FormContext=t.FormContext,e.useFormContext=o.useFormContext,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=UNSAFE_useFormContext.js.map
+;
+define('oj-c/hooks/UNSAFE_useMergedFormContext/useMergedFormContext',["require", "exports", "@oracle/oraclejet-preact/hooks/UNSAFE_useFormContext"], function (require, exports, UNSAFE_useFormContext_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useMergedFormContext = void 0;
+    function useMergedFormContext({ propContainerReadonly, propLabelWrapping, propReadonly, propUserAssistanceDensity }) {
+        const formContext = (0, UNSAFE_useFormContext_1.useFormContext)();
+        const uadValue = propUserAssistanceDensity ?? formContext.userAssistanceDensity;
+        const readonlyValue = propReadonly ?? formContext.isReadonly;
+        const { isFormLayout: formContextIsFormLayout, isReadonly: formContextIsReadonly, labelWrapping: formContextLabelWrapping, ...otherFormContextProps } = formContext;
+        const containerProps = {
+            ...otherFormContextProps,
+            isFormLayout: propContainerReadonly !== undefined || formContextIsFormLayout,
+            isReadonly: propContainerReadonly ?? formContextIsReadonly,
+            labelWrapping: propLabelWrapping ?? formContextLabelWrapping
+        };
+        return {
+            containerProps,
+            readonlyValue,
+            uadValue
+        };
+    }
+    exports.useMergedFormContext = useMergedFormContext;
+});
+
+define('@oracle/oraclejet-preact/hooks/UNSAFE_useFormVariantContext',['exports', 'preact', 'preact/hooks'], (function(e,t,n){"use strict";const o=t.createContext("default");e.FormVariantContext=o,e.useFormVariantContext=function(){return n.useContext(o)},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=UNSAFE_useFormVariantContext.js.map
+;
+define('@oracle/oraclejet-preact/useClearIcon-05225968',['exports', 'preact/hooks', './useToggle-a29f97af'], (function(e,s,l){"use strict";e.useClearIcon=function({clearIcon:e,display:o,hasValue:a,isEnabled:n=!0,isFocused:u=!1,isHover:c=!1}){const t=s.useCallback((()=>n&&("always"===o||"conditionally"===o&&a&&(u||c))),[o,a,n,u,c]),{bool:i,setFalse:r,setTrue:f}=l.useToggle(t());return s.useEffect((()=>{t()?f():r()}),[t,f,r]),i?e:null}}));
+//# sourceMappingURL=useClearIcon-05225968.js.map
+;
+define('@oracle/oraclejet-preact/useFocusWithin-5a504fca',['exports', 'preact/hooks'], (function(e,s){"use strict";e.useFocusWithin=function({isDisabled:e,onBlurWithin:t,onFocusWithin:u}={}){const[n,r]=s.useState(!1),c=s.useRef(!1),o=s.useCallback((e=>{c.current||(u?.(e),r(!0),c.current=!0)}),[u]),i=s.useCallback((e=>{!c.current||null!=e.relatedTarget&&e.currentTarget.contains(e.relatedTarget)||(t?.(e),r(!1),c.current=!1)}),[t]);return e?{isFocused:!1,focusProps:{}}:{isFocused:n,focusProps:{onFocusIn:o,onFocusOut:i}}}}));
+//# sourceMappingURL=useFocusWithin-5a504fca.js.map
+;
+define('@oracle/oraclejet-preact/useFocusableTextField-c2f98a8b',['exports', 'preact/hooks', './useFocusWithin-5a504fca'], (function(e,u,s){"use strict";e.useFocusableTextField=function({isReadonly:e,ref:r=(()=>{}),...c}){const{focusProps:t,isFocused:n}=s.useFocusWithin(c),o=u.useRef(n),f=u.useRef(null),i=u.useRef(null);return u.useEffect((()=>{o.current&&(e?setTimeout((()=>i.current?.focus())):setTimeout((()=>f.current?.focus())))}),[e]),u.useEffect((()=>{o.current=n}),[n]),u.useImperativeHandle(r,(()=>({focus:()=>{e?i.current?.focus():f.current?.focus()},blur:()=>{e?i.current?.blur():f.current?.blur()}})),[e]),{enabledElementRef:f,readonlyElementRef:i,isFocused:n,focusProps:t}}}));
+//# sourceMappingURL=useFocusableTextField-c2f98a8b.js.map
+;
+define('@oracle/oraclejet-preact/FormFieldContext-3c44aaaa',['exports', 'preact'], (function(e,s){"use strict";const t=s.createContext({hasValue:!1,isDisabled:!1,isFocused:!1,isInputFocused:!1,isLoading:!1,isReadonly:!1});e.FormFieldContext=t}));
+//# sourceMappingURL=FormFieldContext-3c44aaaa.js.map
+;
+define('@oracle/oraclejet-preact/lengthFilter-d560aa86',['exports'], (function(t){"use strict";function e(t,e="codeUnit"){if(!t)return 0;const n=t.length;let r,i=0;if("codePoint"===e){for(let e=0;e<n;e++)55296==(63488&t.charCodeAt(e))&&(i+=1);r=n-i/2}else r=n;return r}t.calcLength=e,t.filter=function(t,n,r){if(null==n)return t;if(n<1)throw new Error(`length filter's max option cannot be less than 1. max option is ${n}`);return e(t,r)<=n?t:t.slice(0,n)}}));
+//# sourceMappingURL=lengthFilter-d560aa86.js.map
+;
+define('@oracle/oraclejet-preact/useLengthFilter-ed8959a4',['exports', 'preact/hooks', './lengthFilter-d560aa86'], (function(e,t,n){"use strict";e.useLengthFilter=function({maxLength:e,maxLengthUnit:u,onCommit:a,onInput:i,value:l}){const o=void 0===l,[s,c]=t.useState(!1),r=t.useCallback((t=>n.filter(t,e,u)),[e,u]);t.useEffect((()=>{if(o)return;const e=r(l);e!==l?(i?.({previousValue:l,value:e}),a?.({previousValue:l,value:e}),c(!0)):c(!1)}),[l,a,i,r,o]);const v=t.useCallback(((...e)=>{const{previousValue:t,value:n}=e[0],u=r(n??"");t!==u?(i?.({...e[0],value:u}),c(!1)):c(!0)}),[i,r]),h=o?void 0:n.calcLength(l,u);return{valueLength:h,isMaxLengthReached:o?void 0:e===h,isMaxLengthExceeded:s,onFilteredInput:v}}}));
+//# sourceMappingURL=useLengthFilter-ed8959a4.js.map
+;
+define('@oracle/oraclejet-preact/useMessageSeverity-1d69e1ae',['exports', 'preact/hooks'], (function(e,n){"use strict";const r=["error","warning","confirmation","info","none"];e.useMessageSeverity=function(e){return n.useMemo((()=>void 0===e?void 0:e.reduce(((e,n)=>{const o=n.severity||"error";return r.indexOf(e)<r.indexOf(o)?e:o}),"none")),[e])}}));
+//# sourceMappingURL=useMessageSeverity-1d69e1ae.js.map
+;
+define('@oracle/oraclejet-preact/useFormFieldContextProps-4e36b4c3',['exports', 'preact/hooks'], (function(s,e){"use strict";s.useFormFieldContextProps=function({hasValue:s,isDisabled:i,isFocused:o,isInputFocused:u,isLoading:a,isReadonly:d}){return e.useMemo((()=>d?{hasValue:s,isFocused:o,isInputFocused:u,isLoading:a,isReadonly:!0}:i?{hasValue:s,isDisabled:!0,isLoading:a}:{hasValue:s,isFocused:o,isInputFocused:u,isLoading:a}),[s,i,o,u,a,d])}}));
+//# sourceMappingURL=useFormFieldContextProps-4e36b4c3.js.map
+;
+define('@oracle/oraclejet-preact/useTextField-e6877c79',['exports', './useMessageSeverity-1d69e1ae', './stringUtils-0ae982c2', './useFocusWithin-5a504fca', './useFormFieldContextProps-4e36b4c3', './useId-c9578d26'], (function(e,s,i,o,n,t){"use strict";e.useTextField=function({ariaDescribedBy:e,contentVariant:r,helpSourceLink:a,helpSourceText:d,isDisabled:u,isFocused:c,isLoading:l,isReadonly:p,isRequiredShown:F,labelEdge:v,messages:b,styleVariant:h,userAssistanceDensity:y,value:g}){const I=t.useId(),f="none"!==v?`${I}-label`:void 0,x=p?void 0:`${I}-input`,S=u||p?void 0:`${I}-ua`,P="compact"===y?`${I}-helpIcon`:void 0,{focusProps:m,isFocused:D}=o.useFocusWithin({isDisabled:u}),V=void 0!==g&&("string"!=typeof g||""!==g),L=n.useFormFieldContextProps({hasValue:V,isDisabled:u,isFocused:c,isInputFocused:D,isLoading:l,isReadonly:p}),R=s.useMessageSeverity(b),$="none"!==v?v:void 0;return{baseId:I,formFieldContext:L,inputProps:{id:x,"aria-describedby":i.merge([P,S,e]),"aria-invalid":"error"===R?"true":void 0,variant:h,onBlur:m?.onFocusOut,onFocus:m?.onFocusIn},labelProps:{forId:x,helpIconId:P,helpSourceLink:a,helpSourceText:d,id:f,isRequiredShown:F,userAssistanceDensity:y,variant:$},textFieldProps:{contentVariant:r,statusVariant:/error|warning/.test(R??"")?R:void 0,styleVariant:h},userAssistanceProps:{id:S}}}}));
+//# sourceMappingURL=useTextField-e6877c79.js.map
+;
+define('@oracle/oraclejet-preact/useFormFieldContext-8196183c',['exports', 'preact/hooks', './FormFieldContext-3c44aaaa'], (function(e,t,o){"use strict";e.useFormFieldContext=function(){return t.useContext(o.FormFieldContext)}}));
+//# sourceMappingURL=useFormFieldContext-8196183c.js.map
+;
+
+define('css!@oracle/oraclejet-preact/UserAssistanceStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_UserAssistance/themes/redwood/UserAssistanceVariants.css',['exports', 'css!./../../../UserAssistanceStyles.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,a){"use strict";var t=a.createRuntimeFn({defaultClassName:"",variantClassNames:{align:{start:"UserAssistanceStyles_variants_align_start__14qa8xbc",end:"UserAssistanceStyles_variants_align_end__14qa8xbd"},visible:{hide:"UserAssistanceStyles_variants_visible_hide__14qa8xbe",show:""},container:{reflow:"UserAssistanceStyles_variants_container_reflow__14qa8xbf",efficient:"UserAssistanceStyles_variants_container_efficient__14qa8xbg"}},defaultVariants:{},compoundVariants:[]});e.multiVariantStyles=t,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=UserAssistanceVariants.css.js.map
+;
+
+define('css!@oracle/oraclejet-preact/ComponentMessageStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_ComponentMessage/themes/redwood/ComponentMessageVariants.css',['exports', 'css!./../../../ComponentMessageStyles.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,t){"use strict";var n=t.createRuntimeFn({defaultClassName:"ComponentMessageStyles_componentMessageBase__12i4io40",variantClassNames:{severity:{error:"ComponentMessageStyles_variants_severity_error__12i4io42",warning:"ComponentMessageStyles_variants_severity_warning__12i4io43",confirmation:"ComponentMessageStyles_variants_severity_confirmation__12i4io44",info:"ComponentMessageStyles_variants_severity_info__12i4io45",none:""}},defaultVariants:{},compoundVariants:[]});e.multiVariantStyles=n,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=ComponentMessageVariants.css.js.map
+;
+define('@oracle/oraclejet-preact/InputGroupContext-372087af',['exports', 'preact'], (function(t,e){"use strict";const n=e.createContext(null);n.displayName="InputGroupContext",t.InputGroupContext=n}));
+//# sourceMappingURL=InputGroupContext-372087af.js.map
+;
+
+define('css!@oracle/oraclejet-preact/SeparatorStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_Separator/themes/SeparatorStyles.css',['exports', 'css!./../../SeparatorStyles.styles.css', '../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,a,t){"use strict";var r=t.createRuntimeFn({defaultClassName:"SeparatorStyles_separatorBase__219ew20",variantClassNames:{orientation:{horizontal:"SeparatorStyles_multiVariantStyles_orientation_horizontal__219ew22",vertical:"SeparatorStyles_multiVariantStyles_orientation_vertical__219ew23"}},defaultVariants:{},compoundVariants:[]});e.multiVariantStyles=r,e.styles={separatorBase:"SeparatorStyles_separatorBase__219ew20",separatorVerticalWrapper:"SeparatorStyles_separatorVerticalWrapper__219ew21"},e.variants={orientation:{horizontal:{borderWidth:"1px 0 0 0"},vertical:{display:"inline-block",borderWidth:"0 0 0 1px",height:"100%"}}},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=SeparatorStyles.css.js.map
+;
+define('@oracle/oraclejet-preact/Help-c0ec701e',['exports', 'preact/jsx-runtime', './Icon-599f55f3'], (function(e,c,l){"use strict";e.SvgHelp=e=>c.jsx(l.Icon,{viewBox:"0 0 24 24",...e,children:c.jsx("path",{d:"M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm1 12v2h-2v-2zM12 6c3.401 0 4 1.757 4 2.925 0 1.47-.627 1.88-1.4 2.38-.774.485-1.438 1.061-1.6 1.954l-.072.741H11v-.846c.108-1.32.681-1.716 1.4-2.186.703-.469 1.6-1.013 1.6-1.83 0-.925-1.046-1.454-2-1.454-1.296 0-1.982 1.03-2 2.105H8C8.054 7.623 9.372 6 12 6z",fill:"currentcolor",fillRule:"evenodd"})})}));
+//# sourceMappingURL=Help-c0ec701e.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_UserAssistance/themes/UserAssistanceStyles.css',['exports', 'css!./../../UserAssistanceStyles.styles.css'], (function(s,e){"use strict";s.assistiveStyles="UserAssistanceStyles_assistiveStyles__14qa8xb3",s.dividerStyle="UserAssistanceStyles_dividerStyle__14qa8xb4",s.helpContentStyles="UserAssistanceStyles_helpContentStyles__14qa8xb7",s.helpIconBase="UserAssistanceStyles_helpIconBase__14qa8xb5",s.helpIconLabelEdgeStart="UserAssistanceStyles_helpIconLabelEdgeStart__14qa8xb6",s.iconUserAssistanceIcon="UserAssistanceStyles_iconUserAssistanceIcon__14qa8xba",s.iconUserAssistancePopupFocus="UserAssistanceStyles_iconUserAssistancePopupFocus__14qa8xbb",s.requiredIconBase="UserAssistanceStyles_requiredIconBase__14qa8xb8",s.requiredIconLabelEdgeStart="UserAssistanceStyles_requiredIconLabelEdgeStart__14qa8xb9",s.styles={helpTextStyles:"UserAssistanceStyles_helpTextStyles__14qa8xb0",helpSourceStyles:"UserAssistanceStyles_helpSourceStyles__14qa8xb1",inlineContainerBaseStyles:"UserAssistanceStyles_inlineContainerBaseStyles__14qa8xb2"},s.variants={align:{start:"UserAssistanceStyles_variants_align_start__14qa8xbc",end:"UserAssistanceStyles_variants_align_end__14qa8xbd"},visible:{hide:"UserAssistanceStyles_variants_visible_hide__14qa8xbe",show:""},container:{reflow:"UserAssistanceStyles_variants_container_reflow__14qa8xbf",efficient:"UserAssistanceStyles_variants_container_efficient__14qa8xbg"}},Object.defineProperty(s,"__esModule",{value:!0})}));
+//# sourceMappingURL=UserAssistanceStyles.css.js.map
+;
+
+define('css!@oracle/oraclejet-preact/LabelStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_Label/themes/LabelStyles.css',['exports', 'css!./../../LabelStyles.styles.css'], (function(e,a){"use strict";e.baseStyle="LabelStyles_baseStyle__t9j3mr0",e.compoundVariants=[{variants:{inside:"isInside",readonly:"isReadonly",inEnabledForm:"isInEnabledForm",textField:"isTextField"},style:"LabelStyles_insideReadonlyInEnabledForm__t9j3mr5"},{variants:{inside:"isInside",readonly:"isReadonly",inEnabledForm:"notInEnabledForm"},style:"LabelStyles_insideReadonlyNotInEnabledForm__t9j3mr6"},{variants:{inside:"isInside",animatedWhenInside:"notAnimated"},style:"LabelStyles_insideReadonlyNotInEnabledForm__t9j3mr6"},{variants:{inside:"isInside",readonly:"notReadonly",animatedWhenInside:"isAnimated",textField:"isTextField"},style:"LabelStyles_insideNonReadonly__t9j3mr7"},{variants:{inside:"isInside",valueOrFocus:"hasValueOrFocus",animatedWhenInside:"isAnimated"},style:"LabelStyles_insideNonReadonlyHasValue__t9j3mr8"},{variants:{inside:"isInside",disabled:"isDisabled"},style:"LabelStyles_insideDisabled__t9j3mr9"},{variants:{inside:"notInside",labelWrapping:"truncate"},style:"LabelStyles_noWrap__t9j3mra"},{variants:{inside:"isInside",userAssistanceDensity:"efficient"},style:"LabelStyles_insideBaseUADensityEfficientReflow__t9j3mr4"},{variants:{inside:"isInside",userAssistanceDensity:"reflow"},style:"LabelStyles_insideBaseUADensityEfficientReflow__t9j3mr4"},{variants:{inside:"isInside",labelWrapping:"truncate",textField:"notTextField"},style:"LabelStyles_noWrap__t9j3mra"},{variants:{userAssistanceDensity:"compact",position:"start"},style:"LabelStyles_uaDensityCompactStart__t9j3mrc"},{variants:{userAssistanceDensity:"compact",position:"top"},style:"LabelStyles_uaDensityCompactTop__t9j3mrd"}],e.insideBase="LabelStyles_insideBase__t9j3mr3",e.insideBaseUADensityEfficientReflow="LabelStyles_insideBaseUADensityEfficientReflow__t9j3mr4",e.insideDisabled="LabelStyles_insideDisabled__t9j3mr9",e.insideNonReadonly="LabelStyles_insideNonReadonly__t9j3mr7",e.insideNonReadonlyHasValue="LabelStyles_insideNonReadonlyHasValue__t9j3mr8",e.insideReadonlyInEnabledForm="LabelStyles_insideReadonlyInEnabledForm__t9j3mr5",e.insideReadonlyNotInEnabledForm="LabelStyles_insideReadonlyNotInEnabledForm__t9j3mr6",e.noWrap="LabelStyles_noWrap__t9j3mra",e.startBase="LabelStyles_startBase__t9j3mr1",e.styles={uaDensityCompactLabel:"LabelStyles_uaDensityCompactLabel__t9j3mre",uaDensityCompactLabelStart:"LabelStyles_uaDensityCompactLabelStart__t9j3mrf",uaDensityCompactLabelTopInside:"LabelStyles_uaDensityCompactLabelTopInside__t9j3mrg"},e.topBase="LabelStyles_topBase__t9j3mr2",e.uaDensityCompactLabel="LabelStyles_uaDensityCompactLabel__t9j3mre",e.uaDensityCompactLabelStart="LabelStyles_uaDensityCompactLabelStart__t9j3mrf",e.uaDensityCompactLabelTopInside="LabelStyles_uaDensityCompactLabelTopInside__t9j3mrg",e.uaDensityCompactStart="LabelStyles_uaDensityCompactStart__t9j3mrc",e.uaDensityCompactTop="LabelStyles_uaDensityCompactTop__t9j3mrd",e.variants={position:{top:"LabelStyles_topBase__t9j3mr2",start:"LabelStyles_startBase__t9j3mr1",inside:""},inside:{isInside:"LabelStyles_insideBase__t9j3mr3",notInside:""},textField:{isTextField:"",notTextField:""},inEnabledForm:{isInEnabledForm:"",notInEnabledForm:""},labelWrapping:{wrap:"",truncate:""},readonly:{isReadonly:"",notReadonly:""},focused:{isFocused:"",nonFocused:""},disabled:{isDisabled:"",nonDisabled:""},formLayout:{isFormLayout:"",nonFormLayout:""},readonlyForm:{isReadonlyForm:"",notReadonlyForm:""},value:{hasValue:"",noValue:""},valueOrFocus:{hasValueOrFocus:"",noValueOrFocus:""},userAssistanceDensity:{compact:"LabelStyles_uaDensityCompact__t9j3mrb",efficient:"",reflow:""},animatedWhenInside:{isAnimated:"",notAnimated:""}},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=LabelStyles.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_Label/themes/redwood/LabelBaseTheme.css',['exports', 'module'], (function(e,s){"use strict";e.baseTheme="LabelBaseTheme_baseTheme__mpxezv0",Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=LabelBaseTheme.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_Label/themes/redwood/LabelVariants.css',['exports', 'css!./../../../LabelStyles.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,i){"use strict";var n=i.createRuntimeFn({defaultClassName:"LabelStyles_baseStyle__t9j3mr0",variantClassNames:{position:{top:"LabelStyles_topBase__t9j3mr2",start:"LabelStyles_startBase__t9j3mr1",inside:""},inside:{isInside:"LabelStyles_insideBase__t9j3mr3",notInside:""},textField:{isTextField:"",notTextField:""},inEnabledForm:{isInEnabledForm:"",notInEnabledForm:""},labelWrapping:{wrap:"",truncate:""},readonly:{isReadonly:"",notReadonly:""},focused:{isFocused:"",nonFocused:""},disabled:{isDisabled:"",nonDisabled:""},formLayout:{isFormLayout:"",nonFormLayout:""},readonlyForm:{isReadonlyForm:"",notReadonlyForm:""},value:{hasValue:"",noValue:""},valueOrFocus:{hasValueOrFocus:"",noValueOrFocus:""},userAssistanceDensity:{compact:"LabelStyles_uaDensityCompact__t9j3mrb",efficient:"",reflow:""},animatedWhenInside:{isAnimated:"",notAnimated:""}},defaultVariants:{},compoundVariants:[[{inside:"isInside",readonly:"isReadonly",inEnabledForm:"isInEnabledForm",textField:"isTextField"},"LabelStyles_insideReadonlyInEnabledForm__t9j3mr5"],[{inside:"isInside",readonly:"isReadonly",inEnabledForm:"notInEnabledForm"},"LabelStyles_insideReadonlyNotInEnabledForm__t9j3mr6"],[{inside:"isInside",animatedWhenInside:"notAnimated"},"LabelStyles_insideReadonlyNotInEnabledForm__t9j3mr6"],[{inside:"isInside",readonly:"notReadonly",animatedWhenInside:"isAnimated",textField:"isTextField"},"LabelStyles_insideNonReadonly__t9j3mr7"],[{inside:"isInside",valueOrFocus:"hasValueOrFocus",animatedWhenInside:"isAnimated"},"LabelStyles_insideNonReadonlyHasValue__t9j3mr8"],[{inside:"isInside",disabled:"isDisabled"},"LabelStyles_insideDisabled__t9j3mr9"],[{inside:"notInside",labelWrapping:"truncate"},"LabelStyles_noWrap__t9j3mra"],[{inside:"isInside",userAssistanceDensity:"efficient"},"LabelStyles_insideBaseUADensityEfficientReflow__t9j3mr4"],[{inside:"isInside",userAssistanceDensity:"reflow"},"LabelStyles_insideBaseUADensityEfficientReflow__t9j3mr4"],[{inside:"isInside",labelWrapping:"truncate",textField:"notTextField"},"LabelStyles_noWrap__t9j3mra"],[{userAssistanceDensity:"compact",position:"start"},"LabelStyles_uaDensityCompactStart__t9j3mrc"],[{userAssistanceDensity:"compact",position:"top"},"LabelStyles_uaDensityCompactTop__t9j3mrd"]]});e.multiVariantStyles=n,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=LabelVariants.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_Label/themes/redwood/LabelTheme',['exports', '../LabelStyles.css', './LabelBaseTheme.css', './LabelVariants.css', 'css!./../../../LabelStyles.styles.css', 'module', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,a,t,l,i,c){"use strict";const n={baseTheme:a.baseTheme,multiVariantStyles:t.multiVariantStyles,variants:s.variants,styles:s.styles};e.LabelRedwoodTheme=n,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=LabelTheme.js.map
+;
+define('@oracle/oraclejet-preact/CompactHelpSource-7de24d56',['exports', 'preact/jsx-runtime', 'preact/hooks', './TabbableModeContext-a9c97640', './useTabbableMode-dc440317', './useTranslationBundle-20bfc0f3', './classNames-08d99695', './Help-c0ec701e', './Popup-b5495d55', './useFocusWithin-5a504fca', './UNSAFE_UserAssistance/themes/UserAssistanceStyles.css', './useComponentTheme-5aa41a8f', './UNSAFE_Label/themes/redwood/LabelTheme'], (function(e,s,o,n,t,u,c,a,r,l,i,d,p){"use strict";function b(){const e=o.useRef(null),{focusProps:s,isFocused:n}=l.useFocusWithin();return{isFocused:n,popupProps:{onTransitionEnd:o.useCallback((o=>{o?(s.onFocusIn&&e.current?.addEventListener("focusin",s.onFocusIn,!1),s.onFocusOut&&e.current?.addEventListener("focusout",s.onFocusOut,!1)):(s.onFocusIn&&e.current?.removeEventListener("focusin",s.onFocusIn,!1),s.onFocusOut&&e.current?.removeEventListener("focusout",s.onFocusOut,!1))}),[s.onFocusIn,s.onFocusOut,e]),ref:e}}}e.CompactHelpSource=function({children:e,id:n,labelEdge:l,source:h}){const[f,F]=o.useState(!1),m=u.useTranslationBundle("@oracle/oraclejet-preact").userAssistance_learnMore(),{isTabbable:x,tabbableModeProps:T}=t.useTabbableMode(),E=o.useRef(null),v=e??m,{baseTheme:L}=d.useComponentTheme(p.LabelRedwoodTheme),I=c.classNames([L,i.helpIconBase,"start"===l&&i.helpIconLabelEdgeStart]),{isFocused:S,popupProps:j}=b(),A=!0===f||!0===S;return s.jsxs(s.Fragment,{children:[s.jsx("a",{target:"_blank",...h&&{href:h},"aria-label":v,class:I,id:n,ref:E,role:"link",onMouseEnter:()=>F(!0),onMouseLeave:()=>F(!1),onFocus:()=>F(!0),onBlur:()=>F(!1),...x?{tabIndex:0}:T,children:s.jsx(a.SvgHelp,{})}),s.jsx(r.Popup,{...j,placement:"end-top-corner",isOpen:A,anchorRef:E,flipOptions:{mainAxis:!0,crossAxis:!1},maxWidth:"296px",children:s.jsx("div",{class:i.helpContentStyles,children:v})})]})},e.usePopupFocusWithin=b}));
+//# sourceMappingURL=CompactHelpSource-7de24d56.js.map
+;
+define('@oracle/oraclejet-preact/CompactLabelAssistance-9b6b3be2',['exports', 'preact/jsx-runtime', './useTooltip-e965a559', './useTooltipControlled-18271c7a', './useTranslationBundle-20bfc0f3', './classNames-08d99695', './CompactHelpSource-7de24d56', './UNSAFE_UserAssistance/themes/UserAssistanceStyles.css'], (function(e,s,t,r,a,o,c,l){"use strict";e.CompactLabelAssistance=({helpIconId:e,helpSourceLink:r,helpSourceText:n,isRequiredShown:i,labelEdge:u})=>{const d=a.useTranslationBundle("@oracle/oraclejet-preact").userAssistance_required(),{tooltipContent:p,tooltipProps:m}=t.useTooltip({text:d,offset:{mainAxis:8}}),x=o.classNames([l.requiredIconBase,"start"===u&&l.requiredIconLabelEdgeStart]),h=i&&s.jsxs("span",{children:[s.jsx("span",{class:x,...m}),p]}),S=(r||n)&&s.jsx(c.CompactHelpSource,{id:e,labelEdge:u,source:r,children:n});return s.jsxs(s.Fragment,{children:["start"!==u&&h,S,"start"===u&&h]})}}));
+//# sourceMappingURL=CompactLabelAssistance-9b6b3be2.js.map
+;
+
+define('css!@oracle/oraclejet-preact/SkeletonStyles.styles',[],function(){});
+
+define('css!@oracle/oraclejet-preact/TextFieldLoadingStyles.styles',[],function(){});
+
+define('css!@oracle/oraclejet-preact/TextFieldStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/TextFieldStyles.css',['exports', 'css!./../../SkeletonStyles.styles.css', 'css!./../../TextFieldLoadingStyles.styles.css', 'css!./../../TextFieldStyles.styles.css'], (function(e,t,i,o){"use strict";var r,a=((r=[{variants:{styleVariant:"embedded",statusVariant:"warning"},style:{borderStyle:"solid",borderWidth:"var(--borderWidth__w6gg1y1)"}},{variants:{styleVariant:"embedded",statusVariant:"error"},style:void 0},{variants:{styleVariant:"default",insideLabel:"hasInsideLabel"},style:{minHeight:"var(--insideEdgeHeight__w6gg1yh)"}},{variants:{styleVariant:"default",focused:"isFocused"},style:{borderColor:"var(--borderColorFocus__w6gg1y4)",boxShadow:"var(--boxShadowFocus__w6gg1y5)"}},{variants:{styleVariant:"default",contentVariant:"textarea"},style:{height:"auto"}},{variants:{disabled:"notDisabled",statusVariant:"error"},style:{borderColor:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-danger)",vars:{"var(--boxShadowFocus__w6gg1y5)":"0 0 0 1px var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-danger) inset !important"}}},{variants:{disabled:"notDisabled",statusVariant:"warning"},style:{borderColor:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-warning)",vars:{"var(--boxShadowFocus__w6gg1y5)":"0 0 0 1px var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-warning) inset !important"}}},{variants:{withinGroup:"isWithinGroup",focused:"isFocused"},style:{zIndex:1}},{variants:{withinGroup:"isWithinGroup",inputGroupPosition:"groupLeft"},style:{borderTopRightRadius:0,borderBottomRightRadius:0}},{variants:{withinGroup:"isWithinGroup",inputGroupPosition:"groupRight"},style:{borderTopLeftRadius:0,borderBottomLeftRadius:0,marginLeft:"-1px"}},{variants:{withinGroup:"isWithinGroup",inputGroupPosition:"groupMiddle"},style:{borderTopRightRadius:0,borderBottomRightRadius:0,borderTopLeftRadius:0,borderBottomLeftRadius:0,marginLeft:"-1px"}},{variants:{withinGroup:"isWithinGroup",insideLabel:"noInsideLabel"},style:{minHeight:"var(--insideEdgeHeight__w6gg1yh)"}}])[1].style=r[0].style,r);e.compoundVariants=a,e.placeholderAnimation="TextFieldStyles_placeholderAnimation__952vaf0",e.styles={textFieldBase:"TextFieldStyles_textFieldBase__952vaf3",textFieldEndContent:"TextFieldStyles_textFieldEndContent__952vaf2",textFieldContainerBase:"TextFieldStyles_textFieldContainerBase__952vaf1",textFieldEmbedded:"TextFieldStyles_textFieldEmbedded__952vaf4",formControlBase:"TextFieldStyles_formControlBase__952vaf5"},e.variants={styleVariant:{default:{backgroundColor:"var(--bgColor__w6gg1y3)",borderColor:"var(--borderColor__w6gg1y0)",borderRadius:"var(--borderRadius__w6gg1y2)",height:"var(--height__w6gg1yg)",borderStyle:"solid",borderWidth:"var(--borderWidth__w6gg1y1)"},embedded:{backgroundColor:"inherit",height:"100%",width:"100%"}},statusVariant:{error:"",none:"",warning:""},contentVariant:{input:"",textarea:""},startContent:{hasInsideLabel:{fontSize:"calc(6 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem))"},noInsideLabel:""},insideLabel:{hasInsideLabel:"",noInsideLabel:""},resize:{horizontal:{resize:"horizontal"},vertical:{resize:"vertical"},both:{resize:"both"},none:""},disabled:{isDisabled:{backgroundColor:"var(--bgColorDisabled__w6gg1yc)",borderColor:"var(--borderColorDisabled__w6gg1yd)"},notDisabled:""},focused:{isFocused:"",notFocused:""},loading:{isLoading:"TextFieldLoadingStyles_loadingStyles__1aqgcm00",notLoading:""},readonly:{isReadonly:"",notReadonly:{fontWeight:"400",fontSize:"var(--fontSize__w6gg1y6)"}},formControlInsideLabel:{hasInsideLabel:{maxWidth:"100%"},noInsideLabel:""},inputGroupPosition:{groupLeft:"",groupRight:"",groupMiddle:""},withinGroup:{isWithinGroup:""},startContentMargin:{hasStartMargin:{marginInlineStart:"var(--iconToEdgePadding__w6gg1y8)",fontSize:"calc(5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem))"},noStartMargin:{marginInlineStart:"calc(2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem))",fontSize:"calc(5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem))"}},startContentDisabled:{isDisabled:{color:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-disabled)"},notDisabled:""},middleContent:{input:{position:"relative",display:"inline-flex",flex:1,width:"100%",height:"100%",boxSizing:"border-box",overflow:"hidden"},textarea:{position:"relative",display:"inline-flex",flex:1,width:"100%",height:"100%",boxSizing:"border-box",overflow:"visible",paddingInlineEnd:"1px",flexDirection:"column"}},textAreaResizeDirection:{ltr:{clipPath:"polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%)"},rtl:{clipPath:"polygon(0 0, 100% 0, 100% 100%, 10px 100% , 0 calc(100% - 10px))"}}},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=TextFieldStyles.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/TextFieldBaseTheme.css',['exports', 'css!./../../../SkeletonStyles.styles.css', 'css!./../../../TextFieldLoadingStyles.styles.css', 'css!./../../../TextFieldStyles.styles.css', 'module'], (function(e,s,t,l,i){"use strict";e.baseTheme="TextFieldBaseTheme_baseTheme__1qsscqw0",Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=TextFieldBaseTheme.css.js.map
+;
+
+define('css!@oracle/oraclejet-preact/TextFieldVariants.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/TextFieldVariants.css',['exports', 'css!./../../../SkeletonStyles.styles.css', 'css!./../../../TextFieldLoadingStyles.styles.css', 'css!./../../../TextFieldStyles.styles.css', 'css!./../../../TextFieldVariants.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(t,e,i,a,n,s){"use strict";var l=s.createRuntimeFn({defaultClassName:"",variantClassNames:{styleVariant:{default:"TextFieldVariants_multiVariantStyles_styleVariant_default__1f8p3fe0",embedded:"TextFieldVariants_multiVariantStyles_styleVariant_embedded__1f8p3fe1"},statusVariant:{error:"",none:"",warning:""},contentVariant:{input:"",textarea:""},startContent:{hasInsideLabel:"TextFieldVariants_multiVariantStyles_startContent_hasInsideLabel__1f8p3fe7",noInsideLabel:""},insideLabel:{hasInsideLabel:"",noInsideLabel:""},resize:{horizontal:"TextFieldVariants_multiVariantStyles_resize_horizontal__1f8p3feb",vertical:"TextFieldVariants_multiVariantStyles_resize_vertical__1f8p3fec",both:"TextFieldVariants_multiVariantStyles_resize_both__1f8p3fed",none:""},disabled:{isDisabled:"TextFieldVariants_multiVariantStyles_disabled_isDisabled__1f8p3fef",notDisabled:""},focused:{isFocused:"",notFocused:""},loading:{isLoading:"TextFieldLoadingStyles_loadingStyles__1aqgcm00",notLoading:""},readonly:{isReadonly:"",notReadonly:"TextFieldVariants_multiVariantStyles_readonly_notReadonly__1f8p3fem"},formControlInsideLabel:{hasInsideLabel:"TextFieldVariants_multiVariantStyles_formControlInsideLabel_hasInsideLabel__1f8p3fen",noInsideLabel:""},inputGroupPosition:{groupLeft:"",groupRight:"",groupMiddle:""},withinGroup:{isWithinGroup:""},startContentMargin:{hasStartMargin:"TextFieldVariants_multiVariantStyles_startContentMargin_hasStartMargin__1f8p3fet",noStartMargin:"TextFieldVariants_multiVariantStyles_startContentMargin_noStartMargin__1f8p3feu"},startContentDisabled:{isDisabled:"TextFieldVariants_multiVariantStyles_startContentDisabled_isDisabled__1f8p3fev",notDisabled:""},middleContent:{input:"TextFieldVariants_multiVariantStyles_middleContent_input__1f8p3fex",textarea:"TextFieldVariants_multiVariantStyles_middleContent_textarea__1f8p3fey"},textAreaResizeDirection:{ltr:"TextFieldVariants_multiVariantStyles_textAreaResizeDirection_ltr__1f8p3fez",rtl:"TextFieldVariants_multiVariantStyles_textAreaResizeDirection_rtl__1f8p3fe10"}},defaultVariants:{},compoundVariants:[[{styleVariant:"embedded",statusVariant:"warning"},"TextFieldVariants_multiVariantStyles_compound_0__1f8p3fe11"],[{styleVariant:"embedded",statusVariant:"error"},"TextFieldVariants_multiVariantStyles_compound_1__1f8p3fe12"],[{styleVariant:"default",insideLabel:"hasInsideLabel"},"TextFieldVariants_multiVariantStyles_compound_2__1f8p3fe13"],[{styleVariant:"default",focused:"isFocused"},"TextFieldVariants_multiVariantStyles_compound_3__1f8p3fe14"],[{styleVariant:"default",contentVariant:"textarea"},"TextFieldVariants_multiVariantStyles_compound_4__1f8p3fe15"],[{disabled:"notDisabled",statusVariant:"error"},"TextFieldVariants_multiVariantStyles_compound_5__1f8p3fe16"],[{disabled:"notDisabled",statusVariant:"warning"},"TextFieldVariants_multiVariantStyles_compound_6__1f8p3fe17"],[{withinGroup:"isWithinGroup",focused:"isFocused"},"TextFieldVariants_multiVariantStyles_compound_7__1f8p3fe18"],[{withinGroup:"isWithinGroup",inputGroupPosition:"groupLeft"},"TextFieldVariants_multiVariantStyles_compound_8__1f8p3fe19"],[{withinGroup:"isWithinGroup",inputGroupPosition:"groupRight"},"TextFieldVariants_multiVariantStyles_compound_9__1f8p3fe1a"],[{withinGroup:"isWithinGroup",inputGroupPosition:"groupMiddle"},"TextFieldVariants_multiVariantStyles_compound_10__1f8p3fe1b"],[{withinGroup:"isWithinGroup",insideLabel:"noInsideLabel"},"TextFieldVariants_multiVariantStyles_compound_11__1f8p3fe1c"]]});t.multiVariantStyles=l,Object.defineProperty(t,"__esModule",{value:!0})}));
+//# sourceMappingURL=TextFieldVariants.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/TextFieldTheme',['exports', '../TextFieldStyles.css', './TextFieldBaseTheme.css', './TextFieldVariants.css', 'css!./../../../SkeletonStyles.styles.css', 'css!./../../../TextFieldLoadingStyles.styles.css', 'css!./../../../TextFieldStyles.styles.css', 'module', 'css!./../../../TextFieldVariants.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,t,l,i,a,c,n,d,y){"use strict";const r={baseTheme:t.baseTheme,multiVariantStyles:l.multiVariantStyles,variants:s.variants,styles:s.styles};e.TextFieldRedwoodTheme=r,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=TextFieldTheme.js.map
+;
+define('@oracle/oraclejet-preact/Label-3f8fc274',['exports', 'preact/jsx-runtime', './FormFieldContext-3c44aaaa', './useFormFieldContext-8196183c', './classNames-08d99695', './FormContext-5130e198', './useFormContext-30acdd33', './useComponentTheme-5aa41a8f', './TabbableModeContext-a9c97640', 'preact/hooks', './LayerHost-0a244de8', 'preact/compat', 'css!./UserAssistanceStyles.styles.css', 'module', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceVariants.css', './Flex-db3ddadb', 'css!./MessageBannerStyles.styles.css', 'module', './UNSAFE_MessageBanner/themes/redwood/MessageBannerVariants.css', 'preact', './useTooltipControlled-18271c7a', 'css!./IconStyle.styles.css', './IconButton-1b328b69', 'css!./MessageStyles.styles.css', './MessageFormattingUtils-2e19d8de', './logger-0f873e29', './TransitionGroup-3b9d81b6', './MessagesContext-602a69a2', 'css!./HiddenAccessibleStyles.styles.css', 'css!./ComponentMessageStyles.styles.css', 'module', './UNSAFE_ComponentMessage/themes/redwood/ComponentMessageVariants.css', './InputGroupContext-372087af', './Popup-b5495d55', './UNSAFE_Separator/themes/SeparatorStyles.css', './CompactLabelAssistance-9b6b3be2', 'module', './UNSAFE_Popup/themes/redwood/PopupVariants.css', './UNSAFE_TextField/themes/redwood/TextFieldTheme', './UNSAFE_Label/themes/redwood/LabelTheme'], (function(e,s,a,o,t,n,l,d,i,r,c,m,u,p,F,h,b,y,x,S,C,A,T,g,U,L,w,E,N,I,M,V,_,f,B,R,D,j,P,v){"use strict";const k=({hasValue:e,readonly:a,disabled:o,isFocused:n,isRequiredShown:i,helpIconId:r,helpSourceLink:c,helpSourceText:m,userAssistanceDensity:u="reflow",variant:p="inside",parentComponentVariant:F="textField",...h})=>{const{isFormLayout:b,isReadonly:y,labelWrapping:x}=l.useFormContext(),S="inside"===p,C="textField"===F,{classes:A,styles:{uaDensityCompactLabel:T,uaDensityCompactLabelStart:g,uaDensityCompactLabelTopInside:U}}=d.useComponentTheme(v.LabelRedwoodTheme,{labelWrapping:x,position:p,inside:S?"isInside":"notInside",inEnabledForm:b&&!y?"isInEnabledForm":"notInEnabledForm",readonly:a?"isReadonly":"notReadonly",focused:n?"isFocused":"nonFocused",formLayout:b?"isFormLayout":"nonFormLayout",readonlyForm:y?"isReadonlyForm":"notReadonlyForm",textField:C?"isTextField":"notTextField",value:e?"hasValue":"noValue",valueOrFocus:e||n?"hasValueOrFocus":"noValueOrFocus",animatedWhenInside:C?"isAnimated":"notAnimated",disabled:C&&o?"isDisabled":"nonDisabled",userAssistanceDensity:u}),{baseTheme:L}=d.useComponentTheme(P.TextFieldRedwoodTheme),w=t.classNames([T,"start"===p?g:U]),E=s.jsx("label",{...h,class:w});return"compact"===u?s.jsxs("div",{class:t.classNames([A,L]),children:["start"!==p&&E,s.jsx(R.CompactLabelAssistance,{isRequiredShown:i,helpIconId:r,helpSourceLink:c,helpSourceText:m,labelEdge:"top"===p||"start"===p?p:"inside"}),"start"===p&&E]}):s.jsx("label",{...h,class:t.classNames([A,L])})};e.Label=({forId:e,...a})=>{const{hasValue:t,isDisabled:n,isFocused:l,isReadonly:d}=o.useFormFieldContext();return s.jsx(k,{for:e,hasValue:t,disabled:n,isFocused:l,readonly:d,...a})}}));
+//# sourceMappingURL=Label-3f8fc274.js.map
+;
+
+define('css!@oracle/oraclejet-preact/PrefixSuffixStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_PrefixSuffix/themes/PrefixSuffixStyles.css',['exports', 'css!./../../PrefixSuffixStyles.styles.css', '../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(t,e,i){"use strict";var a=i.createRuntimeFn({defaultClassName:"PrefixSuffixStyles_styles_base__yu43bw0",variantClassNames:{variant:{prefix:"",suffix:""},isFocused:{yes:"PrefixSuffixStyles_multiVariantStyles_isFocused_yes__yu43bw3",no:"PrefixSuffixStyles_multiVariantStyles_isFocused_no__yu43bw4"},isDisabled:{yes:"PrefixSuffixStyles_multiVariantStyles_isDisabled_yes__yu43bw5",no:"PrefixSuffixStyles_multiVariantStyles_isDisabled_no__yu43bw6"},hasInsideLabel:{yes:"PrefixSuffixStyles_multiVariantStyles_hasInsideLabel_yes__yu43bw7",no:"PrefixSuffixStyles_multiVariantStyles_hasInsideLabel_no__yu43bw8"},hasStartContent:{yes:"PrefixSuffixStyles_multiVariantStyles_hasStartContent_yes__yu43bw9",no:"PrefixSuffixStyles_multiVariantStyles_hasStartContent_no__yu43bwa"},hasEndContent:{yes:"PrefixSuffixStyles_multiVariantStyles_hasEndContent_yes__yu43bwb",no:"PrefixSuffixStyles_multiVariantStyles_hasEndContent_no__yu43bwc"}},defaultVariants:{},compoundVariants:[[{variant:"prefix",hasStartContent:"yes"},"PrefixSuffixStyles_multiVariantStyles_compound_0__yu43bwd"],[{variant:"prefix",hasStartContent:"no"},"PrefixSuffixStyles_multiVariantStyles_compound_1__yu43bwe"],[{variant:"suffix",hasEndContent:"yes"},"PrefixSuffixStyles_multiVariantStyles_compound_2__yu43bwf"],[{variant:"suffix",hasEndContent:"no"},"PrefixSuffixStyles_multiVariantStyles_compound_3__yu43bwg"]]});t.compoundVariants=[{variants:{variant:"prefix",hasStartContent:"yes"},style:{paddingInlineStart:"var(--iconToTextPadding__w6gg1y7)"}},{variants:{variant:"prefix",hasStartContent:"no"},style:{paddingInlineStart:"var(--textToEdgePadding__w6gg1y9)"}},{variants:{variant:"suffix",hasEndContent:"yes"},style:{paddingInlineEnd:"var(--iconToTextPadding__w6gg1y7)"}},{variants:{variant:"suffix",hasEndContent:"no"},style:{paddingInlineEnd:"var(--textToEdgePadding__w6gg1y9)"}}],t.multiVariantStyles=a,t.styles={base:"PrefixSuffixStyles_styles_base__yu43bw0"},t.variants={variant:{prefix:"",suffix:""},isFocused:{yes:{opacity:".45"},no:{}},isDisabled:{yes:{color:"var(--textColorDisabled__w6gg1ye)"},no:{}},hasInsideLabel:{yes:{minHeight:"var(--insideEdgeHeight__w6gg1yh)",paddingTop:"var(--insideEdgePaddingTop__w6gg1yi)"},no:{}},hasStartContent:{yes:{},no:{}},hasEndContent:{yes:{},no:{}}},Object.defineProperty(t,"__esModule",{value:!0})}));
+//# sourceMappingURL=PrefixSuffixStyles.css.js.map
+;
+define('@oracle/oraclejet-preact/PrefixSuffix-0efb3bc6',['exports', 'preact/jsx-runtime', './UNSAFE_PrefixSuffix/themes/PrefixSuffixStyles.css'], (function(s,e,n){"use strict";s.PrefixSuffix=function({hasEndContent:s,hasInsideLabel:t,hasStartContent:i,id:a,isDisabled:r,isFocused:o,text:d,variant:f}){const c=n.multiVariantStyles({variant:f,isFocused:o?"yes":"no",isDisabled:r?"yes":"no",hasInsideLabel:t?"yes":"no",hasStartContent:i?"yes":"no",hasEndContent:s?"yes":"no"});return e.jsx("div",{class:c,id:a,children:e.jsx("span",{children:d})})}}));
+//# sourceMappingURL=PrefixSuffix-0efb3bc6.js.map
+;
+define('@oracle/oraclejet-preact/usePrefixSuffix-da47e340',['exports', './stringUtils-0ae982c2', './useUser-9b166ca3'], (function(e,i,s){"use strict";e.usePrefixSuffix=({baseId:e,hasEndContent:t,hasInsideLabel:a,hasStartContent:r,hasValue:d,isDisabled:n,isFocused:f,labelId:o,prefix:u,suffix:l,value:x})=>{const{direction:$}=s.useUser(),c=`${e}-prefix`,v=`${e}-suffix`,b=void 0!==u&&""!==u,h=void 0!==l&&""!==l,p=b&&!n&&(d||f),I=h&&!n&&(d||f),P=b||h?function(e,i,s,t,a){if(!i)return a;const r="ltr"===e,d=void 0===s?"":r?`${s} `:` ${s}`,n=void 0===t?"":r?` ${t}`:`${t} `,f=`${d}${a}${n}`,o=`${n}${a}${d}`;return r?f:o}($,d,u,l,x):x;return{shouldRenderPrefix:p,shouldRenderSuffix:I,prefixProps:{id:c,hasEndContent:t,hasInsideLabel:a,hasStartContent:r,isDisabled:n,isFocused:f,text:u??"",variant:"prefix"},suffixProps:{id:v,hasInsideLabel:a,isDisabled:n,isFocused:f,text:l??"",variant:"suffix"},valuePrefixSuffix:P,ariaLabelledBy:b||h?i.merge([o,b?c:void 0,h?v:void 0]):void 0}}}));
+//# sourceMappingURL=usePrefixSuffix-da47e340.js.map
+;
+define('@oracle/oraclejet-preact/useTextFieldInputHandlers-69ae614a',['exports', 'preact/hooks', './clientHints-030d25aa'], (function(e,n,t){"use strict";e.useTextFieldInputHandlers=function({currentCommitValue:e,isCommitOnEnter:o=!0,value:u,onInput:r,onCommit:a,onKeyDown:l,selectionRef:s}){const c=n.useRef(!1),[,i]=n.useReducer((e=>e+1),0),d=n.useCallback((n=>{const t=n.target.value;e!==t&&a?.({previousValue:e,value:t})}),[a,e]),p=n.useCallback((e=>{l?.(e),"Enter"===e.key&&o&&d(e)}),[o,d,l]),m=n.useCallback((e=>{if(c.current&&"android"!==t.getClientHints().platform)return;const n=e.target,o=n.value;u!==o&&(s&&(s.current={start:n.selectionStart,end:n.selectionEnd}),r?.({previousValue:u,value:o}),i(null))}),[u,r,s]),C=n.useCallback((()=>{c.current=!0}),[]),f=n.useCallback((e=>{c.current=!1,m(e)}),[m]);return{onBlur:d,onKeyDown:p,oncompositionstart:C,oncompositionend:f,onInput:m}}}));
+//# sourceMappingURL=useTextFieldInputHandlers-69ae614a.js.map
+;
+
+define('css!@oracle/oraclejet-preact/text.styles',[],function(){});
+define('@oracle/oraclejet-preact/textAlign-ef924afd',['exports', 'css!./text.styles.css', './vanilla-extract-sprinkles-createRuntimeSprinkles.esm-84d30764'], (function(t,e,s){"use strict";var i=s.createSprinkles({conditions:void 0,styles:{textAlign:{values:{start:{defaultClass:"text_textAlign_start__1h8gevb0"},end:{defaultClass:"text_textAlign_end__1h8gevb1"},right:{defaultClass:"text_textAlign_right__1h8gevb2"}}}}});const l={textAlign:({textAlign:t})=>void 0===t?{}:{class:i({textAlign:t})}};t.textAligns=["start","end","right"],t.textInterpolations=l}));
+//# sourceMappingURL=textAlign-ef924afd.js.map
+;
+define('@oracle/oraclejet-preact/TextFieldUtils-f3868e96',['exports'], (function(t){"use strict";t.getInputId=t=>(t??"")+"|input",t.isInputPlaceholderShown=(t,e,n)=>!(t&&!e&&!n)}));
+//# sourceMappingURL=TextFieldUtils-f3868e96.js.map
+;
+
+define('css!@oracle/oraclejet-preact/TextFieldInputStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/TextFieldInputStyles.css',['exports', 'css!./../../TextFieldInputStyles.styles.css'], (function(e,t){"use strict";var n,a=((n=[{variants:{styleVariant:"default",textarea:"isTextArea"},style:{paddingTop:"calc((var(--height__w6gg1yg) - 1rem * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height))/ 2 - 1px)",paddingBottom:"calc((var(--height__w6gg1yg) - 1rem * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height))/ 2 - 1px)",resize:"none"}},{variants:{styleVariant:"default",input:"isInput"},style:{margin:"0"}},{variants:{styleVariant:"default",type:"isPassword"},style:{selectors:{"&::-ms-reveal":{display:"none"}}}},{variants:{styleVariant:"default",startContent:"noStartContent",prefix:"noPrefix"},style:{paddingInlineStart:"var(--textToEdgePadding__w6gg1y9)"}},{variants:{styleVariant:"default",endContent:"noEndContent",suffix:"noSuffix"},style:{paddingInlineEnd:"var(--textToEdgePadding__w6gg1y9)"}},{variants:{div:"isDiv",insideLabel:"hasInsideLabel"},style:{paddingTop:"var(--insideEdgePaddingTopMask__w6gg1yk)"}},{variants:{div:"isDiv",insideLabel:"noInsideLabel"},style:{paddingTop:"var(--defaultPaddingTopMask__w6gg1yj)"}},{variants:{insideLabel:"hasInsideLabel",textarea:"isTextArea"},style:{paddingTop:0,paddingBottom:0,borderColor:"transparent",borderStyle:"solid",borderBlockStartWidth:"calc(var(--insideEdgeFontSize__kn3t7f4) * var(--insideEdgeLineHeight__kn3t7f6) + var(--insideEdgePositionTop__kn3t7fa))",borderBlockEndWidth:"calc(0.25rem + var(--oj-c-EXPERIMENTAL-DO-NOT-USE-density-units, 0px))"}},{variants:{insideLabel:"hasInsideLabel",value:"noValue",focused:"isFocused"},style:{animationName:"var(--placeholderAnimationName__w6gg1yf)",animationDuration:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-duration-2xl)",animationTimingFunction:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-easing-exit)"}},{variants:{insideLabel:"noInsideLabel",textarea:"notTextArea"},style:"TextFieldInputStyles_labelDefaultPadding__lkfh4l1"},{variants:{startContent:"hasStartContent",prefix:"hasPrefix"},style:{paddingInlineStart:"var(--iconToTextPadding__w6gg1y7)"}},{variants:{endContent:"hasEndContent",suffix:"noSuffix"},style:{paddingInlineEnd:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem)"}},{variants:{endContent:"noEndContent",suffix:"hasSuffix"},style:void 0},{variants:{endContent:"hasEndContent",suffix:"hasSuffix"},style:void 0},{variants:{endContent:"noEndContent",suffix:"noSuffix"},style:{paddingInlineEnd:"var(--textToEdgePadding__w6gg1y9)"}}])[12].style=n[11].style,n[13].style=n[11].style,n);e.compoundVariants=a,e.styles={textFieldInputBase:"TextFieldInputStyles_textFieldInputBase__lkfh4l0"},e.variants={styleVariant:{default:{fontSize:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size)"},embedded:"TextFieldInputStyles_textFieldInputEmbedded__lkfh4l2"},textarea:{isTextArea:"",notTextArea:""},input:{isInput:"",notInput:""},div:{isDiv:"",notDiv:""},insideLabel:{hasInsideLabel:{minHeight:"var(--insideEdgeHeight__w6gg1yh)",paddingTop:"var(--insideEdgePaddingTop__w6gg1yi)",paddingBottom:0,selectors:{"&:hover":{backgroundColor:"transparent"}}},noInsideLabel:""},disabled:{isDisabled:{color:"var(--textColorDisabled__w6gg1ye)"},notDisabled:{color:"var(--textColor__w6gg1yb)"}},type:{isPassword:{selectors:{"&::-ms-reveal":{display:"none"}}},notPassword:""},startContent:{hasStartContent:{paddingInlineStart:"var(--iconToTextPadding__w6gg1y7)"},noStartContent:""},endContent:{hasEndContent:"",noEndContent:""},prefix:{hasPrefix:{paddingInlineStart:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem)"},noPrefix:""},suffix:{hasSuffix:"",noSuffix:""},value:{hasValue:"",noValue:""},focused:{isFocused:"",notFocused:""}},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=TextFieldInputStyles.css.js.map
+;
+
+define('css!@oracle/oraclejet-preact/TextFieldInputVariants.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/TextFieldInputVariants.css',['exports', 'css!./../../../TextFieldInputStyles.styles.css', 'css!./../../../TextFieldInputVariants.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(t,e,n,a){"use strict";var i=a.createRuntimeFn({defaultClassName:"TextFieldInputStyles_textFieldInputBase__lkfh4l0",variantClassNames:{styleVariant:{default:"TextFieldInputVariants_multiVariantStyles_styleVariant_default__1c85q7n0",embedded:"TextFieldInputStyles_textFieldInputEmbedded__lkfh4l2"},textarea:{isTextArea:"",notTextArea:""},input:{isInput:"",notInput:""},div:{isDiv:"",notDiv:""},insideLabel:{hasInsideLabel:"TextFieldInputVariants_multiVariantStyles_insideLabel_hasInsideLabel__1c85q7n8",noInsideLabel:""},disabled:{isDisabled:"TextFieldInputVariants_multiVariantStyles_disabled_isDisabled__1c85q7na",notDisabled:"TextFieldInputVariants_multiVariantStyles_disabled_notDisabled__1c85q7nb"},type:{isPassword:"TextFieldInputVariants_multiVariantStyles_type_isPassword__1c85q7nc",notPassword:""},startContent:{hasStartContent:"TextFieldInputVariants_multiVariantStyles_startContent_hasStartContent__1c85q7ne",noStartContent:""},endContent:{hasEndContent:"",noEndContent:""},prefix:{hasPrefix:"TextFieldInputVariants_multiVariantStyles_prefix_hasPrefix__1c85q7ni",noPrefix:""},suffix:{hasSuffix:"",noSuffix:""},value:{hasValue:"",noValue:""},focused:{isFocused:"",notFocused:""}},defaultVariants:{},compoundVariants:[[{styleVariant:"default",textarea:"isTextArea"},"TextFieldInputVariants_multiVariantStyles_compound_0__1c85q7nq"],[{styleVariant:"default",input:"isInput"},"TextFieldInputVariants_multiVariantStyles_compound_1__1c85q7nr"],[{styleVariant:"default",type:"isPassword"},"TextFieldInputVariants_multiVariantStyles_compound_2__1c85q7ns"],[{styleVariant:"default",startContent:"noStartContent",prefix:"noPrefix"},"TextFieldInputVariants_multiVariantStyles_compound_3__1c85q7nt"],[{styleVariant:"default",endContent:"noEndContent",suffix:"noSuffix"},"TextFieldInputVariants_multiVariantStyles_compound_4__1c85q7nu"],[{div:"isDiv",insideLabel:"hasInsideLabel"},"TextFieldInputVariants_multiVariantStyles_compound_5__1c85q7nv"],[{div:"isDiv",insideLabel:"noInsideLabel"},"TextFieldInputVariants_multiVariantStyles_compound_6__1c85q7nw"],[{insideLabel:"hasInsideLabel",textarea:"isTextArea"},"TextFieldInputVariants_multiVariantStyles_compound_7__1c85q7nx"],[{insideLabel:"hasInsideLabel",value:"noValue",focused:"isFocused"},"TextFieldInputVariants_multiVariantStyles_compound_8__1c85q7ny"],[{insideLabel:"noInsideLabel",textarea:"notTextArea"},"TextFieldInputStyles_labelDefaultPadding__lkfh4l1"],[{startContent:"hasStartContent",prefix:"hasPrefix"},"TextFieldInputVariants_multiVariantStyles_compound_10__1c85q7nz"],[{endContent:"hasEndContent",suffix:"noSuffix"},"TextFieldInputVariants_multiVariantStyles_compound_11__1c85q7n10"],[{endContent:"noEndContent",suffix:"hasSuffix"},"TextFieldInputVariants_multiVariantStyles_compound_12__1c85q7n11"],[{endContent:"hasEndContent",suffix:"hasSuffix"},"TextFieldInputVariants_multiVariantStyles_compound_13__1c85q7n12"],[{endContent:"noEndContent",suffix:"noSuffix"},"TextFieldInputVariants_multiVariantStyles_compound_14__1c85q7n13"]]});t.multiVariantStyles=i,Object.defineProperty(t,"__esModule",{value:!0})}));
+//# sourceMappingURL=TextFieldInputVariants.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/TextFieldInputTheme',['exports', '../TextFieldInputStyles.css', './TextFieldInputVariants.css', 'css!./../../../TextFieldInputStyles.styles.css', 'css!./../../../TextFieldInputVariants.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,t,s,i,l,n){"use strict";const a={multiVariantStyles:s.multiVariantStyles,variants:t.variants,styles:t.styles};e.TextFieldInputRedwoodTheme=a,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=TextFieldInputTheme.js.map
+;
+define('@oracle/oraclejet-preact/TextFieldInput-dfd9529f',['exports', 'preact/jsx-runtime', 'preact/hooks', './useAccessibleContext-23e8a333', './FormFieldContext-3c44aaaa', './useFormFieldContext-8196183c', './TabbableModeContext-a9c97640', './useTabbableMode-dc440317', './useTextFieldInputHandlers-69ae614a', './classNames-08d99695', './textAlign-ef924afd', './mergeInterpolations-9ede4cf7', './mergeProps-bcfa6a92', './TextFieldUtils-f3868e96', './useComponentTheme-5aa41a8f', './useTranslationBundle-20bfc0f3', './UNSAFE_TextField/themes/redwood/TextFieldInputTheme'], (function(e,a,t,n,o,s,i,l,r,u,d,c,p,b,m,x,f){"use strict";const h=[...Object.values(d.textInterpolations)],v=c.mergeInterpolations(h),C=["text","search","url","tel","password","textarea"];e.TextFieldInput=({as:e="input","aria-autocomplete":o,"aria-controls":i,"aria-describedby":d,"aria-expanded":c,"aria-invalid":h,"aria-label":F,"aria-labelledby":y,"aria-valuemax":T,"aria-valuemin":I,"aria-valuenow":w,"aria-valuetext":S,autoComplete:E,autoFocus:P,currentCommitValue:g,hasEmptyLabel:L,hasEndContent:A=!1,hasInsideLabel:R=!1,hasPrefix:B=!1,hasStartContent:D=!1,hasSuffix:j=!1,id:U,inputRef:V,placeholder:K,isRequired:M,role:N,rows:k,spellcheck:_,type:q,value:H="",variant:O="default",onInput:z,onCommit:G,onKeyDown:J,onKeyUp:Q,onBlur:W,onFocus:X,...Y})=>{const{isDisabled:Z,isFocused:$,isLoading:ee,isReadonly:ae}=s.useFormFieldContext(),{class:te}=v(Y),ne=""!==H,oe="textarea"===e,se="input"===e,ie="password"===q,le=!Z&&B,re=!Z&&j,ue=b.isInputPlaceholderShown(R,ne,$)?K:void 0,{classes:de}=m.useComponentTheme(f.TextFieldInputRedwoodTheme,{type:ie?"isPassword":"notPassword",styleVariant:O,textarea:oe?"isTextArea":"notTextArea",input:se?"isInput":"notInput",div:"notDiv",prefix:le?"hasPrefix":"noPrefix",suffix:re?"hasSuffix":"noSuffix",startContent:D?"hasStartContent":"noStartContent",endContent:A?"hasEndContent":"noEndContent",insideLabel:R?"hasInsideLabel":"noInsideLabel",value:ne?"hasValue":"noValue",focused:$?"isFocused":"notFocused",disabled:Z?"isDisabled":"notDisabled"}),ce=u.classNames([de,te]),pe=e||"input",be=t.useRef({start:0,end:0}),me=r.useTextFieldInputHandlers({currentCommitValue:g,isCommitOnEnter:"input"===e,value:H,onInput:z,onCommit:G,onKeyDown:J,selectionRef:be}),xe=p.mergeProps(me,{onBlur:W,onFocus:X}),{isTabbable:fe,tabbableModeProps:he}=l.useTabbableMode(),{UNSAFE_ariaLabelledBy:ve}=n.useAccessibleContext(),Ce=L?function(...e){return e.filter(Boolean).join(" ")||void 0}(y,ve):y,Fe=x.useTranslationBundle("@oracle/oraclejet-preact").formControl_loading();return t.useLayoutEffect((()=>{if("function"!=typeof V){const e=V?.current;document.activeElement===e&&e&&C.includes(e.type)&&e.setSelectionRange(be.current.start,be.current.end)}}),[H,V]),a.jsx(pe,{"aria-autocomplete":o,"aria-controls":i,"aria-describedby":d,"aria-expanded":c,"aria-invalid":h,"aria-label":ee?Fe:F||void 0,"aria-labelledby":Ce,"aria-required":!!M||void 0,"aria-valuemax":T,"aria-valuemin":I,"aria-valuenow":w,"aria-valuetext":S,autocomplete:E,autofocus:P,class:ce,disabled:Z,id:U,onKeyUp:Q,placeholder:ue,readonly:ae,ref:V,role:N,rows:k,spellcheck:_,type:q,value:H,...xe,...!fe&&he})}}));
+//# sourceMappingURL=TextFieldInput-dfd9529f.js.map
+;
+
+define('css!@oracle/oraclejet-preact/ObfuscatedTextFieldInputStyles.styles',[],function(){});
+
+define('css!@oracle/oraclejet-preact/ReadonlyTextFieldInputStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/ReadonlyTextFieldInputStyles.css',['exports', 'css!./../../ReadonlyTextFieldInputStyles.styles.css'], (function(e,a){"use strict";e.compoundVariants=[{variants:{formLayout:"isFormLayout",readonlyForm:"notReadonlyForm",textarea:"notTextArea"},style:"ReadonlyTextFieldInputStyles_inEnabledFormBase__ybkgi52"},{variants:{textarea:"isTextArea",formLayout:"isFormLayout",readonlyForm:"notReadonlyForm"},style:"ReadonlyTextFieldInputStyles_textareaInEnabledFormBase__ybkgi53"},{variants:{formLayout:"isFormLayout",readonlyForm:"notReadonlyForm",insideLabel:"hasInsideLabel"},style:"ReadonlyTextFieldInputStyles_inEnabledFormLabelInside__ybkgi54"},{variants:{formLayout:"isFormLayout",readonlyForm:"notReadonlyForm",insideLabel:"noInsideLabel"},style:"ReadonlyTextFieldInputStyles_inEnabledFormNoLabelInside__ybkgi56"},{variants:{textarea:"isTextArea",formLayout:"isFormLayout",readonlyForm:"notReadonlyForm",insideLabel:"hasInsideLabel"},style:"ReadonlyTextFieldInputStyles_textareaInEnabledFormLabelInside__ybkgi55"},{variants:{textarea:"notTextArea",formLayout:"isFormLayout",readonlyForm:"notReadonlyForm"},style:"ReadonlyTextFieldInputStyles_inEnabledFormNoStartContent__ybkgi57"}],e.readOnlyTextFieldInputBase="ReadonlyTextFieldInputStyles_readOnlyTextFieldInputBase__ybkgi50",e.variants={textarea:{isTextArea:"ReadonlyTextFieldInputStyles_readOnlyTextFieldInputTextareaBase__ybkgi51",notTextArea:"ReadonlyTextFieldInputStyles_hideScrollbar__ybkgi58"},formLayout:{isFormLayout:"",notFormLayout:""},readonlyForm:{isReadonlyForm:"",notReadonlyForm:""},insideLabel:{hasInsideLabel:"",noInsideLabel:""}},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=ReadonlyTextFieldInputStyles.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/ReadonlyTextFieldInputVariants.css',['exports', 'css!./../../../ReadonlyTextFieldInputStyles.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,a,t){"use strict";var o=t.createRuntimeFn({defaultClassName:"ReadonlyTextFieldInputStyles_readOnlyTextFieldInputBase__ybkgi50",variantClassNames:{textarea:{isTextArea:"ReadonlyTextFieldInputStyles_readOnlyTextFieldInputTextareaBase__ybkgi51",notTextArea:"ReadonlyTextFieldInputStyles_hideScrollbar__ybkgi58"},formLayout:{isFormLayout:"",notFormLayout:""},readonlyForm:{isReadonlyForm:"",notReadonlyForm:""},insideLabel:{hasInsideLabel:"",noInsideLabel:""}},defaultVariants:{},compoundVariants:[[{formLayout:"isFormLayout",readonlyForm:"notReadonlyForm",textarea:"notTextArea"},"ReadonlyTextFieldInputStyles_inEnabledFormBase__ybkgi52"],[{textarea:"isTextArea",formLayout:"isFormLayout",readonlyForm:"notReadonlyForm"},"ReadonlyTextFieldInputStyles_textareaInEnabledFormBase__ybkgi53"],[{formLayout:"isFormLayout",readonlyForm:"notReadonlyForm",insideLabel:"hasInsideLabel"},"ReadonlyTextFieldInputStyles_inEnabledFormLabelInside__ybkgi54"],[{formLayout:"isFormLayout",readonlyForm:"notReadonlyForm",insideLabel:"noInsideLabel"},"ReadonlyTextFieldInputStyles_inEnabledFormNoLabelInside__ybkgi56"],[{textarea:"isTextArea",formLayout:"isFormLayout",readonlyForm:"notReadonlyForm",insideLabel:"hasInsideLabel"},"ReadonlyTextFieldInputStyles_textareaInEnabledFormLabelInside__ybkgi55"],[{textarea:"notTextArea",formLayout:"isFormLayout",readonlyForm:"notReadonlyForm"},"ReadonlyTextFieldInputStyles_inEnabledFormNoStartContent__ybkgi57"]]});e.multiVariantStyles=o,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=ReadonlyTextFieldInputVariants.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/ReadonlyTextFieldInputTheme',['exports', '../ReadonlyTextFieldInputStyles.css', './ReadonlyTextFieldInputVariants.css', 'css!./../../../ReadonlyTextFieldInputStyles.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,t,s,a,n){"use strict";const l={baseTheme:"",multiVariantStyles:s.multiVariantStyles,variants:t.variants};e.ReadonlyTextFieldInputRedwoodTheme=l,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=ReadonlyTextFieldInputTheme.js.map
+;
+define('@oracle/oraclejet-preact/ReadonlyTextFieldInput-a5e85e5d',['exports', 'preact/jsx-runtime', './useAccessibleContext-23e8a333', './FormContext-5130e198', './useFormContext-30acdd33', './TabbableModeContext-a9c97640', './useTabbableMode-dc440317', './classNames-08d99695', './textAlign-ef924afd', './mergeInterpolations-9ede4cf7', './FormFieldContext-3c44aaaa', './useFormFieldContext-8196183c', './useComponentTheme-5aa41a8f', './UNSAFE_TextField/themes/redwood/ReadonlyTextFieldInputTheme', './useTranslationBundle-20bfc0f3'], (function(e,a,o,t,l,s,n,r,i,d,b,u,c,m,x){"use strict";e.ReadonlyTextFieldInput=function({"aria-describedby":e,"aria-label":t,"aria-labelledby":s,autoFocus:b,as:y="div",elementRef:F,hasEmptyLabel:f,hasInsideLabel:p=!1,inlineUserAssistance:T,innerReadonlyField:C,rows:L,type:h,value:I="",variant:R,...A}){const j=x.useTranslationBundle("@oracle/oraclejet-preact").formControl_loading(),{isFormLayout:v,isReadonly:g}=l.useFormContext(),{isLoading:w}=u.useFormFieldContext(),B=w?j:t,M=[...Object.values(i.textInterpolations)],N=d.mergeInterpolations(M),{class:E}=N(A),{classes:U}=c.useComponentTheme(m.ReadonlyTextFieldInputRedwoodTheme,{textarea:"textarea"===R?"isTextArea":"notTextArea",formLayout:v?"isFormLayout":"notFormLayout",readonlyForm:g?"isReadonlyForm":"notReadonlyForm",insideLabel:p?"hasInsideLabel":"noInsideLabel"}),_=r.classNames([U,E]),{isTabbable:S,tabbableModeProps:O}=n.useTabbableMode(),{UNSAFE_ariaLabelledBy:P}=o.useAccessibleContext(),k=f?function(...e){return e.filter(Boolean).join(" ")||void 0}(s,P):s;return"input"===y?a.jsx("input",{"aria-describedby":e,"aria-label":B,"aria-labelledby":k,autofocus:b,class:_,readonly:!0,ref:F,type:h,value:I,...!S&&O}):"textarea"===y?a.jsx("textarea",{"aria-describedby":e,"aria-label":B,"aria-labelledby":k,autofocus:b,class:_,readonly:!0,ref:F,rows:L,...!S&&O,children:I}):a.jsx("div",{"aria-describedby":e,"aria-label":B,"aria-labelledby":k,"aria-readonly":!0,autofocus:b,class:_,ref:F,role:"textbox",...O,children:I})}}));
+//# sourceMappingURL=ReadonlyTextFieldInput-a5e85e5d.js.map
+;
+
+define('css!@oracle/oraclejet-preact/LabelValueLayoutStyles.styles',[],function(){});
+
+define('css!@oracle/oraclejet-preact/RadioStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_RadioItem/themes/RadioStyles.css',['exports', 'css!./../../RadioStyles.styles.css'], (function(o,e){"use strict";o.radioBaseStyle="RadioStyles_radioBaseStyle__o9of5r0",o.radioDefaultColor="RadioStyles_radioDefaultColor__o9of5r2",o.radioDisabledColor="RadioStyles_radioDisabledColor__o9of5r3",o.styles={radioBaseStyle:"RadioStyles_radioBaseStyle__o9of5r0",valueLabelStyle:"RadioStyles_valueLabelStyle__o9of5r1"},o.valueLabelStyle="RadioStyles_valueLabelStyle__o9of5r1",o.variants={disabled:{isDisabled:"RadioStyles_radioDisabledColor__o9of5r3",notDisabled:"RadioStyles_radioDefaultColor__o9of5r2"},focused:{isFocused:"RadioStyles_radioFocused__o9of5r4"}},Object.defineProperty(o,"__esModule",{value:!0})}));
+//# sourceMappingURL=RadioStyles.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_RadioItem/themes/redwood/RadioBaseTheme.css',['exports', 'module'], (function(e,s){"use strict";e.baseTheme="RadioBaseTheme_baseTheme__1xmeiy50",Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=RadioBaseTheme.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_RadioItem/themes/redwood/RadioVariants.css',['exports', 'css!./../../../RadioStyles.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,a,s){"use strict";var o=s.createRuntimeFn({defaultClassName:"RadioStyles_radioBaseStyle__o9of5r0",variantClassNames:{disabled:{isDisabled:"RadioStyles_radioDisabledColor__o9of5r3",notDisabled:"RadioStyles_radioDefaultColor__o9of5r2"},focused:{isFocused:"RadioStyles_radioFocused__o9of5r4"}},defaultVariants:{},compoundVariants:[]});e.multiVariantStyles=o,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=RadioVariants.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_RadioItem/themes/redwood/RadioTheme',['exports', '../RadioStyles.css', './RadioBaseTheme.css', './RadioVariants.css', 'css!./../../../RadioStyles.styles.css', 'module', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,a,t,i,l,c){"use strict";const n={baseTheme:a.baseTheme,multiVariantStyles:t.multiVariantStyles,variants:s.variants,styles:s.styles};e.RadioRedwoodTheme=n,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=RadioTheme.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/FormLayoutStyles.css',['exports', '../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,a){"use strict";var t=a.createRuntimeFn({defaultClassName:"",variantClassNames:{},defaultVariants:{},compoundVariants:[]});e.multiVariantStyles=t,e.styles={},e.variants={},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=FormLayoutStyles.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/FormLayoutBaseTheme.css',['exports', 'module'], (function(e,s){"use strict";e.baseTheme="FormLayoutBaseTheme_baseTheme__sm2a4g0",Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=FormLayoutBaseTheme.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/FormLayoutTheme',['exports', '../FormLayoutStyles.css', './FormLayoutBaseTheme.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a', 'module'], (function(e,t,s,a,o){"use strict";const r={baseTheme:s.baseTheme,multiVariantStyles:t.multiVariantStyles,variants:t.variants};e.FormLayoutRedwoodTheme=r,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=FormLayoutTheme.js.map
+;
+
+define('css!@oracle/oraclejet-preact/CheckboxStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_Checkbox/themes/CheckboxStyles.css',['exports', 'css!./../../CheckboxStyles.styles.css'], (function(e,o){"use strict";e.checkboxBaseStyle="CheckboxStyles_checkboxBaseStyle__13w91qj0",e.styles={checkboxBaseStyle:"CheckboxStyles_checkboxBaseStyle__13w91qj0",checkboxSpanStyle:"CheckboxStyles_checkboxSpanStyle__13w91qj1",valueLabelStyle:"CheckboxStyles_valueLabelStyle__13w91qj2"},e.valueLabelStyle="CheckboxStyles_valueLabelStyle__13w91qj2",e.variants={disabled:{isDisabled:{color:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-disabled)"},notDisabled:{color:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary)"}},focused:{isFocused:{"@supports":{"selector(:has(*))":{selectors:{"&:has(input:focus-visible)":{outlineStyle:"dotted",outlineWidth:"var(--outlineWidth__1qyga5a0)",outlineColor:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus)"}}},"not selector(:has(*))":{outlineStyle:"dotted",outlineWidth:"var(--outlineWidth__1qyga5a0)",outlineColor:"var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus)"}}},notFocused:""}},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=CheckboxStyles.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_Checkbox/themes/redwood/CheckboxBaseTheme.css',['exports', 'module'], (function(e,s){"use strict";e.baseTheme="CheckboxBaseTheme_baseTheme__lptpwa0",Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=CheckboxBaseTheme.css.js.map
+;
+
+define('css!@oracle/oraclejet-preact/CheckboxVariants.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_Checkbox/themes/redwood/CheckboxVariants.css',['exports', 'css!./../../../CheckboxStyles.styles.css', 'css!./../../../CheckboxVariants.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,a,t){"use strict";var i=t.createRuntimeFn({defaultClassName:"CheckboxStyles_checkboxBaseStyle__13w91qj0",variantClassNames:{disabled:{isDisabled:"CheckboxVariants_multiVariantStyles_disabled_isDisabled__yta2nm0",notDisabled:"CheckboxVariants_multiVariantStyles_disabled_notDisabled__yta2nm1"},focused:{isFocused:"CheckboxVariants_multiVariantStyles_focused_isFocused__yta2nm2",notFocused:""}},defaultVariants:{},compoundVariants:[]});e.multiVariantStyles=i,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=CheckboxVariants.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_Checkbox/themes/redwood/CheckboxTheme',['exports', '../CheckboxStyles.css', './CheckboxBaseTheme.css', './CheckboxVariants.css', 'css!./../../../CheckboxStyles.styles.css', 'module', 'css!./../../../CheckboxVariants.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,t,a,c,i,l,n){"use strict";const o={baseTheme:t.baseTheme,multiVariantStyles:a.multiVariantStyles,variants:s.variants,styles:s.styles};e.CheckboxRedwoodTheme=o,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=CheckboxTheme.js.map
+;
+define('@oracle/oraclejet-preact/LabelValueLayout-89e9f1be',['exports', 'preact/jsx-runtime', './classNames-08d99695', './Flex-db3ddadb', './FormContext-5130e198', './useFormContext-30acdd33', './FormFieldContext-3c44aaaa', './useFormFieldContext-8196183c', './size-4e81acac', 'css!./LabelValueLayoutStyles.styles.css', './useComponentTheme-5aa41a8f', './UNSAFE_TextField/themes/redwood/TextFieldTheme', './UNSAFE_RadioItem/themes/redwood/RadioTheme', './UNSAFE_Label/themes/redwood/LabelTheme', './UNSAFE_TextField/themes/redwood/FormLayoutTheme', './UNSAFE_Checkbox/themes/redwood/CheckboxTheme'], (function(e,t,a,l,s,o,r,d,n,_,y,i,u,b,m,S){"use strict";var c="LabelValueLayoutStyles_labelInnerStyles_base__z3rxc55",h="LabelValueLayoutStyles_labelInnerStyles_start__z3rxc56",x="LabelValueLayoutStyles_labelInnerStyles_startNotPureReadonly__z3rxc57",L="LabelValueLayoutStyles_labelInnerStyles_startWithNoTopRadioSetUA__z3rxc58",T="LabelValueLayoutStyles_labelInnerStyles_insideRadioSet__z3rxc59",F="LabelValueLayoutStyles_labelInnerStyles_startWithNoTopCheckboxSetUA__z3rxc5a",p="LabelValueLayoutStyles_labelInnerStyles_insideCheckboxSet__z3rxc5b",C="LabelValueLayoutStyles_labelInnerStyles_noWrap__z3rxc5c",V="LabelValueLayoutStyles_labelSlotStyles_base__z3rxc50",z="LabelValueLayoutStyles_labelSlotStyles_start__z3rxc51",w="LabelValueLayoutStyles_labelSlotStyles_top__z3rxc52",R="LabelValueLayoutStyles_labelSlotStyles_topAndTopUA__z3rxc53",N="LabelValueLayoutStyles_labelSlotStyles_topPureReadonly__z3rxc54";e.LabelValueLayout=({label:e,labelEdge:s,children:r,labelStartWidth:_="33%",parentComponentVariant:A="textField",hasTopUserAssistance:I=!1})=>{const{baseTheme:U}=y.useComponentTheme(i.TextFieldRedwoodTheme),{baseTheme:W}=y.useComponentTheme(u.RadioRedwoodTheme),{baseTheme:k}=y.useComponentTheme(S.CheckboxRedwoodTheme),{baseTheme:E}=y.useComponentTheme(b.LabelRedwoodTheme),{baseTheme:f}=y.useComponentTheme(m.FormLayoutRedwoodTheme),j=A.startsWith("text"),v="radioSet"===A,g="checkboxSet"===A,B="start"===s,P="top"===s||"inside"===s,$="inside"===s,q=n.sizeToCSS(_),D=`calc(100% - ${q})`,G=B?{flexBasis:q,width:q,maxWidth:q}:{},H=B?{flexBasis:D,width:D,maxWidth:D}:{},{isFormLayout:J,isReadonly:K,labelWrapping:M}=o.useFormContext(),{isReadonly:O}=d.useFormFieldContext(),Q=J&&K||!J&&O,X=a.classNames([f,V,B&&z,P&&w,P&&I&&R,P&&Q&&N]),Y=a.classNames([j&&U,v&&W,g&&k,(v||g)&&E,f,c,B&&h,j&&B&&!Q&&x,v&&$&&T,g&&$&&p,v&&B&&!I&&L,g&&B&&!I&&F,"truncate"===M&&C]);return t.jsxs(l.Flex,{wrap:"wrap",align:O&&B?"stretch":"start",children:[t.jsx("div",{class:X,style:G,children:t.jsx("div",{class:Y,children:e})}),t.jsx("div",{class:"LabelValueLayoutStyles_valueSlotStyles__z3rxc5d",style:H,children:r})]})}}));
+//# sourceMappingURL=LabelValueLayout-89e9f1be.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_Skeleton/themes/SkeletonStyles.css',['exports', 'css!./../../SkeletonStyles.styles.css'], (function(e,s){"use strict";e.skeletonAnimation="SkeletonStyles_skeletonAnimation__19fl8u0",e.skeletonBase="SkeletonStyles_skeletonBase__19fl8u1",e.styles={skeletonBase:"SkeletonStyles_skeletonBase__19fl8u1"},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=SkeletonStyles.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_Skeleton/themes/redwood/SkeletonBaseTheme.css',['exports', 'module'], (function(e,s){"use strict";e.baseTheme="SkeletonBaseTheme_baseTheme__afgqbw0",Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=SkeletonBaseTheme.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_Skeleton/themes/redwood/SkeletonVariants.css',['exports', 'css!./../../../SkeletonStyles.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,t,a){"use strict";var s=a.createRuntimeFn({defaultClassName:"SkeletonStyles_skeletonBase__19fl8u1",variantClassNames:{},defaultVariants:{},compoundVariants:[]});e.multiVariantStyles=s,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=SkeletonVariants.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_Skeleton/themes/redwood/SkeletonTheme',['exports', '../SkeletonStyles.css', './SkeletonBaseTheme.css', './SkeletonVariants.css', 'css!./../../../SkeletonStyles.styles.css', 'module', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,t,l,n,a,c){"use strict";const o={baseTheme:t.baseTheme,multiVariantStyles:l.multiVariantStyles,styles:s.styles};e.SkeletonRedwoodTheme=o,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=SkeletonTheme.js.map
+;
+
+define('css!@oracle/oraclejet-preact/LayoutStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/LayoutStyles.css-d1dfed48',['exports', 'css!./LayoutStyles.styles.css'], (function(t,y){"use strict";t.layoutLocalVars={columnCount:"var(--layoutLocalVars_columnCount__5qy13b0)"},t.layoutSpanStyles={layoutSpanColumn:{1:"",2:"LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b1",3:"LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b2",4:"LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b3",5:"LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b4",6:"LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b5"}}}));
+//# sourceMappingURL=LayoutStyles.css-d1dfed48.js.map
+;
+define('@oracle/oraclejet-preact/useInputGroupContext-e6e19f4f',['exports', 'preact/hooks', './InputGroupContext-372087af'], (function(t,n,e){"use strict";t.useInputGroupContext=function(){return n.useContext(e.InputGroupContext)}}));
+//# sourceMappingURL=useInputGroupContext-e6e19f4f.js.map
+;
+
+define('css!@oracle/oraclejet-preact/ReadonlyTextFieldStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/ReadonlyTextFieldStyles.css',['exports', 'css!./../../SkeletonStyles.styles.css', 'css!./../../TextFieldLoadingStyles.styles.css', 'css!./../../ReadonlyTextFieldStyles.styles.css'], (function(e,i,o,t){"use strict";e.compoundVariants=[{variants:{textarea:"isTextArea",insideNonReadonlyForm:"notInsideNonReadonlyForm"},style:{paddingTop:"0",paddingBottom:"0"}},{variants:{insideLabel:"hasInsideLabel",insideNonReadonlyForm:"isInsideNonReadonlyForm"},style:{minHeight:"var(--insideEdgeHeight__w6gg1yh)"}},{variants:{insideLabel:"hasInsideLabel",insideNonReadonlyForm:"isInsideNonReadonlyForm",textarea:"isTextArea"},style:{height:"auto"}},{variants:{withinGroup:"isWithinGroup",inputGroupPosition:"groupLeft"},style:{borderTopRightRadius:0,borderBottomRightRadius:0}},{variants:{withinGroup:"isWithinGroup",inputGroupPosition:"groupRight"},style:{borderTopLeftRadius:0,borderBottomLeftRadius:0,marginLeft:"-1px"}},{variants:{withinGroup:"isWithinGroup",inputGroupPosition:"groupMiddle"},style:{borderTopRightRadius:0,borderBottomRightRadius:0,borderTopLeftRadius:0,borderBottomLeftRadius:0,marginLeft:"-1px"}},{variants:{withinGroup:"isWithinGroup",insideLabel:"noInsideLabel"},style:{minHeight:"var(--insideEdgeHeight__w6gg1yh)"}}],e.styles={readOnlyBase:"ReadonlyTextFieldStyles_readOnlyBase__71tiu80",readonlyTextFieldMiddleBase:"ReadonlyTextFieldStyles_readonlyTextFieldMiddleBase__71tiu81",readonlyTextFieldMiddleNotInEnabledForm:"ReadonlyTextFieldStyles_readonlyTextFieldMiddleNotInEnabledForm__71tiu82",readonlyTextFieldMiddleInEnabledForm:"ReadonlyTextFieldStyles_readonlyTextFieldMiddleInEnabledForm__71tiu83",readonlyTextFieldMiddleInEnabledFormNotTextarea:"ReadonlyTextFieldStyles_readonlyTextFieldMiddleInEnabledFormNotTextarea__71tiu84"},e.variants={insideNonReadonlyForm:{isInsideNonReadonlyForm:{borderWidth:"var(--borderWidth__w6gg1y1)",borderColor:"var(--borderColorDisabled__w6gg1yd)",backgroundColor:"transparent",height:"var(--height__w6gg1yg)",minWidth:"1em",flex:"1"},notInsideNonReadonlyForm:{borderWidth:"0",backgroundColor:"transparent",height:"auto",verticalAlign:"top"}},insideLabel:{hasInsideLabel:"",noInsideLabel:""},textarea:{isTextArea:{height:"auto"},notTextArea:""},loading:{isLoading:"TextFieldLoadingStyles_loadingStyles__1aqgcm00",notLoading:""},inputGroupPosition:{groupLeft:"",groupRight:"",groupMiddle:""},withinGroup:{isWithinGroup:""},resize:{horizontal:{resize:"horizontal"},vertical:{resize:"vertical"},both:{resize:"both"},none:{maxWidth:"100%",overflow:"visible"}}},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=ReadonlyTextFieldStyles.css.js.map
+;
+
+define('css!@oracle/oraclejet-preact/ReadonlyTextFieldVariants.styles',[],function(){});
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/ReadonlyTextFieldVariants.css',['exports', 'css!./../../../SkeletonStyles.styles.css', 'css!./../../../TextFieldLoadingStyles.styles.css', 'css!./../../../ReadonlyTextFieldStyles.styles.css', 'css!./../../../ReadonlyTextFieldVariants.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,i,n,t,a,o){"use strict";var l=o.createRuntimeFn({defaultClassName:"ReadonlyTextFieldStyles_readOnlyBase__71tiu80",variantClassNames:{insideNonReadonlyForm:{isInsideNonReadonlyForm:"ReadonlyTextFieldVariants_multiVariantStyles_insideNonReadonlyForm_isInsideNonReadonlyForm__ck0nxo0",notInsideNonReadonlyForm:"ReadonlyTextFieldVariants_multiVariantStyles_insideNonReadonlyForm_notInsideNonReadonlyForm__ck0nxo1"},insideLabel:{hasInsideLabel:"",noInsideLabel:""},textarea:{isTextArea:"ReadonlyTextFieldVariants_multiVariantStyles_textarea_isTextArea__ck0nxo4",notTextArea:""},loading:{isLoading:"TextFieldLoadingStyles_loadingStyles__1aqgcm00",notLoading:""},inputGroupPosition:{groupLeft:"",groupRight:"",groupMiddle:""},withinGroup:{isWithinGroup:""},resize:{horizontal:"ReadonlyTextFieldVariants_multiVariantStyles_resize_horizontal__ck0nxoc",vertical:"ReadonlyTextFieldVariants_multiVariantStyles_resize_vertical__ck0nxod",both:"ReadonlyTextFieldVariants_multiVariantStyles_resize_both__ck0nxoe",none:"ReadonlyTextFieldVariants_multiVariantStyles_resize_none__ck0nxof"}},defaultVariants:{},compoundVariants:[[{textarea:"isTextArea",insideNonReadonlyForm:"notInsideNonReadonlyForm"},"ReadonlyTextFieldVariants_multiVariantStyles_compound_0__ck0nxog"],[{insideLabel:"hasInsideLabel",insideNonReadonlyForm:"isInsideNonReadonlyForm"},"ReadonlyTextFieldVariants_multiVariantStyles_compound_1__ck0nxoh"],[{insideLabel:"hasInsideLabel",insideNonReadonlyForm:"isInsideNonReadonlyForm",textarea:"isTextArea"},"ReadonlyTextFieldVariants_multiVariantStyles_compound_2__ck0nxoi"],[{withinGroup:"isWithinGroup",inputGroupPosition:"groupLeft"},"ReadonlyTextFieldVariants_multiVariantStyles_compound_3__ck0nxoj"],[{withinGroup:"isWithinGroup",inputGroupPosition:"groupRight"},"ReadonlyTextFieldVariants_multiVariantStyles_compound_4__ck0nxok"],[{withinGroup:"isWithinGroup",inputGroupPosition:"groupMiddle"},"ReadonlyTextFieldVariants_multiVariantStyles_compound_5__ck0nxol"],[{withinGroup:"isWithinGroup",insideLabel:"noInsideLabel"},"ReadonlyTextFieldVariants_multiVariantStyles_compound_6__ck0nxom"]]});e.multiVariantStyles=l,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=ReadonlyTextFieldVariants.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_TextField/themes/redwood/ReadonlyTextFieldTheme',['exports', '../ReadonlyTextFieldStyles.css', './ReadonlyTextFieldVariants.css', 'css!./../../../SkeletonStyles.styles.css', 'css!./../../../TextFieldLoadingStyles.styles.css', 'css!./../../../ReadonlyTextFieldStyles.styles.css', 'css!./../../../ReadonlyTextFieldVariants.styles.css', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,t,l,a,i,n,d){"use strict";const y={baseTheme:"",multiVariantStyles:t.multiVariantStyles,variants:s.variants,styles:s.styles};e.ReadonlyTextFieldRedwoodTheme=y,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=ReadonlyTextFieldTheme.js.map
+;
+define('@oracle/oraclejet-preact/StyledTextField-8ac3bbb4',['exports', 'preact/jsx-runtime', './UNSAFE_Label/themes/redwood/LabelTheme', './LabelValueLayout-89e9f1be', './UNSAFE_Skeleton/themes/redwood/SkeletonTheme', './useComponentTheme-5aa41a8f', './useTestId-f3b8b319', './classNames-08d99695', './LayoutStyles.css-d1dfed48', 'preact/compat', './FormContext-5130e198', './useFormContext-30acdd33', './FormFieldContext-3c44aaaa', './useFormFieldContext-8196183c', './Flex-db3ddadb', './InputGroupContext-372087af', './useInputGroupContext-e6e19f4f', './useUser-9b166ca3', './UNSAFE_TextField/themes/redwood/TextFieldTheme', './UNSAFE_TextField/themes/redwood/ReadonlyTextFieldTheme', './UNSAFE_TextField/themes/redwood/FormLayoutTheme'], (function(e,t,o,n,a,s,d,l,i,r,m,u,x,h,T,C,c,F,p,b,f){"use strict";const y=({variant:e,insideLabel:o,mainContent:n,endContent:a,rootRef:d,resize:i})=>{const{isFormLayout:r,isReadonly:m}=u.useFormContext(),{isLoading:x}=h.useFormFieldContext(),{direction:C}=F.useUser(),f="ltr"===C,y=r&&!m,R=void 0!==o,L=c.useInputGroupContext(),v=null!==L,w=L?L.last?f?"groupRight":"groupLeft":0===L.index?f?"groupLeft":"groupRight":"groupMiddle":void 0,{variantClasses:S,styles:{textFieldEndContent:I}}=s.useComponentTheme(p.TextFieldRedwoodTheme,{middleContent:e,textAreaResizeDirection:i&&"textarea"===e?C:void 0}),{classes:N,styles:{readonlyTextFieldMiddleBase:g,readonlyTextFieldMiddleNotInEnabledForm:j,readonlyTextFieldMiddleInEnabledForm:E,readonlyTextFieldMiddleInEnabledFormNotTextarea:A}}=s.useComponentTheme(b.ReadonlyTextFieldRedwoodTheme,{insideNonReadonlyForm:y?"isInsideNonReadonlyForm":"notInsideNonReadonlyForm",insideLabel:R?"hasInsideLabel":"noInsideLabel",textarea:"textarea"===e?"isTextArea":"notTextArea",loading:x?"isLoading":"notLoading",withinGroup:v?"isWithinGroup":void 0,inputGroupPosition:w,resize:i??"none"}),U=l.classNames([S,g,y&&E,y&&"textarea"!==e&&A,!y&&j]);return t.jsxs("div",{role:"presentation",class:N,ref:d,children:[t.jsxs("div",{class:U,children:[o,n]}),a&&t.jsx("span",{class:I,children:t.jsx(T.Flex,{justify:"center",align:"center",hasZeroMargins:!0,children:a})})]})},R=r.forwardRef((({outerClassNames:e,label:o,labelEdge:a,labelStartWidth:s,compactUserAssistance:d,inlineUserAssistance:l,mainContent:i,endContent:r,rootRef:m,variant:u,resize:x,...h},T)=>{const C="textarea"===u?"textArea":"textField";return t.jsxs("div",{...h,ref:T,class:e,children:[d,t.jsx(n.LabelValueLayout,{label:o,labelEdge:a,labelStartWidth:s,parentComponentVariant:C,children:t.jsx(y,{mainContent:i,endContent:r,rootRef:m,...u?{variant:u,resize:x}:{}})}),l]})})),L=r.forwardRef((({outerClassNames:e,compactUserAssistance:o,inlineUserAssistance:n,mainContent:a,endContent:s,label:d,rootRef:l,variant:i,resize:r,...m},u)=>t.jsxs("div",{...m,ref:u,class:e,children:[o,t.jsx(y,{insideLabel:d,mainContent:a,endContent:s,rootRef:l,...i?{variant:i,resize:r}:{}}),n]}))),v=r.forwardRef((({columnSpan:e=1,label:n,labelEdge:r,mainContent:m,endContent:u,variant:x,mainFieldRef:h,testId:T,...C},c)=>{const F=d.useTestId(T),{classes:b,styles:y}=s.useComponentTheme(p.TextFieldRedwoodTheme,{readonly:"isReadonly"}),{baseTheme:v}=s.useComponentTheme(o.LabelRedwoodTheme),{baseTheme:w}=s.useComponentTheme(f.FormLayoutRedwoodTheme),{formControlBase:S}=y,{baseTheme:I}=s.useComponentTheme(a.SkeletonRedwoodTheme),N=l.classNames([b,I,S,w,v,i.layoutSpanStyles.layoutSpanColumn[e]]);return void 0===n||"start"!==r&&"top"!==r?t.jsx(L,{outerClassNames:N,ref:c,label:n,mainContent:m,endContent:u,rootRef:h,variant:x,...C,...F}):t.jsx(R,{outerClassNames:N,label:n,labelEdge:r,ref:c,mainContent:m,endContent:u,rootRef:h,variant:x,...C,...F})})),w=r.forwardRef((({columnSpan:e=1,hasInsideLabel:n=!1,variant:d="default",...r},m)=>{const u=c.useInputGroupContext(),{isReadonly:x}=h.useFormFieldContext(),{baseTheme:T}=s.useComponentTheme(f.FormLayoutRedwoodTheme),{baseTheme:C}=s.useComponentTheme(o.LabelRedwoodTheme),{classes:F,styles:b}=s.useComponentTheme(p.TextFieldRedwoodTheme,{readonly:x?"isReadonly":"notReadonly",formControlInsideLabel:n?"hasInsideLabel":"noInsideLabel",withinGroup:null!==u?"isWithinGroup":void 0}),{formControlBase:y,textFieldBase:R,textFieldEmbedded:L}=b,{baseTheme:v}=s.useComponentTheme(a.SkeletonRedwoodTheme),w=l.classNames([v,y,R,"embedded"===d&&L,F,T,C,i.layoutSpanStyles.layoutSpanColumn[e]]);return t.jsx("div",{...r,class:w,ref:m})}));e.ReadonlyTextField=v,e.StyledTextField=w}));
+//# sourceMappingURL=StyledTextField-8ac3bbb4.js.map
+;
+define('@oracle/oraclejet-preact/TextField-0fc70892',['exports', 'preact/jsx-runtime', './LabelValueLayout-89e9f1be', './useComponentTheme-5aa41a8f', './FormFieldContext-3c44aaaa', './useFormFieldContext-8196183c', './Flex-db3ddadb', './classNames-08d99695', './InputGroupContext-372087af', './useInputGroupContext-e6e19f4f', './useUser-9b166ca3', './UNSAFE_TextField/themes/redwood/TextFieldTheme', './StyledTextField-8ac3bbb4', './useTestId-f3b8b319'], (function(e,t,n,s,a,i,o,r,d,l,u,c,x,h){"use strict";const b=({contentVariant:e="input",insideLabel:n,mainContent:a,startContent:d,statusVariant:x="none",styleVariant:h="default",endContent:b,resize:p,rootRef:m,hasZeroStartMargin:C})=>{const{isDisabled:F,isFocused:g,isLoading:f}=i.useFormFieldContext(),{direction:L}=u.useUser(),T="ltr"===L,M=void 0!==n,v=l.useInputGroupContext(),y=null!==v,V=v?v.last?T?"groupRight":"groupLeft":0===v.index?T?"groupLeft":"groupRight":"groupMiddle":void 0,{variantClasses:j,styles:{textFieldContainerBase:I}}=s.useComponentTheme(c.TextFieldRedwoodTheme,{statusVariant:x,styleVariant:h,contentVariant:e,insideLabel:M?"hasInsideLabel":"noInsideLabel",focused:g?"isFocused":"notFocused",disabled:F?"isDisabled":"notDisabled",loading:f?"isLoading":"notLoading",resize:p??"none",withinGroup:y?"isWithinGroup":void 0,inputGroupPosition:V}),{variantClasses:S}=s.useComponentTheme(c.TextFieldRedwoodTheme,{startContent:M?"hasInsideLabel":"noInsideLabel",startContentMargin:C?"noStartMargin":"hasStartMargin",startContentDisabled:F?"isDisabled":"notDisabled"}),{variantClasses:D,styles:{textFieldEndContent:R}}=s.useComponentTheme(c.TextFieldRedwoodTheme,{middleContent:e,textAreaResizeDirection:p&&"textarea"===e?L:void 0});return t.jsxs("div",{role:"presentation",class:r.classNames([j,I]),ref:m,children:[d&&t.jsx("span",{class:S,children:t.jsx(o.Flex,{justify:"center",align:"center",hasZeroMargins:!0,children:d})}),t.jsxs("div",{class:D,children:[n,a]}),b&&t.jsx("span",{class:R,children:t.jsx(o.Flex,{justify:"center",align:"center",hasZeroMargins:!0,children:b})})]})};e.TextField=({contentVariant:e,id:s,endContent:a,mainContent:i,startContent:o,columnSpan:r,compactUserAssistance:d,inlineUserAssistance:l,label:u,labelEdge:c,labelStartWidth:p,mainFieldRef:m,resize:C,statusVariant:F,styleVariant:g,hasZeroStartMargin:f,rootRef:L,onFocus:T,onBlur:M,onKeyDown:v,onMouseDown:y,onMouseEnter:V,onMouseLeave:j,testId:I})=>{const S=h.useTestId(I),D=void 0!==u&&("start"===c||"top"===c),R=t.jsx(b,{contentVariant:e,endContent:a,mainContent:i,resize:C,rootRef:m,startContent:o,statusVariant:F,styleVariant:g,hasZeroStartMargin:f,...D?{}:{insideLabel:u}}),w=t.jsxs(t.Fragment,{children:[d,R,l]}),E=D?t.jsx(n.LabelValueLayout,{label:u,labelEdge:c,labelStartWidth:p,children:w}):w;return t.jsx(x.StyledTextField,{id:s,columnSpan:r,hasInsideLabel:void 0!==u&&"inside"===c,onFocusIn:T,onFocusOut:M,onKeyDown:v,onMouseDown:y,onMouseEnter:V,onMouseLeave:j,ref:L,variant:g,...S,children:E})}}));
+//# sourceMappingURL=TextField-0fc70892.js.map
+;
+define('@oracle/oraclejet-preact/useDebounce-8b4d8cfb',['exports', 'preact/hooks'], (function(e,t){"use strict";e.useDebounce=function(e,u){const[n,o]=t.useState(e);return t.useEffect((()=>{const t=setTimeout((()=>{o(e)}),u);return()=>clearTimeout(t)}),[e,u]),n}}));
+//# sourceMappingURL=useDebounce-8b4d8cfb.js.map
+;
+define('@oracle/oraclejet-preact/MaxLengthLiveRegion-e3856a98',['exports', 'preact/jsx-runtime', './useDebounce-8b4d8cfb', './useTranslationBundle-20bfc0f3', './LiveRegion-09197914'], (function(e,n,t,i,o){"use strict";e.MaxLengthLiveRegion=function({maxLength:e,testId:r,valueLength:s=0}){const u=t.useDebounce(e-s,500),a=i.useTranslationBundle("@oracle/oraclejet-preact").formControl_maxLengthRemaining({CHARACTER_COUNT:`${u}`});return n.jsx(o.LiveRegion,{testId:r,children:a})}}));
+//# sourceMappingURL=MaxLengthLiveRegion-e3856a98.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_ComponentMessage/themes/ComponentMessageStyles.css',['exports', 'css!./../../ComponentMessageStyles.styles.css'], (function(e,s){"use strict";e.componentMessageBase="ComponentMessageStyles_componentMessageBase__12i4io40",e.componentMessageContainerBase="ComponentMessageStyles_componentMessageContainerBase__12i4io41",e.variants={severity:{error:"ComponentMessageStyles_variants_severity_error__12i4io42",warning:"ComponentMessageStyles_variants_severity_warning__12i4io43",confirmation:"ComponentMessageStyles_variants_severity_confirmation__12i4io44",info:"ComponentMessageStyles_variants_severity_info__12i4io45",none:""}},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=ComponentMessageStyles.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_ComponentMessage/themes/redwood/ComponentMessageBaseTheme.css',['exports', 'module'], (function(e,s){"use strict";e.baseTheme="ComponentMessageBaseTheme_baseTheme__tgaz2j0",Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=ComponentMessageBaseTheme.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_ComponentMessage/themes/redwood/ComponentMessageTheme',['exports', '../ComponentMessageStyles.css', './ComponentMessageBaseTheme.css', './ComponentMessageVariants.css', 'css!./../../../ComponentMessageStyles.styles.css', 'module', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(e,s,t,a,n,o,m){"use strict";const i={baseTheme:t.baseTheme,multiVariantStyles:a.multiVariantStyles,variants:s.variants};e.ComponentMessageRedwoodTheme=i,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=ComponentMessageTheme.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_UserAssistance/themes/redwood/UserAssistanceBaseTheme.css',['exports', 'module'], (function(e,s){"use strict";e.baseTheme="UserAssistanceBaseTheme_baseTheme__j8tei50",Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=UserAssistanceBaseTheme.css.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_UserAssistance/themes/redwood/UserAssistanceTheme',['exports', '../UserAssistanceStyles.css', './UserAssistanceBaseTheme.css', './UserAssistanceVariants.css', 'css!./../../../UserAssistanceStyles.styles.css', 'module', '../../../vanilla-extract-recipes-createRuntimeFn.esm-d881c69a'], (function(s,e,t,a,i,c,n){"use strict";const r={baseTheme:t.baseTheme,multiVariantStyles:a.multiVariantStyles,variants:e.variants,styles:e.styles};s.UserAssistanceRedwoodTheme=r,Object.defineProperty(s,"__esModule",{value:!0})}));
+//# sourceMappingURL=UserAssistanceTheme.js.map
+;
+define('@oracle/oraclejet-preact/ComponentMessageContainer-dc4b7c7f',['exports', 'preact/jsx-runtime', 'preact/hooks', './Flex-db3ddadb', 'css!./MessageBannerStyles.styles.css', 'module', './UNSAFE_MessageBanner/themes/redwood/MessageBannerVariants.css', './logger-0f873e29', 'preact', './useTooltipControlled-18271c7a', 'css!./IconStyle.styles.css', './IconButton-1b328b69', './LayerHost-0a244de8', 'preact/compat', 'css!./MessageStyles.styles.css', './MessageFormattingUtils-2e19d8de', './useTestId-f3b8b319', './MessagesManager-78a10f78', './useComponentTheme-5aa41a8f', './classNames-08d99695', './TransitionGroup-3b9d81b6', './MessagesContext-602a69a2', './HiddenAccessible-037ef42d', './UNSAFE_ComponentMessage/themes/redwood/ComponentMessageTheme', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceTheme', './UNSAFE_ComponentMessage/themes/ComponentMessageStyles.css'], (function(e,s,t,a,n,o,r,i,d,c,l,m,g,y,M,u,p,h,f,v,b,C,T,x,I,S){"use strict";function A({detail:e,fieldLabel:t,severity:a="error",testId:n}){const{classes:o}=f.useComponentTheme(x.ComponentMessageRedwoodTheme,{severity:a??"none"}),{baseTheme:r}=f.useComponentTheme(I.UserAssistanceRedwoodTheme),i=v.classNames([o,r]),d=p.useTestId(n);return s.jsxs("div",{class:i,"aria-live":"assertive","aria-atomic":"true",...d,children:[t&&s.jsx(T.HiddenAccessible,{children:t}),h.isSeverityIconNeeded(a)&&s.jsx(h.MessageStartIcon,{severity:a,testId:n?`${n}-icon`:void 0,variant:"inline"}),s.jsx(h.MessageSummary,{testId:n?`${n}-summary`:void 0,text:e,variant:"inline"})]})}function U(e){return e.map(((e,s)=>({key:s,data:{closeAffordance:"off",severity:e.severity||"error",detail:e.detail}})))}e.ComponentMessage=A,e.ComponentMessageContainer=function({fieldLabel:e,messages:t=[],testId:a}){const n=p.useTestId(a);return s.jsx("div",{class:S.componentMessageContainerBase,...n,children:s.jsx(h.MessagesManager,{data:U(t),children:({item:t})=>s.jsx(A,{detail:t.data.detail,fieldLabel:e,severity:t.data.severity,testId:a?`${a}-message-${t.key}`:void 0},t.key)})})}}));
+//# sourceMappingURL=ComponentMessageContainer-dc4b7c7f.js.map
+;
+define('@oracle/oraclejet-preact/InlineHelpSource-359fd9df',['exports', 'preact/jsx-runtime', './classNames-08d99695', './useComponentTheme-5aa41a8f', './TabbableModeContext-a9c97640', './useTabbableMode-dc440317', './useTranslationBundle-20bfc0f3', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceTheme'], (function(e,s,a,n,t,o,r,c){"use strict";e.InlineHelpSource=function({children:e,source:t}){const l=r.useTranslationBundle("@oracle/oraclejet-preact").userAssistance_learnMore();e=e??l;const{isTabbable:b,tabbableModeProps:u}=o.useTabbableMode(),{classes:d,styles:i}=n.useComponentTheme(c.UserAssistanceRedwoodTheme),{helpSourceStyles:m}=i;return s.jsx("a",{class:a.classNames([d,m]),target:"_blank",href:t,...!b&&u,children:e})}}));
+//# sourceMappingURL=InlineHelpSource-359fd9df.js.map
+;
+define('@oracle/oraclejet-preact/InlineHelp-3dae8034',['exports', 'preact/jsx-runtime', './useComponentTheme-5aa41a8f', './InlineHelpSource-359fd9df', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceTheme'], (function(e,s,n,t,i){"use strict";e.InlineHelp=function({assistiveText:e,sourceLink:r,sourceText:c}){const{styles:{helpTextStyles:o}}=n.useComponentTheme(i.UserAssistanceRedwoodTheme);return s.jsxs("div",{children:[e&&r?s.jsx("span",{class:o,children:e}):e,r&&s.jsx(t.InlineHelpSource,{source:r,children:c})]})}}));
+//# sourceMappingURL=InlineHelp-3dae8034.js.map
+;
+define('@oracle/oraclejet-preact/InlineUserAssistance-f4d1fa1b',['exports', 'preact/jsx-runtime', './logger-0f873e29', 'preact/hooks', './Flex-db3ddadb', 'css!./MessageBannerStyles.styles.css', 'module', './UNSAFE_MessageBanner/themes/redwood/MessageBannerVariants.css', 'preact', './useTooltipControlled-18271c7a', 'css!./IconStyle.styles.css', './IconButton-1b328b69', './LayerHost-0a244de8', 'preact/compat', 'css!./MessageStyles.styles.css', './MessageFormattingUtils-2e19d8de', './TransitionGroup-3b9d81b6', './MessagesContext-602a69a2', 'css!./HiddenAccessibleStyles.styles.css', 'css!./ComponentMessageStyles.styles.css', 'module', './UNSAFE_ComponentMessage/themes/redwood/ComponentMessageVariants.css', 'css!./UserAssistanceStyles.styles.css', 'module', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceVariants.css', './ComponentMessageContainer-dc4b7c7f', './FormContext-5130e198', './useFormContext-30acdd33', './FormFieldContext-3c44aaaa', './useFormFieldContext-8196183c', './InlineHelp-3dae8034', './useTranslationBundle-20bfc0f3', './useComponentTheme-5aa41a8f', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceTheme', './classNames-08d99695', './InputGroupContext-372087af', './useInputGroupContext-e6e19f4f', './useTestId-f3b8b319'], (function(e,s,n,t,a,o,i,r,l,c,d,u,m,p,h,g,C,x,A,f,y,F,T,U,S,M,I,b,w,B,N,j,_,v,E,H,L,R){"use strict";function q({align:e="end",hasHelp:n=!1,hasMessages:t=!1}){const{classes:a}=_.useComponentTheme(v.UserAssistanceRedwoodTheme,{align:e,visible:n||t?"hide":"show"}),o=j.useTranslationBundle("@oracle/oraclejet-preact").userAssistance_required();return s.jsx("div",{class:a,children:o})}function G({variant:e="reflow",children:n,id:t,testId:a}){const{classes:o,styles:{inlineContainerBaseStyles:i}}=_.useComponentTheme(v.UserAssistanceRedwoodTheme,{container:e}),r=R.useTestId(a);if(null!==L.useInputGroupContext())return null;return s.jsx("div",{class:E.classNames([o,i]),id:t,...r,children:n})}e.InlineRequired=q,e.InlineUserAssistance=function({assistiveText:e,fieldLabel:n,helpSourceLink:t,helpSourceText:a,id:o,isRequiredShown:i,requiredAlignment:r,messages:l=[],userAssistanceDensity:c,testId:d}){const{isReadonly:u}=b.useFormContext(),m="efficient"===c&&!1===u,{isFocused:p}=B.useFormFieldContext(),h=l.length>0?s.jsx(M.ComponentMessageContainer,{fieldLabel:n,messages:l}):(e||t)&&p?s.jsx(N.InlineHelp,{assistiveText:e,sourceLink:t,sourceText:a}):i?s.jsx(q,{align:r}):null;return h||m?s.jsx(G,{id:o,variant:c,testId:d,children:h}):null},e.InlineUserAssistanceContainer=G}));
+//# sourceMappingURL=InlineUserAssistance-f4d1fa1b.js.map
+;
+define('@oracle/oraclejet-preact/Separator-181f7541',['exports', 'preact/jsx-runtime', './classNames-08d99695', './UNSAFE_Separator/themes/SeparatorStyles.css'], (function(a,s,e,t){"use strict";a.Separator=function({orientation:a="horizontal"}){const r=t.multiVariantStyles({orientation:a}),i=e.classNames([r,t.styles.separatorBase]),o=e.classNames(["vertical"===a&&t.styles.separatorVerticalWrapper]);return s.jsx("div",{role:"separator","aria-orientation":a,class:o,children:s.jsx("div",{class:i})})}}));
+//# sourceMappingURL=Separator-181f7541.js.map
+;
+define('@oracle/oraclejet-preact/CompactUserAssistance-b2cbdbad',['exports', 'preact/jsx-runtime', './useComponentTheme-5aa41a8f', 'preact/hooks', './Flex-db3ddadb', 'css!./MessageBannerStyles.styles.css', 'module', './UNSAFE_MessageBanner/themes/redwood/MessageBannerVariants.css', 'preact', './useTooltipControlled-18271c7a', 'css!./IconStyle.styles.css', './IconButton-1b328b69', './LayerHost-0a244de8', 'preact/compat', 'css!./MessageStyles.styles.css', './MessageFormattingUtils-2e19d8de', './logger-0f873e29', './TransitionGroup-3b9d81b6', './MessagesContext-602a69a2', 'css!./HiddenAccessibleStyles.styles.css', 'css!./ComponentMessageStyles.styles.css', 'module', './UNSAFE_ComponentMessage/themes/redwood/ComponentMessageVariants.css', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceTheme', './ComponentMessageContainer-dc4b7c7f', './FormFieldContext-3c44aaaa', './useFormFieldContext-8196183c', './Popup-b5495d55', './Separator-181f7541', './CompactHelpSource-7de24d56', './UNSAFE_UserAssistance/themes/UserAssistanceStyles.css'], (function(e,s,t,n,a,o,i,r,c,d,l,p,m,h,g,u,x,C,y,F,S,A,M,U,b,f,T,B,j,w,E){"use strict";e.CompactUserAssistance=function({anchorRef:e,assistiveText:n,fieldLabel:a,id:o,messages:i=[]}){const{isInputFocused:r,isReadonly:c}=T.useFormFieldContext(),{isFocused:d,popupProps:l}=w.usePopupFocusWithin(),p=!0===r||!0===d,{baseTheme:m}=t.useComponentTheme(U.UserAssistanceRedwoodTheme);return!0!==c&&(i.length>0||n)?s.jsx(B.Popup,{...l,placement:"end-top-corner",isOpen:p,anchorRef:e,flipOptions:{mainAxis:!0,crossAxis:!1},tail:"simple",maxWidth:"296px",children:s.jsxs("div",{id:o,class:m,children:[i.length>0&&s.jsx(b.ComponentMessageContainer,{fieldLabel:a,messages:i}),i.length>0&&n&&s.jsx("span",{class:E.dividerStyle,children:s.jsx(j.Separator,{})}),n&&s.jsx("span",{class:E.assistiveStyles,children:n})]})}):null}}));
+//# sourceMappingURL=CompactUserAssistance-b2cbdbad.js.map
+;
+define('@oracle/oraclejet-preact/componentUtils-c14d7fce',['exports'], (function(e){"use strict";e.beforeVNode=function(e,...r){const n=r.filter(Boolean);return n.length?e?Array.isArray(e)?[...n,...e]:[...n,e]:n:e}}));
+//# sourceMappingURL=componentUtils-c14d7fce.js.map
+;
+define('@oracle/oraclejet-preact/DeleteCircleS-d1e6a4fd',['exports', 'preact/jsx-runtime', './Icon-599f55f3'], (function(e,l,n){"use strict";e.SvgDeleteCircleS=e=>l.jsx(n.Icon,{viewBox:"0 0 24 24",...e,children:l.jsx("g",{fill:"none",children:l.jsx("path",{d:"M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12zm8.586 0-3.293 3.293 1.414 1.414L12 13.414l3.293 3.293 1.414-1.414L13.414 12l3.293-3.293-1.414-1.414L12 10.586 8.707 7.293 7.293 8.707z",fill:"currentcolor"})})})}));
+//# sourceMappingURL=DeleteCircleS-d1e6a4fd.js.map
+;
+define('@oracle/oraclejet-preact/ClearIcon-a29e57fb',['exports', 'preact/jsx-runtime', './useTranslationBundle-20bfc0f3', './IconButton-1b328b69', './DeleteCircleS-d1e6a4fd', './TabbableModeContext-a9c97640', 'preact/hooks'], (function(e,t,n,o,r,a,c){"use strict";e.ClearIcon=function({onClick:e,testId:c}){const i=n.useTranslationBundle("@oracle/oraclejet-preact").formControl_clear();return t.jsx(a.TabbableModeContext.Provider,{value:{isTabbable:!1},children:t.jsx("div",{"aria-hidden":"true",children:t.jsx(o.IconButton,{variant:"ghost",size:"sm",onAction:e,tooltip:i,testId:c,children:t.jsx(r.SvgDeleteCircleS,{})})})})}}));
+//# sourceMappingURL=ClearIcon-a29e57fb.js.map
+;
+define('@oracle/oraclejet-preact/useCurrentValueReducer-faded381',['exports', 'preact/hooks'], (function(e,t){"use strict";const u=(e,{type:t,payload:u})=>{switch(t){case"input":return{...e,currentInputValue:u};case"commit":return{...e,currentCommitValue:u,currentInputValue:u};default:throw new Error(`Unknown action type: ${t}`)}};e.useCurrentValueReducer=function({value:e}){const[r,n]=t.useReducer(u,{currentInputValue:e,currentCommitValue:e});return t.useEffect((()=>{e!==r.currentInputValue&&n({type:"commit",payload:e})}),[e,r.currentInputValue]),{currentCommitValue:r.currentCommitValue,dispatch:n}}}));
+//# sourceMappingURL=useCurrentValueReducer-faded381.js.map
+;
+define('@oracle/oraclejet-preact/InputText-da0a5c0f',['exports', 'preact/jsx-runtime', 'preact/compat', 'preact/hooks', './useClearIcon-05225968', './useFocusableTextField-c2f98a8b', './FormContext-5130e198', './useFormContext-30acdd33', './FormFieldContext-3c44aaaa', './useHover-1890d6a0', './useLengthFilter-ed8959a4', './useTextField-e6877c79', './Label-3f8fc274', './PrefixSuffix-0efb3bc6', './usePrefixSuffix-da47e340', './HiddenAccessible-037ef42d', './useId-c9578d26', './clientHints-030d25aa', './TextFieldInput-dfd9529f', 'css!./ObfuscatedTextFieldInputStyles.styles.css', './ReadonlyTextFieldInput-a5e85e5d', './StyledTextField-8ac3bbb4', './TextField-0fc70892', './MaxLengthLiveRegion-e3856a98', './logger-0f873e29', './TabbableModeContext-a9c97640', './useTranslationBundle-20bfc0f3', 'css!./UserAssistanceStyles.styles.css', 'module', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceVariants.css', './InlineUserAssistance-f4d1fa1b', './CompactUserAssistance-b2cbdbad', './useTooltipControlled-18271c7a', 'preact', 'css!./IconStyle.styles.css', './Popup-b5495d55', 'css!./LabelStyles.styles.css', 'module', './UNSAFE_Label/themes/redwood/LabelVariants.css', './InputGroupContext-372087af', './LayerHost-0a244de8', 'module', './UNSAFE_Popup/themes/redwood/PopupVariants.css', './componentUtils-c14d7fce', './ClearIcon-a29e57fb', './useCurrentValueReducer-faded381'], (function(e,s,t,a,n,i,o,l,r,d,u,c,f,x,p,b,h,m,v,F,C,y,I,S,A,L,g,R,T,P,U,E,j,V,D,_,w,H,B,k,N,M,q,$,O,W){"use strict";const G=t.forwardRef((({"aria-describedby":e,assistiveText:t,autoComplete:o="off",autoFocus:m=!1,columnSpan:F,hasClearIcon:A="never",endContent:L,helpSourceLink:R,helpSourceText:T,isDisabled:P,isReadonly:j,isRequired:V=!1,isRequiredShown:D,label:_,labelEdge:w,labelStartWidth:H,maxLength:B,maxLengthUnit:k,messages:N,placeholder:M,prefix:q,role:G,startContent:X,suffix:z,textAlign:J,userAssistanceDensity:Q,value:Y,variant:Z="default",virtualKeyboard:ee,onInput:se,onCommit:te,testId:ae},ne)=>{const ie=g.useTranslationBundle("@oracle/oraclejet-preact"),oe=B?ie.formControl_limitReached({CHARACTER_LIMIT:B}):"",{currentCommitValue:le,dispatch:re}=W.useCurrentValueReducer({value:Y}),de=a.useCallback((e=>{re({type:"input",payload:e.value}),se?.(e)}),[se,re]),ue=a.useCallback((e=>{re({type:"commit",payload:e.value}),te?.(e)}),[te,re]),{isDisabled:ce,isReadonly:fe,labelEdge:xe,labelStartWidth:pe,textAlign:be,userAssistanceDensity:he}=l.useFormContext(),me=P??ce,ve=j??fe,Fe=w??xe,Ce=H??pe,ye=J??be,Ie=Q??he,Se=a.useRef(h.useId()),Ae=e?`${e} ${Se.current}`:Se.current,Le=[{detail:oe,severity:"info"}],{isMaxLengthReached:ge,valueLength:Re,onFilteredInput:Te}=u.useLengthFilter({maxLength:B,maxLengthUnit:k,value:Y,onInput:de,onCommit:ue}),Pe=[...N??[],...ge?Le:[]],{enabledElementRef:Ue,focusProps:Ee,isFocused:je,readonlyElementRef:Ve}=i.useFocusableTextField({isDisabled:me,isReadonly:ve,ref:ne}),{hoverProps:De,isHover:_e}=d.useHover({isDisabled:ve||me||!1}),{baseId:we,formFieldContext:He,inputProps:Be,labelProps:ke,textFieldProps:Ne,userAssistanceProps:Me}=c.useTextField({ariaDescribedBy:ve||me?e:Ae,helpSourceLink:R,helpSourceText:T,isDisabled:me,isFocused:je,isReadonly:ve,isRequiredShown:D,labelEdge:Fe,messages:Pe,styleVariant:Z,userAssistanceDensity:Ie,value:Y}),qe=a.useCallback((()=>{Ue.current?.focus(),de?.({previousValue:Y,value:""})}),[de,Y,Ue]),$e=n.useClearIcon({clearIcon:s.jsx(O.ClearIcon,{onClick:qe,testId:`${ae}_clearicon`}),display:A,hasValue:He.hasValue,isFocused:je,isEnabled:!ve&&!me,isHover:_e}),Oe=$.beforeVNode(L,$e),We=void 0!==_&&"inside"===Fe,{shouldRenderPrefix:Ge,shouldRenderSuffix:Ke,prefixProps:Xe,suffixProps:ze,valuePrefixSuffix:Je,ariaLabelledBy:Qe}=p.usePrefixSuffix({baseId:we,hasEndContent:void 0!==L,hasInsideLabel:We,hasStartContent:void 0!==X,hasValue:He.hasValue,isDisabled:me,isFocused:je,labelId:ke.id,prefix:q,suffix:z,value:Y}),Ye=Ge?s.jsx(x.PrefixSuffix,{...Xe}):void 0,Ze=Ke?s.jsx(x.PrefixSuffix,{...ze}):void 0,es="none"!==Fe?s.jsx(f.Label,{...ke,children:_}):void 0,ss={label:"none"!==Fe?es:void 0,labelEdge:"none"!==Fe?Fe:void 0,labelStartWidth:"none"!==Fe?Ce:void 0},ts="none"===Fe?_:void 0,as="efficient"===Ie||"reflow"===Ie?me||ve?"efficient"!==Ie?void 0:s.jsx(U.InlineUserAssistance,{userAssistanceDensity:Ie,...Me}):s.jsx(U.InlineUserAssistance,{assistiveText:t,fieldLabel:_,helpSourceLink:R,helpSourceText:T,messages:Pe,isRequiredShown:D,userAssistanceDensity:Ie,...Me}):void 0,ns=a.useRef(null),is="compact"===Ie?s.jsx(E.CompactUserAssistance,{anchorRef:ns,messages:Pe,assistiveText:t,...Me}):void 0;if(ve){const e=s.jsx(C.ReadonlyTextFieldInput,{"aria-describedby":Be["aria-describedby"],"aria-label":ts,"aria-labelledby":ke.id,as:"div",autoFocus:m,elementRef:Ve,textAlign:ye,value:Je,hasEmptyLabel:""===_&&"none"===Fe,hasInsideLabel:We});return s.jsx(r.FormFieldContext.Provider,{value:He,children:s.jsx(y.ReadonlyTextField,{role:"presentation",columnSpan:F,compactUserAssistance:is,inlineUserAssistance:as,onBlur:Ee.onFocusOut,onFocus:Ee.onFocusIn,ref:ns,mainContent:e,testId:ae,...ss})})}const os=void 0!==B,ls=s.jsxs(s.Fragment,{children:[Ye,s.jsx(v.TextFieldInput,{"aria-labelledby":Qe,"aria-label":ts,autoComplete:o,autoFocus:m,currentCommitValue:le,hasEmptyLabel:""===_&&"none"===Fe,hasEndContent:void 0!==L,hasInsideLabel:void 0!==es&&"inside"===Fe,hasPrefix:void 0!==Ye,hasStartContent:void 0!==X,hasSuffix:void 0!==Ze,inputRef:Ue,isRequired:V,placeholder:M,role:G,textAlign:ye,type:K()?ee:void 0,value:me?Je:Y,onCommit:ue,onInput:Te,...Be}),Ze,os&&s.jsx(b.HiddenAccessible,{id:Se.current,children:ie.formControl_maxLength({MAX_LENGTH:`${B}`})}),os&&je&&s.jsx(S.MaxLengthLiveRegion,{maxLength:B,valueLength:Re,testId:ae+"_remainingChars"})]});return s.jsx(r.FormFieldContext.Provider,{value:He,children:s.jsx(I.TextField,{endContent:Oe,columnSpan:F,compactUserAssistance:is,inlineUserAssistance:as,mainContent:ls,onBlur:Ee.onFocusOut,onFocus:Ee.onFocusIn,startContent:X,mainFieldRef:ns,testId:ae,...Ne,...ss,...De})})}));function K(){const e=m.getClientHints().deviceType;return"phone"===e||"tablet"===e}e.InputText=G}));
+//# sourceMappingURL=InputText-da0a5c0f.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_InputText',['exports', './InputText-da0a5c0f', 'preact/jsx-runtime', 'preact/compat', 'preact/hooks', './useClearIcon-05225968', './useToggle-a29f97af', './useFocusableTextField-c2f98a8b', './useFocusWithin-5a504fca', './FormContext-5130e198', 'preact', './useFormContext-30acdd33', './FormFieldContext-3c44aaaa', './useHover-1890d6a0', './useLengthFilter-ed8959a4', './lengthFilter-d560aa86', './useTextField-e6877c79', './useMessageSeverity-1d69e1ae', './stringUtils-0ae982c2', './useFormFieldContextProps-4e36b4c3', './useId-c9578d26', './Label-3f8fc274', './useFormFieldContext-8196183c', './classNames-08d99695', './useComponentTheme-5aa41a8f', './logger-0f873e29', './TabbableModeContext-a9c97640', './LayerHost-0a244de8', './Common/themes/redwood/theme', './Common/themes/themeContract.css', 'css!./UserAssistanceStyles.styles.css', 'module', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceVariants.css', './vanilla-extract-recipes-createRuntimeFn.esm-d881c69a', './Flex-db3ddadb', './useTestId-f3b8b319', './boxalignment-1e23a8e6', './size-4e81acac', './utils-61ef4ad6', './colorUtils-7c069766', './_curry1-df649359', './arrayUtils-6ee96a35', 'css!./boxalignment.styles.css', './vanilla-extract-sprinkles-createRuntimeSprinkles.esm-84d30764', './dimensions-89f18413', './flexbox-8521f6aa', 'css!./flexbox.styles.css', './flexitem-5db48325', 'css!./flexitem.styles.css', './mergeInterpolations-9ede4cf7', './mergeDeepWithKey-aaab9019', './_curry3-83878f86', './_curry2-86c52b86', './_isObject-42bafc94', 'css!./FlexStyles.styles.css', 'css!./MessageBannerStyles.styles.css', 'module', './UNSAFE_MessageBanner/themes/redwood/MessageBannerVariants.css', 'css!./MessageBannerVariants.styles.css', './useTooltipControlled-18271c7a', './Floating-8f519f4d', './useFloating-30975c41', './useUser-9b166ca3', './positionUtils-3193ab54', './refUtils-d354a169', './useOutsideClick-90052c27', './Layer-8d7bbd69', './UNSAFE_Layer/themes/LayerStyles.css', 'css!./LayerStyles.styles.css', './useThemeInterpolations-1f5fd8f3', './useColorScheme-3ffd80c4', './useScale-fe3420c6', './theme-a8f3d819', './Theme-d945adae', './UNSAFE_Floating/themes/redwood/FloatingTheme', './UNSAFE_Floating/themes/FloatingStyles.css', 'css!./FloatingStyles.styles.css', './UNSAFE_Floating/themes/redwood/FloatingBaseTheme.css', 'module', './UNSAFE_Floating/themes/redwood/FloatingVariants.css', './vanilla-extract-dynamic.esm-eceadd82', './UNSAFE_Floating/themes/FloatingContract.css', './useFocus-4194fc59', './useTouch-37489bb5', './mergeProps-bcfa6a92', './useAnimation-5bd3adfc', './hooks/UNSAFE_useTooltip/themes/redwood/TooltipContentTheme', './hooks/UNSAFE_useTooltip/themes/TooltipContentStyles.css', 'css!./TooltipContentStyles.styles.css', './hooks/UNSAFE_useTooltip/themes/redwood/TooltipContentBaseTheme.css', 'module', './hooks/UNSAFE_useTooltip/themes/redwood/TooltipContentVariants.css', 'css!./TooltipContentVariants.styles.css', './EnvironmentProvider-9e71b5c2', './LayerManager-00983765', 'css!./IconStyle.styles.css', './IconButton-1b328b69', './BaseButton-83ce1d00', './usePress-a9ed1488', './useActive-59e52f97', './useTabbableMode-dc440317', './clientHints-030d25aa', './UNSAFE_BaseButton/themes/redwood/BaseButtonTheme', './UNSAFE_BaseButton/themes/BaseButtonStyles.css', 'css!./BaseButtonStyles.styles.css', './UNSAFE_BaseButton/themes/redwood/BaseButtonVariants.css', 'module', './ButtonLabelLayout-204d32ae', './Text-e132dec0', './UNSAFE_Text/themes/TextStyles.css', 'css!./TextStyles.styles.css', './UNSAFE_ButtonLabelLayout/themes/redwood/ButtonLabelLayoutTheme', './UNSAFE_ButtonLabelLayout/themes/ButtonLabelLayoutStyles.css', 'css!./ButtonLabelLayoutStyles.styles.css', './UNSAFE_ButtonLabelLayout/themes/redwood/ButtonLabelLayoutBaseTheme.css', 'module', './UNSAFE_ButtonLabelLayout/themes/redwood/ButtonLabelLayoutVariants.css', 'css!./ButtonLabelLayoutVariants.styles.css', './useTooltip-e965a559', './buttonUtils-20d1b249', './id-c70ab33c', 'css!./MessageStyles.styles.css', './MessageFormattingUtils-2e19d8de', './getLocale-ae79e654', './TransitionGroup-3b9d81b6', './MessagesContext-602a69a2', 'css!./HiddenAccessibleStyles.styles.css', 'css!./ComponentMessageStyles.styles.css', 'module', './UNSAFE_ComponentMessage/themes/redwood/ComponentMessageVariants.css', './InputGroupContext-372087af', './Popup-b5495d55', './tabbableUtils-62c44f56', './head-9cb1a3da', './_arity-5a5f5f71', './_isArray-32602db6', './_isString-d0ada3cb', './FocusTrap-eb3989cb', './FocusTracker-545d5904', './PRIVATE_FocusTracker/themes/FocusTrackerStyles.css', 'css!./FocusTrackerStyles.styles.css', './Modal-8f19889c', './UNSAFE_Modal/themes/ModalStyles.css', 'css!./ModalStyles.styles.css', './WindowOverlay-ad61cfea', './UNSAFE_WindowOverlay/themes/WindowOverlayStyles.css', 'css!./WindowOverlayStyles.styles.css', './UNSAFE_WindowOverlay/themes/WindowOverlayContract.css', './UNSAFE_WindowOverlay/themes/redwood/WindowOverlayTheme', './UNSAFE_WindowOverlay/themes/redwood/WindowOverlayBaseTheme.css', 'module', './UNSAFE_WindowOverlay/themes/redwood/WindowOverlayVariants.css', './usePopupAnimation-a0193874', './useAnimationStatus-88b9de0a', './popupAnimationUtils-d188eeb3', './UNSAFE_Popup/themes/PopupContract.css', './UNSAFE_Popup/themes/redwood/PopupTheme', './UNSAFE_Popup/themes/redwood/PopupBaseTheme.css', 'module', './UNSAFE_Popup/themes/redwood/PopupVariants.css', 'css!./PopupStyles.styles.css', './UNSAFE_Separator/themes/SeparatorStyles.css', 'css!./SeparatorStyles.styles.css', './CompactLabelAssistance-9b6b3be2', './useTranslationBundle-20bfc0f3', './CompactHelpSource-7de24d56', './Help-c0ec701e', './Icon-599f55f3', './UNSAFE_Icon/themes/IconStyle.css', './UNSAFE_UserAssistance/themes/UserAssistanceStyles.css', './UNSAFE_Label/themes/redwood/LabelTheme', './UNSAFE_Label/themes/LabelStyles.css', 'css!./LabelStyles.styles.css', './UNSAFE_Label/themes/redwood/LabelBaseTheme.css', 'module', './UNSAFE_Label/themes/redwood/LabelVariants.css', './UNSAFE_TextField/themes/redwood/TextFieldTheme', './UNSAFE_TextField/themes/TextFieldStyles.css', 'css!./SkeletonStyles.styles.css', 'css!./TextFieldLoadingStyles.styles.css', 'css!./TextFieldStyles.styles.css', './UNSAFE_TextField/themes/redwood/TextFieldBaseTheme.css', 'module', './UNSAFE_TextField/themes/redwood/TextFieldVariants.css', 'css!./TextFieldVariants.styles.css', './PrefixSuffix-0efb3bc6', './UNSAFE_PrefixSuffix/themes/PrefixSuffixStyles.css', 'css!./PrefixSuffixStyles.styles.css', './usePrefixSuffix-da47e340', './HiddenAccessible-037ef42d', './TextFieldInput-dfd9529f', './useAccessibleContext-23e8a333', './useTextFieldInputHandlers-69ae614a', './textAlign-ef924afd', 'css!./text.styles.css', './TextFieldUtils-f3868e96', './UNSAFE_TextField/themes/redwood/TextFieldInputTheme', './UNSAFE_TextField/themes/TextFieldInputStyles.css', 'css!./TextFieldInputStyles.styles.css', './UNSAFE_TextField/themes/redwood/TextFieldInputVariants.css', 'css!./TextFieldInputVariants.styles.css', 'css!./ObfuscatedTextFieldInputStyles.styles.css', './ReadonlyTextFieldInput-a5e85e5d', './UNSAFE_TextField/themes/redwood/ReadonlyTextFieldInputTheme', './UNSAFE_TextField/themes/ReadonlyTextFieldInputStyles.css', 'css!./ReadonlyTextFieldInputStyles.styles.css', './UNSAFE_TextField/themes/redwood/ReadonlyTextFieldInputVariants.css', './StyledTextField-8ac3bbb4', './LabelValueLayout-89e9f1be', 'css!./LabelValueLayoutStyles.styles.css', './UNSAFE_RadioItem/themes/redwood/RadioTheme', './UNSAFE_RadioItem/themes/RadioStyles.css', 'css!./RadioStyles.styles.css', './UNSAFE_RadioItem/themes/redwood/RadioBaseTheme.css', 'module', './UNSAFE_RadioItem/themes/redwood/RadioVariants.css', './UNSAFE_TextField/themes/redwood/FormLayoutTheme', './UNSAFE_TextField/themes/FormLayoutStyles.css', './UNSAFE_TextField/themes/redwood/FormLayoutBaseTheme.css', 'module', './UNSAFE_Checkbox/themes/redwood/CheckboxTheme', './UNSAFE_Checkbox/themes/CheckboxStyles.css', 'css!./CheckboxStyles.styles.css', './UNSAFE_Checkbox/themes/redwood/CheckboxBaseTheme.css', 'module', './UNSAFE_Checkbox/themes/redwood/CheckboxVariants.css', 'css!./CheckboxVariants.styles.css', './UNSAFE_Skeleton/themes/redwood/SkeletonTheme', './UNSAFE_Skeleton/themes/SkeletonStyles.css', './UNSAFE_Skeleton/themes/redwood/SkeletonBaseTheme.css', 'module', './UNSAFE_Skeleton/themes/redwood/SkeletonVariants.css', './LayoutStyles.css-d1dfed48', 'css!./LayoutStyles.styles.css', './useInputGroupContext-e6e19f4f', './UNSAFE_TextField/themes/redwood/ReadonlyTextFieldTheme', './UNSAFE_TextField/themes/ReadonlyTextFieldStyles.css', 'css!./ReadonlyTextFieldStyles.styles.css', './UNSAFE_TextField/themes/redwood/ReadonlyTextFieldVariants.css', 'css!./ReadonlyTextFieldVariants.styles.css', './TextField-0fc70892', './MaxLengthLiveRegion-e3856a98', './useDebounce-8b4d8cfb', './LiveRegion-09197914', 'css!./LiveRegionStyles.styles.css', './InlineUserAssistance-f4d1fa1b', './ComponentMessageContainer-dc4b7c7f', './MessagesManager-78a10f78', './SuccessS-e1f2cad9', './ErrorS-f41bce95', './InformationS-28ac133d', './WarningS-f0365779', './PRIVATE_Message/themes/MessageStyles.css', './soundUtils-f6535f03', './useMessagesContext-1395a997', './Transition-04efcc49', './UNSAFE_ComponentMessage/themes/redwood/ComponentMessageTheme', './UNSAFE_ComponentMessage/themes/ComponentMessageStyles.css', './UNSAFE_ComponentMessage/themes/redwood/ComponentMessageBaseTheme.css', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceTheme', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceBaseTheme.css', './InlineHelp-3dae8034', './InlineHelpSource-359fd9df', './CompactUserAssistance-b2cbdbad', './Separator-181f7541', './componentUtils-c14d7fce', './ClearIcon-a29e57fb', './DeleteCircleS-d1e6a4fd', './useCurrentValueReducer-faded381'], (function(e,s,t,o,a,l,d,n,c,i,r,m,S,y,F,h,u,T,b,A,U,x,p,_,f,E,N,w,B,g,L,C,I,k,M,R,V,v,P,O,W,H,j,D,G,z,K,q,J,Q,X,Y,Z,$,ee,se,te,oe,ae,le,de,ne,ce,ie,re,me,Se,ye,Fe,he,ue,Te,be,Ae,Ue,xe,pe,_e,fe,Ee,Ne,we,Be,ge,Le,Ce,Ie,ke,Me,Re,Ve,ve,Pe,Oe,We,He,je,De,Ge,ze,Ke,qe,Je,Qe,Xe,Ye,Ze,$e,es,ss,ts,os,as,ls,ds,ns,cs,is,rs,ms,Ss,ys,Fs,hs,us,Ts,bs,As,Us,xs,ps,_s,fs,Es,Ns,ws,Bs,gs,Ls,Cs,Is,ks,Ms,Rs,Vs,vs,Ps,Os,Ws,Hs,js,Ds,Gs,zs,Ks,qs,Js,Qs,Xs,Ys,Zs,$s,et,st,tt,ot,at,lt,dt,nt,ct,it,rt,mt,St,yt,Ft,ht,ut,Tt,bt,At,Ut,xt,pt,_t,ft,Et,Nt,wt,Bt,gt,Lt,Ct,It,kt,Mt,Rt,Vt,vt,Pt,Ot,Wt,Ht,jt,Dt,Gt,zt,Kt,qt,Jt,Qt,Xt,Yt,Zt,$t,eo,so,to,oo,ao,lo,no,co,io,ro,mo,So,yo,Fo,ho,uo,To,bo,Ao,Uo,xo,po,_o,fo,Eo,No,wo,Bo,go,Lo,Co,Io,ko,Mo,Ro,Vo,vo,Po,Oo,Wo,Ho,jo,Do,Go,zo,Ko,qo,Jo,Qo,Xo,Yo,Zo,$o){"use strict";e.InputText=s.InputText,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=UNSAFE_InputText.js.map
+;
+define('oj-c/editable-value/UNSAFE_useAssistiveText/useAssistiveText',["require", "exports", "preact/hooks"], function (require, exports, hooks_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useAssistiveText = void 0;
+    function determineAssistiveText(help, validatorHint, helpHints, converterHint, displayOptions, userAssistanceDensity) {
+        const helpHintsDef = userAssistanceDensity !== 'compact' ? helpHints?.definition : undefined;
+        return (help?.instruction ||
+            (displayOptions?.validatorHint === 'none' ? undefined : validatorHint) ||
+            helpHintsDef ||
+            (displayOptions?.converterHint === 'none' ? undefined : converterHint));
+    }
+    function determineSyncValidatorHints(validators) {
+        if (!validators.length) {
+            return undefined;
+        }
+        const syncHints = validators
+            .map((validator) => typeof validator.getHint === 'function'
+            ? validator.getHint()
+            : undefined)
+            .filter(Boolean);
+        return syncHints.join('\n');
+    }
+    function useAssistiveText({ addBusyState, converter, displayOptions, help, helpHints, userAssistanceDensity, validators }) {
+        const [validatorHint, setValidatorHint] = (0, hooks_1.useState)(!validators || !validators.length ? undefined : determineSyncValidatorHints(validators));
+        const staleIdentity = (0, hooks_1.useRef)();
+        (0, hooks_1.useEffect)(() => {
+            if (!validators || !validators.length) {
+                setValidatorHint(undefined);
+                return;
+            }
+            setValidatorHint(determineSyncValidatorHints(validators));
+            const asyncHints = validators
+                .map((validator) => validator.hint)
+                .filter(Boolean);
+            const localStaleIdentity = (staleIdentity.current = Symbol());
+            const resolver = addBusyState?.('resolving the async validator hints');
+            Promise.allSettled(asyncHints).then((hints) => {
+                setValidatorHint((currentHints) => {
+                    const treatedHints = hints
+                        .map((result) => (result.status === 'fulfilled' ? result.value : undefined))
+                        .filter(Boolean);
+                    if (localStaleIdentity !== staleIdentity.current || !treatedHints.length) {
+                        return currentHints;
+                    }
+                    return [currentHints, ...treatedHints].join('\n');
+                });
+                resolver?.();
+            });
+        }, [validators]);
+        const helpSourceText = userAssistanceDensity !== 'compact'
+            ? helpHints?.sourceText
+            : helpHints?.definition || helpHints?.sourceText;
+        return {
+            assistiveText: determineAssistiveText(help, validatorHint, helpHints, converter?.getHint?.() ?? undefined, displayOptions, userAssistanceDensity),
+            helpSourceLink: helpHints?.source,
+            helpSourceText
+        };
+    }
+    exports.useAssistiveText = useAssistiveText;
+});
+
+define('oj-c/editable-value/utils/utils',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.isShallowEqual = exports.normalizeValue = exports.treatNull = exports.createMessageFromError = void 0;
+    function createMessageFromError(error) {
+        if (typeof error.getMessage === 'function') {
+            return {
+                severity: 'error',
+                detail: error.getMessage().detail
+            };
+        }
+        return { severity: 'error', detail: error.message };
+    }
+    exports.createMessageFromError = createMessageFromError;
+    function treatNull(value, defaultValue) {
+        if (value === null) {
+            return defaultValue;
+        }
+        return value;
+    }
+    exports.treatNull = treatNull;
+    function normalizeValue(value) {
+        if (typeof value === 'string' && value === '') {
+            return null;
+        }
+        return value;
+    }
+    exports.normalizeValue = normalizeValue;
+    const isShallowEqual = (a, b) => a === b || (a.length === b.length && a.every((v, i) => v === b[i]));
+    exports.isShallowEqual = isShallowEqual;
+});
+
+define('oj-c/hooks/UNSAFE_useEditableValue/utils',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.treatNull = exports.normalizeValue = exports.isShallowEqual = exports.hasErrorMessages = exports.createMessageFromError = void 0;
+    const createMessageFromError = (error) => {
+        if (typeof error.getMessage === 'function') {
+            return {
+                severity: 'error',
+                detail: error.getMessage().detail
+            };
+        }
+        return { severity: 'error', detail: error.message };
+    };
+    exports.createMessageFromError = createMessageFromError;
+    const treatNull = (value, defaultValue) => {
+        if (value === null) {
+            return defaultValue;
+        }
+        return value;
+    };
+    exports.treatNull = treatNull;
+    const normalizeValue = (value) => {
+        if (typeof value === 'string' && value === '') {
+            return null;
+        }
+        return value;
+    };
+    exports.normalizeValue = normalizeValue;
+    const isShallowEqual = (a, b) => a === b || (a.length === b.length && a.every((v, i) => v === b[i]));
+    exports.isShallowEqual = isShallowEqual;
+    const hasErrorMessages = (messages) => {
+        return !!messages && messages.some((message) => message.severity === 'error');
+    };
+    exports.hasErrorMessages = hasErrorMessages;
+});
+
+define('oj-c/hooks/UNSAFE_useEditableValue/converterUtils',["require", "exports", "./utils"], function (require, exports, utils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.parse = exports.format = void 0;
+    function parse(displayValue, converter) {
+        if (displayValue === undefined) {
+            return { result: 'success', value: null };
+        }
+        if (shouldSkipParse(displayValue)) {
+            return { result: 'success', value: displayValue };
+        }
+        try {
+            return {
+                result: 'success',
+                value: converter.parse(displayValue)
+            };
+        }
+        catch (error) {
+            return {
+                result: 'failure',
+                error: (0, utils_1.createMessageFromError)(error)
+            };
+        }
+    }
+    exports.parse = parse;
+    function format(value, defaultValue, converter) {
+        if (shouldSkipFormat(value)) {
+            return { result: 'success', value: defaultValue };
+        }
+        try {
+            return {
+                result: 'success',
+                value: converter.format(value)
+            };
+        }
+        catch (error) {
+            return {
+                result: 'failure',
+                error: (0, utils_1.createMessageFromError)(error)
+            };
+        }
+    }
+    exports.format = format;
+    function shouldSkipParse(value) {
+        return value === '' || value === null;
+    }
+    function shouldSkipFormat(value) {
+        return value === null;
+    }
+});
+
+define('oj-c/editable-value/UNSAFE_useStaleIdentity/useStaleIdentity',["require", "exports", "preact/hooks"], function (require, exports, hooks_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useStaleIdentity = void 0;
+    function useStaleIdentity() {
+        const staleIdentityMap = (0, hooks_1.useRef)(new Map());
+        const setStaleIdentity = (0, hooks_1.useCallback)((id) => {
+            const localStaleIdentity = Symbol();
+            staleIdentityMap.current.set(id, localStaleIdentity);
+            return {
+                isStale: () => localStaleIdentity !== staleIdentityMap.current.get(id)
+            };
+        }, []);
+        return { setStaleIdentity };
+    }
+    exports.useStaleIdentity = useStaleIdentity;
+});
+
+define('oj-c/hooks/UNSAFE_useEditableValue/reducer',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.updateValue = exports.updateValidStatus = exports.updatePreviousValue = exports.updatePreviousValidators = exports.updatePreviousReadonly = exports.updatePreviousDisabled = exports.updatePreviousDeferredValidators = exports.updatePreviousConverter = exports.updateHiddenMessages = exports.updateDisplayValue = exports.updateCustomMessages = exports.updateComponentMessages = exports.showHiddenMessages = exports.clearAllMessages = exports.addComponentMessage = exports.reducer = void 0;
+    function reducer(state, action) {
+        const customMsgs = state.customMessages ?? [];
+        const hiddenMsgs = state.hiddenMessages;
+        const componentMsgs = state.componentMessages;
+        const shownMsgs = state.shownMessages;
+        switch (action.type) {
+            case 'UPDATE_DISPLAY_VALUE':
+                return {
+                    ...state,
+                    displayValue: action.payload
+                };
+            case 'UPDATE_VALID':
+                return {
+                    ...state,
+                    valid: action.payload
+                };
+            case 'UPDATE_VALUE':
+                return {
+                    ...state,
+                    value: action.payload
+                };
+            case 'UPDATE_PREVIOUS_CONVERTER':
+                return {
+                    ...state,
+                    previousConverter: action.payload
+                };
+            case 'UPDATE_PREVIOUS_DEFERRED_VALIDATORS':
+                return {
+                    ...state,
+                    previousDeferredValidators: action.payload
+                };
+            case 'UPDATE_PREVIOUS_DISABLED':
+                return {
+                    ...state,
+                    previousDisabled: action.payload
+                };
+            case 'UPDATE_PREVIOUS_READONLY':
+                return {
+                    ...state,
+                    previousReadonly: action.payload
+                };
+            case 'UPDATE_PREVIOUS_VALIDATORS':
+                return {
+                    ...state,
+                    previousValidators: action.payload
+                };
+            case 'UPDATE_PREVIOUS_VALUE':
+                return {
+                    ...state,
+                    previousValue: action.payload
+                };
+            case 'UPDATE_COMPONENT_MESSAGES':
+                return {
+                    ...state,
+                    componentMessages: action.payload,
+                    shownMessages: [...customMsgs, ...action.payload]
+                };
+            case 'UPDATE_HIDDEN_MESSAGES':
+                return {
+                    ...state,
+                    hiddenMessages: action.payload
+                };
+            case 'UPDATE_CUSTOM_MESSAGES':
+                return {
+                    ...state,
+                    customMessages: action.payload,
+                    shownMessages: [...action.payload, ...componentMsgs]
+                };
+            case 'CLEAR_ALL_MESSAGES':
+                return {
+                    ...state,
+                    shownMessages: [],
+                    hiddenMessages: [],
+                    customMessages: [],
+                    componentMessages: []
+                };
+            case 'ADD_COMPONENT_MESSAGE':
+                return {
+                    ...state,
+                    componentMessages: [...componentMsgs, action.payload],
+                    shownMessages: [...shownMsgs, action.payload]
+                };
+            case 'SHOW_HIDDEN_MESSAGES':
+                return hiddenMsgs.length === 0
+                    ? state
+                    : {
+                        ...state,
+                        hiddenMessages: [],
+                        shownMessages: [...customMsgs, ...componentMsgs, ...hiddenMsgs]
+                    };
+            default:
+                return state;
+        }
+    }
+    exports.reducer = reducer;
+    function updateDisplayValue(dispatch, displayValue, { onRawValueChanged }) {
+        dispatch({ type: 'UPDATE_DISPLAY_VALUE', payload: displayValue });
+        onRawValueChanged?.(displayValue);
+    }
+    exports.updateDisplayValue = updateDisplayValue;
+    function updateValidStatus(dispatch, state, { onValidChanged }) {
+        dispatch({ type: 'UPDATE_VALID', payload: state });
+        onValidChanged?.(state);
+    }
+    exports.updateValidStatus = updateValidStatus;
+    function updateValue(dispatch, value, { onValueChanged }) {
+        dispatch({ type: 'UPDATE_VALUE', payload: value });
+        onValueChanged?.(value);
+    }
+    exports.updateValue = updateValue;
+    function updateComponentMessages(dispatch, messages) {
+        dispatch({ type: 'UPDATE_COMPONENT_MESSAGES', payload: messages });
+    }
+    exports.updateComponentMessages = updateComponentMessages;
+    function updateHiddenMessages(dispatch, messages) {
+        dispatch({ type: 'UPDATE_HIDDEN_MESSAGES', payload: messages });
+    }
+    exports.updateHiddenMessages = updateHiddenMessages;
+    function updateCustomMessages(dispatch, messages) {
+        dispatch({ type: 'UPDATE_CUSTOM_MESSAGES', payload: messages });
+    }
+    exports.updateCustomMessages = updateCustomMessages;
+    function updatePreviousValue(dispatch, value) {
+        dispatch({ type: 'UPDATE_PREVIOUS_VALUE', payload: value });
+    }
+    exports.updatePreviousValue = updatePreviousValue;
+    function updatePreviousConverter(dispatch, converter) {
+        dispatch({ type: 'UPDATE_PREVIOUS_CONVERTER', payload: converter });
+    }
+    exports.updatePreviousConverter = updatePreviousConverter;
+    function updatePreviousDeferredValidators(dispatch, validators) {
+        dispatch({ type: 'UPDATE_PREVIOUS_DEFERRED_VALIDATORS', payload: validators });
+    }
+    exports.updatePreviousDeferredValidators = updatePreviousDeferredValidators;
+    function updatePreviousDisabled(dispatch, disabled) {
+        dispatch({ type: 'UPDATE_PREVIOUS_DISABLED', payload: disabled });
+    }
+    exports.updatePreviousDisabled = updatePreviousDisabled;
+    function updatePreviousReadonly(dispatch, readonly) {
+        dispatch({ type: 'UPDATE_PREVIOUS_READONLY', payload: readonly });
+    }
+    exports.updatePreviousReadonly = updatePreviousReadonly;
+    function updatePreviousValidators(dispatch, validators) {
+        dispatch({ type: 'UPDATE_PREVIOUS_VALIDATORS', payload: validators });
+    }
+    exports.updatePreviousValidators = updatePreviousValidators;
+    function clearAllMessages(dispatch, _value, { onMessagesCustomChanged }) {
+        dispatch({ type: 'CLEAR_ALL_MESSAGES' });
+        onMessagesCustomChanged?.([]);
+    }
+    exports.clearAllMessages = clearAllMessages;
+    function showHiddenMessages(dispatch) {
+        dispatch({ type: 'SHOW_HIDDEN_MESSAGES' });
+    }
+    exports.showHiddenMessages = showHiddenMessages;
+    function addComponentMessage(dispatch, message) {
+        dispatch({ type: 'ADD_COMPONENT_MESSAGE', payload: message });
+    }
+    exports.addComponentMessage = addComponentMessage;
+});
+
+define('oj-c/hooks/UNSAFE_useEditableValue/validationUtils',["require", "exports", "./utils"], function (require, exports, utils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.validateSync = exports.validateAsync = void 0;
+    function validateSync({ validators, value }) {
+        const errors = [];
+        for (const validator of validators) {
+            try {
+                validator.validate(value);
+            }
+            catch (error) {
+                errors.push((0, utils_1.createMessageFromError)(error));
+            }
+        }
+        if (errors.length) {
+            return { result: 'failure', errors };
+        }
+        return { result: 'success' };
+    }
+    exports.validateSync = validateSync;
+    function validateAsync({ validators, value }) {
+        const doValidate = (validator, value) => {
+            try {
+                const validateResult = validator.validate(value);
+                if (validateResult instanceof Promise) {
+                    return validateResult.then(() => { }, (error) => (0, utils_1.createMessageFromError)(error));
+                }
+            }
+            catch (error) {
+                return (0, utils_1.createMessageFromError)(error);
+            }
+            return;
+        };
+        const errors = [];
+        const maybeErrorPromises = [];
+        for (const validator of validators) {
+            const maybeComponentMessageItem = doValidate(validator, value);
+            if (maybeComponentMessageItem !== undefined) {
+                if (maybeComponentMessageItem instanceof Promise) {
+                    maybeErrorPromises.push(maybeComponentMessageItem);
+                }
+                else {
+                    errors.push(maybeComponentMessageItem);
+                }
+            }
+        }
+        return {
+            errors,
+            maybeErrorPromises
+        };
+    }
+    exports.validateAsync = validateAsync;
+});
+
+define('oj-c/hooks/UNSAFE_useEditableValue/useEditableValue',["require", "exports", "preact/hooks", "./converterUtils", "./utils", "oj-c/editable-value/UNSAFE_useStaleIdentity/useStaleIdentity", "./reducer", "./validationUtils"], function (require, exports, hooks_1, converterUtils_1, utils_1, useStaleIdentity_1, reducer_1, validationUtils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useEditableValue = void 0;
+    const ConverterErrorSymbol = Symbol('ConverterError');
+    function useEditableValue({ addBusyState, ariaDescribedBy, converter, defaultDisplayValue, deferredValidators, disabled, displayOptions, messagesCustom, onMessagesCustomChanged, onRawValueChanged, onValidChanged, onValueChanged, readonly, validators, value }) {
+        const initialRender = (0, hooks_1.useRef)(true);
+        const { setStaleIdentity } = (0, useStaleIdentity_1.useStaleIdentity)();
+        const [state, dispatch] = (0, hooks_1.useReducer)((reducer_1.reducer), {
+            shownMessages: [],
+            hiddenMessages: [],
+            customMessages: messagesCustom,
+            componentMessages: [],
+            value: value,
+            valid: 'pending'
+        }, (args) => {
+            const conversion = converter
+                ? (0, converterUtils_1.format)(value, defaultDisplayValue, converter)
+                : { result: 'success', value: (0, utils_1.treatNull)(value, defaultDisplayValue) };
+            return {
+                ...args,
+                displayValue: conversion.result === 'success' ? conversion.value : defaultDisplayValue
+            };
+        });
+        const _dispatch = (0, hooks_1.useCallback)((updateFn, payload) => {
+            updateFn(dispatch, payload, {
+                onMessagesCustomChanged,
+                onRawValueChanged,
+                onValidChanged,
+                onValueChanged
+            });
+            return true;
+        }, [dispatch, onMessagesCustomChanged, onRawValueChanged, onValidChanged, onValueChanged]);
+        const refreshDisplayValue = (0, hooks_1.useCallback)((value) => {
+            let newDisplayValue;
+            if (!converter) {
+                newDisplayValue = (0, utils_1.treatNull)(value, defaultDisplayValue);
+            }
+            else {
+                const conversion = (0, converterUtils_1.format)(value, defaultDisplayValue, converter);
+                if (conversion.result === 'failure') {
+                    _dispatch(reducer_1.updateComponentMessages, [conversion.error]);
+                    _dispatch(reducer_1.updateValidStatus, 'invalidShown');
+                    newDisplayValue = (0, utils_1.treatNull)(value, defaultDisplayValue);
+                }
+                else {
+                    newDisplayValue = conversion.value;
+                }
+            }
+            _dispatch(reducer_1.updateDisplayValue, newDisplayValue);
+            return true;
+        }, [converter, _dispatch, defaultDisplayValue]);
+        const getValueForValidation = (0, hooks_1.useCallback)(() => {
+            if (state.valid !== 'invalidShown') {
+                return state.value;
+            }
+            if (!converter) {
+                return (0, utils_1.normalizeValue)(state.displayValue);
+            }
+            const conversion = (0, converterUtils_1.parse)((0, utils_1.normalizeValue)(state.displayValue), converter);
+            if (conversion.result === 'failure') {
+                _dispatch(reducer_1.updateComponentMessages, [conversion.error]);
+                _dispatch(reducer_1.updateValidStatus, 'invalidShown');
+                return ConverterErrorSymbol;
+            }
+            return conversion.value;
+        }, [converter, _dispatch, state.displayValue, state.valid, state.value]);
+        const normalizeAndParseValue = (0, hooks_1.useCallback)((value) => {
+            if (!converter) {
+                return (0, utils_1.normalizeValue)(value);
+            }
+            const conversion = (0, converterUtils_1.parse)((0, utils_1.normalizeValue)(value), converter);
+            conversion.result === 'failure' &&
+                _dispatch(reducer_1.updateComponentMessages, [conversion.error]) &&
+                _dispatch(reducer_1.updateValidStatus, 'invalidShown');
+            return conversion.result === 'success' ? conversion.value : ConverterErrorSymbol;
+        }, [converter, _dispatch]);
+        const fullValidate = (0, hooks_1.useCallback)(async (value, options = {}) => {
+            const { doNotClearMessagesCustom = false } = options;
+            const hasCustomErrorMessages = doNotClearMessagesCustom && (0, utils_1.hasErrorMessages)(messagesCustom);
+            _dispatch(reducer_1.updateValidStatus, 'pending');
+            if (doNotClearMessagesCustom) {
+                _dispatch(reducer_1.updateComponentMessages, []);
+                _dispatch(reducer_1.updateHiddenMessages, []);
+            }
+            else {
+                _dispatch(reducer_1.clearAllMessages);
+            }
+            if ((!validators || validators.length === 0) &&
+                (!deferredValidators || deferredValidators.length === 0)) {
+                _dispatch(reducer_1.updateValidStatus, hasCustomErrorMessages ? 'invalidShown' : 'valid');
+                return true;
+            }
+            const errors = [];
+            const deferredValidate = (0, validationUtils_1.validateSync)({ validators: deferredValidators ?? [], value });
+            deferredValidate.result === 'failure' && errors.push(...deferredValidate.errors);
+            let nonDeferredValidate = undefined;
+            if (value !== null && value !== undefined) {
+                nonDeferredValidate = (0, validationUtils_1.validateAsync)({ validators: validators ?? [], value });
+            }
+            errors.push(...(nonDeferredValidate?.errors ?? []));
+            const maybeErrorPromises = nonDeferredValidate?.maybeErrorPromises ?? [];
+            if (!errors.length && !maybeErrorPromises.length) {
+                _dispatch(reducer_1.updateValidStatus, hasCustomErrorMessages ? 'invalidShown' : 'valid');
+                return true;
+            }
+            const hasSyncError = errors.length !== 0;
+            hasSyncError &&
+                _dispatch(reducer_1.updateComponentMessages, errors) &&
+                _dispatch(reducer_1.updateValidStatus, 'invalidShown');
+            if (!maybeErrorPromises.length) {
+                return !hasSyncError;
+            }
+            const resolver = addBusyState?.('running asynchronous validation');
+            const { isStale } = setStaleIdentity('useEditableValue-full-validate');
+            let hasAsyncError = false;
+            const asyncValidations = [];
+            for (const maybeErrorPromise of maybeErrorPromises) {
+                const asyncValidation = maybeErrorPromise.then((maybeValidationError) => {
+                    if (maybeValidationError && !isStale()) {
+                        _dispatch(reducer_1.addComponentMessage, maybeValidationError);
+                        _dispatch(reducer_1.updateValidStatus, 'invalidShown');
+                        hasAsyncError = true;
+                    }
+                });
+                asyncValidations.push(asyncValidation);
+            }
+            await Promise.all(asyncValidations);
+            if (!hasSyncError && !hasAsyncError && !isStale()) {
+                _dispatch(reducer_1.updateValidStatus, hasCustomErrorMessages ? 'invalidShown' : 'valid');
+            }
+            resolver?.();
+            return !hasSyncError && !hasAsyncError;
+        }, [addBusyState, _dispatch, deferredValidators, messagesCustom, setStaleIdentity, validators]);
+        const runFullValidationAndUpdateValue = async () => {
+            if (disabled || readonly)
+                return;
+            const parsedValueOrSymbol = getValueForValidation();
+            if (parsedValueOrSymbol === ConverterErrorSymbol)
+                return;
+            const newValue = parsedValueOrSymbol;
+            const validated = await validateValueOnInternalChange(newValue, {
+                doNotClearMessagesCustom: true
+            });
+            validated && _dispatch(reducer_1.updateValue, newValue) && refreshDisplayValue(newValue);
+        };
+        const validateValueOnInternalChange = (0, hooks_1.useCallback)(async (value, options = {}) => {
+            const { isStale } = setStaleIdentity('useEditableValue-validateValueOnInternalChange');
+            const resolver = addBusyState?.('Running validateValueOnInternalChange');
+            const validationResult = await fullValidate(value, options);
+            resolver?.();
+            if (isStale()) {
+                return false;
+            }
+            return validationResult;
+        }, [addBusyState, fullValidate, setStaleIdentity]);
+        const onCommit = (0, hooks_1.useCallback)(async ({ value }) => {
+            const parsedValueOrSymbol = normalizeAndParseValue(value);
+            if (parsedValueOrSymbol === ConverterErrorSymbol) {
+                return;
+            }
+            const parsedValue = parsedValueOrSymbol;
+            const validated = await validateValueOnInternalChange(parsedValue);
+            validated && _dispatch(reducer_1.updateValue, parsedValue) && refreshDisplayValue(parsedValue);
+        }, [_dispatch, normalizeAndParseValue, refreshDisplayValue, validateValueOnInternalChange]);
+        const onInput = (0, hooks_1.useCallback)(({ value }) => {
+            _dispatch(reducer_1.updateDisplayValue, value ?? defaultDisplayValue);
+        }, [_dispatch, defaultDisplayValue]);
+        const validate = (0, hooks_1.useCallback)(async () => {
+            if (readonly || disabled) {
+                return 'valid';
+            }
+            const newValueOrSymbol = normalizeAndParseValue(state.displayValue);
+            if (newValueOrSymbol === ConverterErrorSymbol) {
+                return 'invalid';
+            }
+            const newValue = newValueOrSymbol;
+            const resolver = addBusyState?.('Running component method validate');
+            const validated = await fullValidate(newValue);
+            resolver?.();
+            if (validated) {
+                if (newValue !== state.value) {
+                    _dispatch(reducer_1.updateValue, newValue);
+                    refreshDisplayValue(newValue);
+                }
+                return 'valid';
+            }
+            return 'invalid';
+        }, [
+            addBusyState,
+            disabled,
+            _dispatch,
+            fullValidate,
+            normalizeAndParseValue,
+            readonly,
+            refreshDisplayValue,
+            state.displayValue,
+            state.value
+        ]);
+        const reset = (0, hooks_1.useCallback)(() => {
+            _dispatch(reducer_1.clearAllMessages);
+            const valueToValidate = state.value;
+            const validated = (0, validationUtils_1.validateSync)({
+                validators: deferredValidators ?? [],
+                value: valueToValidate
+            });
+            validated.result === 'failure' && _dispatch(reducer_1.updateHiddenMessages, validated.errors);
+            _dispatch(reducer_1.updateValidStatus, validated.result === 'failure' ? 'invalidHidden' : 'valid');
+            refreshDisplayValue(state.value);
+        }, [deferredValidators, _dispatch, refreshDisplayValue, state.value]);
+        const showMessages = (0, hooks_1.useCallback)(() => {
+            if (state.hiddenMessages && state.hiddenMessages.length > 0) {
+                _dispatch(reducer_1.showHiddenMessages);
+                _dispatch(reducer_1.updateValidStatus, 'invalidShown');
+            }
+        }, [_dispatch, state.hiddenMessages]);
+        if (!initialRender.current && state.previousValue !== value) {
+            _dispatch(reducer_1.updatePreviousValue, value);
+            if (value !== state.value) {
+                _dispatch(reducer_1.clearAllMessages);
+                const validated = (0, validationUtils_1.validateSync)({ validators: deferredValidators ?? [], value });
+                validated.result === 'success' && _dispatch(reducer_1.updateValidStatus, 'valid');
+                validated.result === 'failure' &&
+                    _dispatch(reducer_1.updateValidStatus, 'invalidHidden') &&
+                    _dispatch(reducer_1.updateHiddenMessages, validated.errors);
+                _dispatch(reducer_1.updateValue, value);
+                refreshDisplayValue(value);
+            }
+        }
+        if (!initialRender.current && state.previousConverter !== converter) {
+            _dispatch(reducer_1.updatePreviousConverter, converter);
+            state.valid !== 'invalidShown' && refreshDisplayValue(value);
+            state.valid === 'invalidShown' && runFullValidationAndUpdateValue();
+        }
+        if (!initialRender.current && state.previousValidators !== validators) {
+            _dispatch(reducer_1.updatePreviousValidators, validators);
+            state.valid === 'invalidShown' && runFullValidationAndUpdateValue();
+        }
+        if (!initialRender.current &&
+            ((!state.customMessages && messagesCustom) ||
+                (state.customMessages && !messagesCustom) ||
+                (state.customMessages &&
+                    messagesCustom &&
+                    !(0, utils_1.isShallowEqual)(state.customMessages, messagesCustom)))) {
+            const compMsgs = state.componentMessages ?? [];
+            const hiddenMsgs = state.hiddenMessages ?? [];
+            const customMsgs = messagesCustom ?? [];
+            const hasErrors = (0, utils_1.hasErrorMessages)(customMsgs);
+            const hasHiddenMessages = hiddenMsgs.length > 0;
+            const hasNoMessages = compMsgs.length === 0 && hiddenMsgs.length === 0 && customMsgs.length === 0;
+            _dispatch(reducer_1.updateCustomMessages, customMsgs);
+            hasErrors && _dispatch(reducer_1.updateValidStatus, 'invalidShown');
+            !hasErrors &&
+                state.valid !== 'pending' &&
+                ((hasNoMessages && _dispatch(reducer_1.updateValidStatus, 'valid')) ||
+                    (hasHiddenMessages && _dispatch(reducer_1.updateValidStatus, 'invalidHidden')));
+        }
+        if (!initialRender.current &&
+            (state.previousDeferredValidators !== deferredValidators ||
+                state.previousDisabled !== disabled ||
+                state.previousReadonly !== readonly)) {
+            const isRequiredToggledToFalse = deferredValidators?.length === 0;
+            state.previousDeferredValidators !== deferredValidators &&
+                _dispatch(reducer_1.updatePreviousDeferredValidators, deferredValidators);
+            state.previousDisabled !== disabled && _dispatch(reducer_1.updatePreviousDisabled, disabled);
+            state.previousReadonly !== readonly && _dispatch(reducer_1.updatePreviousReadonly, readonly);
+            if (isRequiredToggledToFalse || (!readonly && !disabled)) {
+                switch (state.valid) {
+                    case 'valid':
+                        const newValue = getValueForValidation();
+                        if (newValue !== ConverterErrorSymbol) {
+                            const deferredValidate = (0, validationUtils_1.validateSync)({
+                                validators: deferredValidators ?? [],
+                                value: newValue
+                            });
+                            deferredValidate.result === 'failure' &&
+                                _dispatch(reducer_1.updateHiddenMessages, deferredValidate.errors) &&
+                                _dispatch(reducer_1.updateValidStatus, 'invalidHidden');
+                        }
+                        break;
+                    case 'invalidHidden':
+                        if (deferredValidators?.length === 0) {
+                            _dispatch(reducer_1.updateValidStatus, 'valid');
+                            _dispatch(reducer_1.updateHiddenMessages, []);
+                        }
+                        break;
+                    case 'invalidShown':
+                        runFullValidationAndUpdateValue();
+                        break;
+                }
+            }
+        }
+        if (initialRender.current) {
+            initialRender.current = false;
+        }
+        (0, hooks_1.useEffect)(() => {
+            _dispatch(reducer_1.updatePreviousValue, value);
+            _dispatch(reducer_1.updatePreviousConverter, converter);
+            _dispatch(reducer_1.updatePreviousValidators, validators);
+            _dispatch(reducer_1.updatePreviousDeferredValidators, deferredValidators);
+            _dispatch(reducer_1.updatePreviousDisabled, disabled);
+            _dispatch(reducer_1.updatePreviousReadonly, readonly);
+            _dispatch(reducer_1.updateCustomMessages, messagesCustom);
+            if (!disabled && !readonly) {
+                const validated = (0, validationUtils_1.validateSync)({ validators: deferredValidators ?? [], value });
+                validated.result === 'failure' &&
+                    _dispatch(reducer_1.updateHiddenMessages, validated.errors) &&
+                    _dispatch(reducer_1.updateValidStatus, 'invalidHidden');
+                validated.result === 'success' &&
+                    _dispatch(reducer_1.updateValidStatus, (0, utils_1.hasErrorMessages)(messagesCustom) ? 'invalidShown' : 'valid') &&
+                    refreshDisplayValue(value);
+            }
+            else {
+                _dispatch(reducer_1.updateValidStatus, 'valid');
+                refreshDisplayValue(value);
+            }
+        }, []);
+        return {
+            value: state.value,
+            displayValue: state.displayValue,
+            methods: {
+                reset,
+                showMessages,
+                validate
+            },
+            textFieldProps: {
+                'aria-describedby': ariaDescribedBy,
+                messages: displayOptions?.messages !== 'none' ? state.shownMessages : undefined,
+                onCommit,
+                onInput,
+                value: state.displayValue
+            }
+        };
+    }
+    exports.useEditableValue = useEditableValue;
+});
+
+define('oj-c/hooks/UNSAFE_useEditableValue/index',["require", "exports", "./useEditableValue"], function (require, exports, useEditableValue_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useEditableValue = void 0;
+    Object.defineProperty(exports, "useEditableValue", { enumerable: true, get: function () { return useEditableValue_1.useEditableValue; } });
+});
+
+define('@oracle/oraclejet-preact/hooks/UNSAFE_useTranslationBundle',['exports', '../useTranslationBundle-20bfc0f3', 'preact/hooks', '../LayerHost-0a244de8', '../Common/themes/redwood/theme', '../Common/themes/themeContract.css', 'preact', 'preact/jsx-runtime', 'preact/compat'], (function(e,t,o,n,s,a,r,c,u){"use strict";e.useTranslationBundle=t.useTranslationBundle,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=UNSAFE_useTranslationBundle.js.map
+;
+define('oj-c/editable-value/UNSAFE_useDeferredValidators/useDeferredValidators',["require", "exports", "ojs/ojvalidator-required", "preact/hooks", "@oracle/oraclejet-preact/hooks/UNSAFE_useTranslationBundle"], function (require, exports, RequiredValidator, hooks_1, UNSAFE_useTranslationBundle_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useDeferredValidators = void 0;
+    function useDeferredValidators({ labelHint, required, requiredMessageDetail: propRequiredMessageDetail }) {
+        const translations = (0, UNSAFE_useTranslationBundle_1.useTranslationBundle)('@oracle/oraclejet-preact');
+        const requiredMessageDetail = propRequiredMessageDetail || translations.formControl_requiredMessageDetail();
+        const requiredValidator = (0, hooks_1.useMemo)(() => {
+            if (required) {
+                return new RequiredValidator({
+                    label: labelHint,
+                    messageDetail: requiredMessageDetail
+                });
+            }
+            return null;
+        }, [required]);
+        return (0, hooks_1.useMemo)(() => [requiredValidator].filter(Boolean), [requiredValidator]);
+    }
+    exports.useDeferredValidators = useDeferredValidators;
+});
+
+define('oj-c/input-text/useInputTextPreact',["require", "exports", "oj-c/editable-value/utils/utils", "oj-c/hooks/UNSAFE_useEditableValue/index", "oj-c/editable-value/UNSAFE_useDeferredValidators/useDeferredValidators"], function (require, exports, utils_1, index_1, useDeferredValidators_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useInputTextPreact = void 0;
+    function useInputTextPreact({ autocomplete = 'on', autofocus, clearIcon = 'never', converter, disabled, displayOptions, end, inputPrefix, inputSuffix, labelEdge, labelHint, labelStartWidth, length, messagesCustom, placeholder, readonly, required, requiredMessageDetail, start, textAlign, userAssistanceDensity, validators, value: propValue, virtualKeyboard, onMessagesCustomChanged, onRawValueChanged, onValidChanged, onValueChanged, ...otherProps }, addBusyState) {
+        const deferredValidators = (0, useDeferredValidators_1.useDeferredValidators)({
+            labelHint,
+            required,
+            requiredMessageDetail
+        });
+        const { methods, textFieldProps, value } = (0, index_1.useEditableValue)({
+            addBusyState,
+            ariaDescribedBy: otherProps['aria-describedby'],
+            converter: converter,
+            defaultDisplayValue: '',
+            deferredValidators,
+            disabled,
+            displayOptions,
+            messagesCustom,
+            onMessagesCustomChanged,
+            onRawValueChanged,
+            onValidChanged,
+            onValueChanged,
+            readonly,
+            validators: validators === null ? undefined : validators,
+            value: propValue
+        });
+        const hasNoValue = value === null || (typeof value === 'string' && value === '');
+        const hasClearIcon = clearIcon === 'conditional' ? 'conditionally' : clearIcon;
+        return {
+            methods,
+            inputTextProps: {
+                autoComplete: autocomplete,
+                autoFocus: autofocus,
+                hasClearIcon,
+                endContent: end,
+                isDisabled: disabled,
+                isReadonly: readonly,
+                isRequired: required,
+                isRequiredShown: required && (userAssistanceDensity === 'compact' || hasNoValue),
+                label: labelHint,
+                labelEdge,
+                labelStartWidth,
+                maxLength: (0, utils_1.treatNull)(length?.max),
+                maxLengthUnit: length?.countBy,
+                placeholder,
+                prefix: inputPrefix,
+                startContent: start,
+                suffix: inputSuffix,
+                textAlign,
+                userAssistanceDensity,
+                virtualKeyboard,
+                ...textFieldProps
+            }
+        };
+    }
+    exports.useInputTextPreact = useInputTextPreact;
+});
+
+define('@oracle/oraclejet-preact/utils/UNSAFE_styles/Layout',['exports', '../../LayoutStyles.css-d1dfed48', 'css!./../../LayoutStyles.styles.css'], (function(e,t,s){"use strict";e.layoutSpanStyles=t.layoutSpanStyles,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=Layout.js.map
+;
+
+define('css!oj-c/input-text/input-text-styles',[],function(){});
+define('oj-c/input-text/input-text',["require", "exports", "preact/jsx-runtime", '@oracle/oraclejet-preact/translationBundle', "@oracle/oraclejet-preact/hooks/UNSAFE_useAccessibleContext", "@oracle/oraclejet-preact/hooks/UNSAFE_useFormContext", "oj-c/hooks/UNSAFE_useMergedFormContext/useMergedFormContext", "@oracle/oraclejet-preact/hooks/UNSAFE_useFormVariantContext", "@oracle/oraclejet-preact/hooks/UNSAFE_useTabbableMode", "@oracle/oraclejet-preact/UNSAFE_InputText", "oj-c/editable-value/UNSAFE_useAssistiveText/useAssistiveText", "ojs/ojcontext", "ojs/ojvcomponent", "preact/compat", "preact/hooks", "./useInputTextPreact", "@oracle/oraclejet-preact/utils/UNSAFE_styles/Layout", "css!oj-c/input-text/input-text-styles.css"], function (require, exports, jsx_runtime_1, translationBundle_1, UNSAFE_useAccessibleContext_1, UNSAFE_useFormContext_1, useMergedFormContext_1, UNSAFE_useFormVariantContext_1, UNSAFE_useTabbableMode_1, UNSAFE_InputText_1, useAssistiveText_1, Context, ojvcomponent_1, compat_1, hooks_1, useInputTextPreact_1, Layout_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.InputText = void 0;
+    const displayOptionsDefault = {
+        converterHint: 'display',
+        messages: 'display',
+        validatorHint: 'display'
+    };
+    const helpDefault = {
+        instruction: ''
+    };
+    const helpHintsDefault = {
+        definition: '',
+        source: ''
+    };
+    const lengthDefault = {
+        countBy: 'codePoint',
+        max: null
+    };
+    const messagesCustomDefault = [];
+    const validatorsDefault = [];
+    function InputTextImpl({ autocomplete = 'on', clearIcon = 'never', columnSpan = 1, containerReadonly: propContainerReadonly, converter = null, disabled = false, displayOptions = displayOptionsDefault, help = helpDefault, helpHints = helpHintsDefault, id, labelWrapping: propLabelWrapping, length = lengthDefault, messagesCustom = messagesCustomDefault, readonly: propReadonly, required = false, userAssistanceDensity: propUserAssistanceDensity, validators = validatorsDefault, value = null, virtualKeyboard = 'auto', ...otherProps }, ref) {
+        const rootRef = (0, hooks_1.useRef)();
+        const inputTextRef = (0, hooks_1.useRef)();
+        const addBusyState = (0, hooks_1.useCallback)((desc = 'InputText: busyState') => {
+            return rootRef.current
+                ? Context.getContext(rootRef.current)
+                    .getBusyContext()
+                    .addBusyState({ description: `oj-c-input-text id=${id} is ${desc}` })
+                : () => { };
+        }, [id]);
+        const { containerProps, uadValue, readonlyValue } = (0, useMergedFormContext_1.useMergedFormContext)({
+            propContainerReadonly,
+            propLabelWrapping,
+            propReadonly,
+            propUserAssistanceDensity
+        });
+        const { inputTextProps, methods } = (0, useInputTextPreact_1.useInputTextPreact)({
+            autocomplete,
+            clearIcon,
+            converter,
+            disabled,
+            displayOptions,
+            length,
+            messagesCustom,
+            readonly: readonlyValue,
+            required,
+            userAssistanceDensity: uadValue,
+            validators,
+            value,
+            virtualKeyboard,
+            ...otherProps
+        }, addBusyState);
+        (0, hooks_1.useImperativeHandle)(ref, () => ({
+            blur: () => inputTextRef.current?.blur(),
+            focus: () => {
+                inputTextRef.current?.focus();
+            },
+            ...methods
+        }), [methods]);
+        const assistiveTextProps = (0, useAssistiveText_1.useAssistiveText)({
+            converter,
+            displayOptions,
+            help,
+            helpHints,
+            userAssistanceDensity: inputTextProps.userAssistanceDensity,
+            validators
+        });
+        const variant = (0, UNSAFE_useFormVariantContext_1.useFormVariantContext)();
+        const accessibleProps = {
+            UNSAFE_ariaLabelledBy: otherProps.unsafe_labelledBy
+        };
+        return ((0, jsx_runtime_1.jsx)(ojvcomponent_1.Root, { id: id, ref: rootRef, class: Layout_1.layoutSpanStyles.layoutSpanColumn[columnSpan], children: (0, jsx_runtime_1.jsx)(UNSAFE_useFormContext_1.FormContext.Provider, { value: containerProps, children: (0, jsx_runtime_1.jsx)(UNSAFE_useAccessibleContext_1.AccessibleContext.Provider, { value: accessibleProps, children: (0, jsx_runtime_1.jsx)(UNSAFE_InputText_1.InputText, { ref: inputTextRef, ...assistiveTextProps, ...inputTextProps, variant: variant }) }) }) }));
+    }
+    exports.InputText = (0, ojvcomponent_1.registerCustomElement)('oj-c-input-text', (0, compat_1.forwardRef)(InputTextImpl), "InputText", { "properties": { "autocomplete": { "type": "string" }, "clearIcon": { "type": "string", "enumValues": ["conditional", "always", "never"] }, "columnSpan": { "type": "number" }, "containerReadonly": { "type": "boolean", "binding": { "consume": { "name": "containerReadonly" } } }, "converter": { "type": "object|null" }, "disabled": { "type": "boolean" }, "displayOptions": { "type": "object", "properties": { "converterHint": { "type": "string", "enumValues": ["none", "display"] }, "messages": { "type": "string", "enumValues": ["none", "display"] }, "validatorHint": { "type": "string", "enumValues": ["none", "display"] } } }, "help": { "type": "object", "properties": { "instruction": { "type": "string" } } }, "helpHints": { "type": "object", "properties": { "definition": { "type": "string" }, "source": { "type": "string" }, "sourceText": { "type": "string" } } }, "inputPrefix": { "type": "string" }, "inputSuffix": { "type": "string" }, "labelEdge": { "type": "string", "enumValues": ["none", "start", "top", "inside"], "binding": { "consume": { "name": "containerLabelEdge" } } }, "labelHint": { "type": "string" }, "labelStartWidth": { "type": "number|string", "binding": { "consume": { "name": "labelWidth" } } }, "labelWrapping": { "type": "string", "enumValues": ["truncate", "wrap"], "binding": { "consume": { "name": "labelWrapping" } } }, "length": { "type": "object", "properties": { "countBy": { "type": "string", "enumValues": ["codePoint", "codeUnit"] }, "max": { "type": "number|null" } } }, "messagesCustom": { "type": "Array<object>", "writeback": true }, "placeholder": { "type": "string" }, "readonly": { "type": "boolean", "binding": { "consume": { "name": "containerReadonly" } } }, "required": { "type": "boolean" }, "requiredMessageDetail": { "type": "string" }, "textAlign": { "type": "string", "enumValues": ["end", "start", "right"] }, "unsafe_labelledBy": { "type": "string" }, "userAssistanceDensity": { "type": "string", "enumValues": ["compact", "reflow", "efficient"], "binding": { "consume": { "name": "containerUserAssistanceDensity" } } }, "validators": { "type": "Array<object>|null" }, "value": { "type": "any", "writeback": true }, "virtualKeyboard": { "type": "string", "enumValues": ["number", "search", "auto", "url", "text", "email", "tel"] }, "rawValue": { "type": "string", "readOnly": true, "writeback": true }, "valid": { "type": "string", "enumValues": ["pending", "valid", "invalidHidden", "invalidShown"], "readOnly": true, "writeback": true } }, "slots": { "end": {}, "start": {} }, "extension": { "_WRITEBACK_PROPS": ["messagesCustom", "rawValue", "valid", "value"], "_READ_ONLY_PROPS": ["rawValue", "valid"], "_OBSERVED_GLOBAL_PROPS": ["aria-describedby", "id", "autofocus"] }, "methods": { "blur": {}, "focus": {}, "showMessages": {}, "reset": {}, "validate": {} } }, { "autocomplete": "on", "clearIcon": "never", "columnSpan": 1, "converter": null, "disabled": false, "displayOptions": { "converterHint": "display", "messages": "display", "validatorHint": "display" }, "help": { "instruction": "" }, "helpHints": { "definition": "", "source": "" }, "length": { "countBy": "codePoint", "max": null }, "messagesCustom": [], "required": false, "validators": [], "value": null, "virtualKeyboard": "auto" }, {
+        '@oracle/oraclejet-preact': translationBundle_1.default
+    }, { consume: [UNSAFE_useFormVariantContext_1.FormVariantContext, UNSAFE_useTabbableMode_1.TabbableModeContext] });
+});
+
+define('oj-c/input-text',["require", "exports", "oj-c/input-text/input-text"], function (require, exports, input_text_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.InputText = void 0;
+    Object.defineProperty(exports, "InputText", { enumerable: true, get: function () { return input_text_1.InputText; } });
+});
+
+define('@oracle/oraclejet-preact/ChevronDown-575edbfc',['exports', 'preact/jsx-runtime', './Icon-599f55f3'], (function(e,n,o){"use strict";e.SvgChevronDown=e=>n.jsx(o.Icon,{viewBox:"0 0 24 24",...e,children:n.jsx("path",{d:"M6.35 8 5 9.739 12 16l7-6.261L17.65 8 12 13.054z",fill:"currentcolor",fillRule:"evenodd"})})}));
+//# sourceMappingURL=ChevronDown-575edbfc.js.map
+;
+define('@oracle/oraclejet-preact/ChevronUp-dd92fc9c',['exports', 'preact/jsx-runtime', './Icon-599f55f3'], (function(e,n,o){"use strict";e.SvgChevronUp=e=>n.jsx(o.Icon,{viewBox:"0 0 24 24",...e,children:n.jsx("path",{d:"M6.35 16 5 14.261 12 8l7 6.261L17.65 16 12 10.946z",fill:"currentcolor",fillRule:"evenodd"})})}));
+//# sourceMappingURL=ChevronUp-dd92fc9c.js.map
+;
+define('@oracle/oraclejet-preact/Minus-b821ce41',['exports', 'preact/jsx-runtime', './Icon-599f55f3'], (function(e,n,c){"use strict";e.SvgMinus=e=>n.jsx(c.Icon,{viewBox:"0 0 24 24",...e,children:n.jsx("path",{d:"M2 11h20v2H2z",fill:"currentcolor"})})}));
+//# sourceMappingURL=Minus-b821ce41.js.map
+;
+define('@oracle/oraclejet-preact/Plus-6a258f29',['exports', 'preact/jsx-runtime', './Icon-599f55f3'], (function(e,c,n){"use strict";e.SvgPlus=e=>c.jsx(n.Icon,{viewBox:"0 0 24 24",...e,children:c.jsx("path",{d:"M13 11V2h-2v9H2v2h9v9h2v-9h9v-2z",fill:"currentcolor"})})}));
+//# sourceMappingURL=Plus-6a258f29.js.map
+;
+define('@oracle/oraclejet-preact/grid-767b4587',['exports'], (function(o){"use strict";const i={gridTemplateColumns:({gridTemplateColumns:o})=>void 0===o?{}:{gridTemplateColumns:o},gridAutoRows:({gridAutoRows:o})=>void 0===o?{}:{gridAutoRows:o}};o.gridInterpolations=i}));
+//# sourceMappingURL=grid-767b4587.js.map
+;
+
+define('css!@oracle/oraclejet-preact/GridStyles.styles',[],function(){});
+define('@oracle/oraclejet-preact/Grid-209ab070',['exports', 'preact/jsx-runtime', './grid-767b4587', './boxalignment-1e23a8e6', './mergeInterpolations-9ede4cf7', 'css!./GridStyles.styles.css', './useTestId-f3b8b319'], (function(e,s,t,r,i,n,l){"use strict";const a=[...Object.values(t.gridInterpolations),...Object.values(r.boxAlignmentInterpolations)],d=i.mergeInterpolations(a);e.Grid=({"aria-label":e,"aria-hidden":t,children:r,testId:i,role:n,...a})=>{const{class:o,...c}=d(a),b=l.useTestId(i),u={...c};return s.jsx("div",{class:`GridStyles_baseStyles__11rn47i0 ${o||""}`,style:u,role:n,"aria-label":e,"aria-hidden":t,...b,children:r})}}));
+//# sourceMappingURL=Grid-209ab070.js.map
+;
+define('@oracle/oraclejet-preact/useSpinning-d5dd87af',['exports', 'preact/hooks', './useToggle-a29f97af'], (function(e,r,n){"use strict";e.useSpinning=({isStepDownDisabled:e,isStepUpDisabled:t,onSpin:o,onSpinComplete:u,onStep:c})=>{const{bool:a,setTrue:s,setFalse:l}=n.useToggle(!1),{bool:i,setTrue:p,setFalse:f}=n.useToggle(!1),P=r.useRef(null),w=r.useRef(null),d=r.useRef("increase"),k=r.useRef(!1),D=r.useCallback((r=>{"ArrowDown"!==r.key&&"ArrowUp"!==r.key||(r.preventDefault(),r.stopPropagation(),a||"ArrowDown"===r.key&&e||"ArrowUp"===r.key&&t||(d.current="ArrowDown"===r.key?"decrease":"increase",s(),c?.({direction:d.current})))}),[a,c,e,t,s]),g=r.useCallback((e=>{"ArrowDown"!==e.key&&"ArrowUp"!==e.key||(i&&(k.current=!0),l(),f(),e.stopPropagation())}),[i,l,f]),b=r.useCallback((e=>{e.stopPropagation(),e.preventDefault(),t||(d.current="increase",s(),c?.({direction:d.current}))}),[c,t,s]),y=r.useCallback((r=>{r.stopPropagation(),r.preventDefault(),e||(d.current="decrease",s(),c?.({direction:d.current}))}),[c,e,s]),C=r.useCallback((e=>{i&&(k.current=!0),l(),f(),e.stopPropagation()}),[i,l,f]);r.useEffect((()=>(a&&!P.current&&(P.current=setTimeout((()=>{p()}),500)),()=>{P.current&&(clearTimeout(P.current),P.current=null)})),[a,p]),r.useEffect((()=>(i?w.current||(w.current=setInterval((()=>{"increase"===d.current&&t||"decrease"===d.current&&e?(f(),k.current=!0):o?.({direction:d.current})}),40)):w.current&&(clearInterval(w.current),w.current=null),()=>{w.current&&(clearInterval(w.current),w.current=null)})),[i,e,t,o,f]),r.useEffect((()=>{!i&&k.current&&(k.current=!1,u?.())}),[i,u]);return{keyboardHandlerProps:{onKeyDown:D,onKeyUp:g},pointerIncreaseHandlerProps:{onPointerDown:b,onPointerUp:C,onPointerOut:C,onPointerCancel:C},pointerDecreaseHandlerProps:{onPointerDown:y,onPointerUp:C,onPointerOut:C,onPointerCancel:C}}}}));
+//# sourceMappingURL=useSpinning-d5dd87af.js.map
+;
+define('@oracle/oraclejet-preact/NumberInputText-0d8284f8',['exports', 'preact/jsx-runtime', 'preact/compat', 'preact/hooks', './useFocusableTextField-c2f98a8b', './FormContext-5130e198', './useFormContext-30acdd33', './FormFieldContext-3c44aaaa', './useTextField-e6877c79', './Label-3f8fc274', './PrefixSuffix-0efb3bc6', './usePrefixSuffix-da47e340', './clientHints-030d25aa', './TextFieldInput-dfd9529f', 'css!./ObfuscatedTextFieldInputStyles.styles.css', './ReadonlyTextFieldInput-a5e85e5d', './StyledTextField-8ac3bbb4', './TextField-0fc70892', './LayerHost-0a244de8', 'css!./LiveRegionStyles.styles.css', './logger-0f873e29', './TabbableModeContext-a9c97640', 'css!./UserAssistanceStyles.styles.css', 'module', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceVariants.css', './InlineUserAssistance-f4d1fa1b', './CompactUserAssistance-b2cbdbad', './useTooltipControlled-18271c7a', 'preact', 'css!./IconStyle.styles.css', './Popup-b5495d55', 'css!./LabelStyles.styles.css', 'module', './UNSAFE_Label/themes/redwood/LabelVariants.css', './InputGroupContext-372087af', 'css!./HiddenAccessibleStyles.styles.css', 'module', './UNSAFE_Popup/themes/redwood/PopupVariants.css', './useCurrentValueReducer-faded381', './ChevronDown-575edbfc', './ChevronUp-dd92fc9c', './Minus-b821ce41', './Plus-6a258f29', './IconButton-1b328b69', './useTranslationBundle-20bfc0f3', './Grid-209ab070', './useSpinning-d5dd87af'], (function(e,s,i,t,a,n,o,l,r,d,u,c,p,b,x,f,v,h,m,S,y,F,C,P,A,T,g,I,j,D,U,R,w,L,E,V,B,N,k,q,_,H,M,O,G,W,z){"use strict";function K({direction:e,isDisabled:i,children:t,onPointerDown:a,onPointerUp:n,onPointerOut:o,onPointerCancel:l}){const r=G.useTranslationBundle("@oracle/oraclejet-preact"),d=r.inputNumber_increase(),u=r.inputNumber_decrease(),c="increase"===e?d:u;return s.jsx(F.TabbableModeContext.Provider,{value:{isTabbable:!1},children:s.jsx("div",{"aria-hidden":"true",onPointerDown:a,onPointerUp:n,onPointerOut:o,onPointerCancel:l,children:s.jsx(O.IconButton,{isDisabled:i,tooltip:c,variant:"ghost",size:"sm",children:t})})})}function Z({children:e}){return s.jsx(W.Grid,{align:"center",gap:"1x",gridTemplateColumns:"1fr 1fr",children:e})}const J=i.forwardRef((({"aria-describedby":e,"aria-valuemax":i,"aria-valuemin":n,"aria-valuenow":p,"aria-valuetext":x,assistiveText:m,autoComplete:S="off",autoFocus:y=!1,columnSpan:F,helpSourceLink:C,helpSourceText:P,isDisabled:A,isReadonly:I,isRequired:j=!1,isRequiredShown:D,isStepDownDisabled:U,isStepUpDisabled:R,hasSteppers:w=!1,stepperVariant:L="directional",label:E,labelEdge:V,labelStartWidth:B,messages:N,placeholder:O,prefix:G,suffix:W,textAlign:J,userAssistanceDensity:X,value:Y,variant:$="default",virtualKeyboard:ee,onInput:se,onCommit:ie,onSpin:te,onSpinComplete:ae,onStep:ne,testId:oe},le)=>{const{currentCommitValue:re,dispatch:de}=k.useCurrentValueReducer({value:Y}),ue=t.useCallback((e=>{de({type:"input",payload:e.value}),se?.(e)}),[se,de]),ce=t.useCallback((e=>{de({type:"commit",payload:e.value}),ie?.(e)}),[ie,de]),{isDisabled:pe,isReadonly:be,labelEdge:xe,labelStartWidth:fe,textAlign:ve,userAssistanceDensity:he}=o.useFormContext(),me=A??pe,Se=I??be,ye=V??xe,Fe=B??fe,Ce=J??ve,Pe=X??he,{enabledElementRef:Ae,focusProps:Te,isFocused:ge,readonlyElementRef:Ie}=a.useFocusableTextField({isDisabled:me,isReadonly:Se,ref:le}),{baseId:je,formFieldContext:De,inputProps:Ue,labelProps:Re,textFieldProps:we,userAssistanceProps:Le}=r.useTextField({ariaDescribedBy:e,helpSourceLink:C,helpSourceText:P,isDisabled:me,isFocused:ge,isReadonly:Se,isRequiredShown:D,labelEdge:ye,messages:N,styleVariant:$,userAssistanceDensity:Pe,value:Y}),Ee=me||U,Ve=me||R,Be=t.useCallback((e=>{ge||Ae.current?.focus(),ne?.(e)}),[ne,ge,Ae]),{keyboardHandlerProps:Ne,pointerIncreaseHandlerProps:ke,pointerDecreaseHandlerProps:qe}=z.useSpinning({isStepDownDisabled:Ee,isStepUpDisabled:Ve,onSpin:te,onSpinComplete:ae,onStep:Be}),_e=w?s.jsx(K,{direction:"decrease",isDisabled:Ee,...qe,children:"directional"===L?s.jsx(q.SvgChevronDown,{}):s.jsx(H.SvgMinus,{})}):void 0,He=w?s.jsx(K,{direction:"increase",isDisabled:Ve,...ke,children:"directional"===L?s.jsx(_.SvgChevronUp,{}):s.jsx(M.SvgPlus,{})}):void 0,Me=w&&"quantitative"===L?_e:void 0,Oe=w?"directional"===L?s.jsxs(Z,{children:[_e,He]}):He:void 0,Ge=void 0!==E&&"inside"===ye,{shouldRenderPrefix:We,shouldRenderSuffix:ze,prefixProps:Ke,suffixProps:Ze,valuePrefixSuffix:Je,ariaLabelledBy:Qe}=c.usePrefixSuffix({baseId:je,hasEndContent:void 0!==Oe,hasInsideLabel:Ge,hasStartContent:void 0!==Me,hasValue:De.hasValue,isDisabled:me,isFocused:ge,labelId:Re.id,prefix:G,suffix:W,value:Y}),Xe=We?s.jsx(u.PrefixSuffix,{...Ke}):void 0,Ye=ze?s.jsx(u.PrefixSuffix,{...Ze}):void 0,$e="none"!==ye?s.jsx(d.Label,{...Re,children:E}):void 0,es={label:"none"!==ye?$e:void 0,labelEdge:"none"!==ye?ye:void 0,labelStartWidth:"none"!==ye?Fe:void 0},ss="none"===ye?E:void 0,is="efficient"===Pe||"reflow"===Pe?me||Se?"efficient"!==Pe?void 0:s.jsx(T.InlineUserAssistance,{userAssistanceDensity:Pe,...Le}):s.jsx(T.InlineUserAssistance,{assistiveText:m,fieldLabel:E,helpSourceLink:C,helpSourceText:P,messages:N,isRequiredShown:D,userAssistanceDensity:Pe,...Le}):void 0,ts=t.useRef(null),as="compact"===Pe?s.jsx(g.CompactUserAssistance,{anchorRef:ts,messages:N,assistiveText:m,...Le}):void 0;if(Se){const e=s.jsx(f.ReadonlyTextFieldInput,{"aria-describedby":Ue["aria-describedby"],"aria-label":ss,"aria-labelledby":Re.id,as:"div",autoFocus:y,elementRef:Ie,textAlign:Ce,value:Je,hasEmptyLabel:""===E&&"none"===ye,hasInsideLabel:Ge});return s.jsx(l.FormFieldContext.Provider,{value:De,children:s.jsx(v.ReadonlyTextField,{role:"presentation",columnSpan:F,compactUserAssistance:as,inlineUserAssistance:is,onBlur:Te.onFocusOut,onFocus:Te.onFocusIn,ref:ts,mainContent:e,testId:oe,...es})})}const ns=void 0===p||p.toString()!==x?x:void 0,os=s.jsxs(s.Fragment,{children:[Xe,s.jsx(b.TextFieldInput,{"aria-labelledby":Qe,"aria-label":ss,"aria-valuemax":w?i:void 0,"aria-valuemin":w?n:void 0,"aria-valuenow":w?p:void 0,"aria-valuetext":w?ns:void 0,autoComplete:S,autoFocus:y,currentCommitValue:re,hasEmptyLabel:""===E&&"none"===ye,hasEndContent:void 0!==Oe,hasInsideLabel:Ge,hasPrefix:void 0!==Xe,hasStartContent:void 0!==Me,hasSuffix:void 0!==Ye,inputRef:Ae,isRequired:j,placeholder:O,role:w?"spinbutton":void 0,textAlign:Ce,type:Q()?ee:void 0,value:me?Je:Y,onCommit:ce,onInput:ue,...Ue,...w?Ne:{}}),Ye]});return s.jsx(l.FormFieldContext.Provider,{value:De,children:s.jsx(h.TextField,{startContent:Me,endContent:Oe,columnSpan:F,compactUserAssistance:as,inlineUserAssistance:is,mainContent:os,onBlur:Te.onFocusOut,onFocus:Te.onFocusIn,mainFieldRef:ts,hasZeroStartMargin:w&&"quantitative"===L,testId:oe,...we,...es})})}));function Q(){const e=p.getClientHints().deviceType;return"phone"===e||"tablet"===e}e.NumberInputText=J,e.stepperVariants=["directional","quantitative"]}));
+//# sourceMappingURL=NumberInputText-0d8284f8.js.map
+;
+define('@oracle/oraclejet-preact/UNSAFE_NumberInputText',['exports', './NumberInputText-0d8284f8', 'preact/jsx-runtime', 'preact/compat', 'preact/hooks', './useFocusableTextField-c2f98a8b', './useFocusWithin-5a504fca', './FormContext-5130e198', 'preact', './useFormContext-30acdd33', './FormFieldContext-3c44aaaa', './useTextField-e6877c79', './useMessageSeverity-1d69e1ae', './stringUtils-0ae982c2', './useFormFieldContextProps-4e36b4c3', './useId-c9578d26', './Label-3f8fc274', './useFormFieldContext-8196183c', './classNames-08d99695', './useComponentTheme-5aa41a8f', './logger-0f873e29', './TabbableModeContext-a9c97640', './LayerHost-0a244de8', './Common/themes/redwood/theme', './Common/themes/themeContract.css', 'css!./UserAssistanceStyles.styles.css', 'module', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceVariants.css', './vanilla-extract-recipes-createRuntimeFn.esm-d881c69a', './Flex-db3ddadb', './useTestId-f3b8b319', './boxalignment-1e23a8e6', './size-4e81acac', './utils-61ef4ad6', './colorUtils-7c069766', './_curry1-df649359', './arrayUtils-6ee96a35', 'css!./boxalignment.styles.css', './vanilla-extract-sprinkles-createRuntimeSprinkles.esm-84d30764', './dimensions-89f18413', './flexbox-8521f6aa', 'css!./flexbox.styles.css', './flexitem-5db48325', 'css!./flexitem.styles.css', './mergeInterpolations-9ede4cf7', './mergeDeepWithKey-aaab9019', './_curry3-83878f86', './_curry2-86c52b86', './_isObject-42bafc94', 'css!./FlexStyles.styles.css', 'css!./MessageBannerStyles.styles.css', 'module', './UNSAFE_MessageBanner/themes/redwood/MessageBannerVariants.css', 'css!./MessageBannerVariants.styles.css', './useTooltipControlled-18271c7a', './Floating-8f519f4d', './useFloating-30975c41', './useUser-9b166ca3', './positionUtils-3193ab54', './refUtils-d354a169', './useOutsideClick-90052c27', './Layer-8d7bbd69', './UNSAFE_Layer/themes/LayerStyles.css', 'css!./LayerStyles.styles.css', './useThemeInterpolations-1f5fd8f3', './useColorScheme-3ffd80c4', './useScale-fe3420c6', './theme-a8f3d819', './Theme-d945adae', './UNSAFE_Floating/themes/redwood/FloatingTheme', './UNSAFE_Floating/themes/FloatingStyles.css', 'css!./FloatingStyles.styles.css', './UNSAFE_Floating/themes/redwood/FloatingBaseTheme.css', 'module', './UNSAFE_Floating/themes/redwood/FloatingVariants.css', './vanilla-extract-dynamic.esm-eceadd82', './UNSAFE_Floating/themes/FloatingContract.css', './useHover-1890d6a0', './useToggle-a29f97af', './useFocus-4194fc59', './useTouch-37489bb5', './mergeProps-bcfa6a92', './useAnimation-5bd3adfc', './hooks/UNSAFE_useTooltip/themes/redwood/TooltipContentTheme', './hooks/UNSAFE_useTooltip/themes/TooltipContentStyles.css', 'css!./TooltipContentStyles.styles.css', './hooks/UNSAFE_useTooltip/themes/redwood/TooltipContentBaseTheme.css', 'module', './hooks/UNSAFE_useTooltip/themes/redwood/TooltipContentVariants.css', 'css!./TooltipContentVariants.styles.css', './EnvironmentProvider-9e71b5c2', './LayerManager-00983765', 'css!./IconStyle.styles.css', './IconButton-1b328b69', './BaseButton-83ce1d00', './usePress-a9ed1488', './useActive-59e52f97', './useTabbableMode-dc440317', './clientHints-030d25aa', './UNSAFE_BaseButton/themes/redwood/BaseButtonTheme', './UNSAFE_BaseButton/themes/BaseButtonStyles.css', 'css!./BaseButtonStyles.styles.css', './UNSAFE_BaseButton/themes/redwood/BaseButtonVariants.css', 'module', './ButtonLabelLayout-204d32ae', './Text-e132dec0', './UNSAFE_Text/themes/TextStyles.css', 'css!./TextStyles.styles.css', './UNSAFE_ButtonLabelLayout/themes/redwood/ButtonLabelLayoutTheme', './UNSAFE_ButtonLabelLayout/themes/ButtonLabelLayoutStyles.css', 'css!./ButtonLabelLayoutStyles.styles.css', './UNSAFE_ButtonLabelLayout/themes/redwood/ButtonLabelLayoutBaseTheme.css', 'module', './UNSAFE_ButtonLabelLayout/themes/redwood/ButtonLabelLayoutVariants.css', 'css!./ButtonLabelLayoutVariants.styles.css', './useTooltip-e965a559', './buttonUtils-20d1b249', './id-c70ab33c', 'css!./MessageStyles.styles.css', './MessageFormattingUtils-2e19d8de', './getLocale-ae79e654', './TransitionGroup-3b9d81b6', './MessagesContext-602a69a2', 'css!./HiddenAccessibleStyles.styles.css', 'css!./ComponentMessageStyles.styles.css', 'module', './UNSAFE_ComponentMessage/themes/redwood/ComponentMessageVariants.css', './InputGroupContext-372087af', './Popup-b5495d55', './tabbableUtils-62c44f56', './head-9cb1a3da', './_arity-5a5f5f71', './_isArray-32602db6', './_isString-d0ada3cb', './FocusTrap-eb3989cb', './FocusTracker-545d5904', './PRIVATE_FocusTracker/themes/FocusTrackerStyles.css', 'css!./FocusTrackerStyles.styles.css', './Modal-8f19889c', './UNSAFE_Modal/themes/ModalStyles.css', 'css!./ModalStyles.styles.css', './WindowOverlay-ad61cfea', './UNSAFE_WindowOverlay/themes/WindowOverlayStyles.css', 'css!./WindowOverlayStyles.styles.css', './UNSAFE_WindowOverlay/themes/WindowOverlayContract.css', './UNSAFE_WindowOverlay/themes/redwood/WindowOverlayTheme', './UNSAFE_WindowOverlay/themes/redwood/WindowOverlayBaseTheme.css', 'module', './UNSAFE_WindowOverlay/themes/redwood/WindowOverlayVariants.css', './usePopupAnimation-a0193874', './useAnimationStatus-88b9de0a', './popupAnimationUtils-d188eeb3', './UNSAFE_Popup/themes/PopupContract.css', './UNSAFE_Popup/themes/redwood/PopupTheme', './UNSAFE_Popup/themes/redwood/PopupBaseTheme.css', 'module', './UNSAFE_Popup/themes/redwood/PopupVariants.css', 'css!./PopupStyles.styles.css', './UNSAFE_Separator/themes/SeparatorStyles.css', 'css!./SeparatorStyles.styles.css', './CompactLabelAssistance-9b6b3be2', './useTranslationBundle-20bfc0f3', './CompactHelpSource-7de24d56', './Help-c0ec701e', './Icon-599f55f3', './UNSAFE_Icon/themes/IconStyle.css', './UNSAFE_UserAssistance/themes/UserAssistanceStyles.css', './UNSAFE_Label/themes/redwood/LabelTheme', './UNSAFE_Label/themes/LabelStyles.css', 'css!./LabelStyles.styles.css', './UNSAFE_Label/themes/redwood/LabelBaseTheme.css', 'module', './UNSAFE_Label/themes/redwood/LabelVariants.css', './UNSAFE_TextField/themes/redwood/TextFieldTheme', './UNSAFE_TextField/themes/TextFieldStyles.css', 'css!./SkeletonStyles.styles.css', 'css!./TextFieldLoadingStyles.styles.css', 'css!./TextFieldStyles.styles.css', './UNSAFE_TextField/themes/redwood/TextFieldBaseTheme.css', 'module', './UNSAFE_TextField/themes/redwood/TextFieldVariants.css', 'css!./TextFieldVariants.styles.css', './PrefixSuffix-0efb3bc6', './UNSAFE_PrefixSuffix/themes/PrefixSuffixStyles.css', 'css!./PrefixSuffixStyles.styles.css', './usePrefixSuffix-da47e340', './TextFieldInput-dfd9529f', './useAccessibleContext-23e8a333', './useTextFieldInputHandlers-69ae614a', './textAlign-ef924afd', 'css!./text.styles.css', './TextFieldUtils-f3868e96', './UNSAFE_TextField/themes/redwood/TextFieldInputTheme', './UNSAFE_TextField/themes/TextFieldInputStyles.css', 'css!./TextFieldInputStyles.styles.css', './UNSAFE_TextField/themes/redwood/TextFieldInputVariants.css', 'css!./TextFieldInputVariants.styles.css', 'css!./ObfuscatedTextFieldInputStyles.styles.css', './ReadonlyTextFieldInput-a5e85e5d', './UNSAFE_TextField/themes/redwood/ReadonlyTextFieldInputTheme', './UNSAFE_TextField/themes/ReadonlyTextFieldInputStyles.css', 'css!./ReadonlyTextFieldInputStyles.styles.css', './UNSAFE_TextField/themes/redwood/ReadonlyTextFieldInputVariants.css', './StyledTextField-8ac3bbb4', './LabelValueLayout-89e9f1be', 'css!./LabelValueLayoutStyles.styles.css', './UNSAFE_RadioItem/themes/redwood/RadioTheme', './UNSAFE_RadioItem/themes/RadioStyles.css', 'css!./RadioStyles.styles.css', './UNSAFE_RadioItem/themes/redwood/RadioBaseTheme.css', 'module', './UNSAFE_RadioItem/themes/redwood/RadioVariants.css', './UNSAFE_TextField/themes/redwood/FormLayoutTheme', './UNSAFE_TextField/themes/FormLayoutStyles.css', './UNSAFE_TextField/themes/redwood/FormLayoutBaseTheme.css', 'module', './UNSAFE_Checkbox/themes/redwood/CheckboxTheme', './UNSAFE_Checkbox/themes/CheckboxStyles.css', 'css!./CheckboxStyles.styles.css', './UNSAFE_Checkbox/themes/redwood/CheckboxBaseTheme.css', 'module', './UNSAFE_Checkbox/themes/redwood/CheckboxVariants.css', 'css!./CheckboxVariants.styles.css', './UNSAFE_Skeleton/themes/redwood/SkeletonTheme', './UNSAFE_Skeleton/themes/SkeletonStyles.css', './UNSAFE_Skeleton/themes/redwood/SkeletonBaseTheme.css', 'module', './UNSAFE_Skeleton/themes/redwood/SkeletonVariants.css', './LayoutStyles.css-d1dfed48', 'css!./LayoutStyles.styles.css', './useInputGroupContext-e6e19f4f', './UNSAFE_TextField/themes/redwood/ReadonlyTextFieldTheme', './UNSAFE_TextField/themes/ReadonlyTextFieldStyles.css', 'css!./ReadonlyTextFieldStyles.styles.css', './UNSAFE_TextField/themes/redwood/ReadonlyTextFieldVariants.css', 'css!./ReadonlyTextFieldVariants.styles.css', './TextField-0fc70892', 'css!./LiveRegionStyles.styles.css', './InlineUserAssistance-f4d1fa1b', './ComponentMessageContainer-dc4b7c7f', './MessagesManager-78a10f78', './SuccessS-e1f2cad9', './ErrorS-f41bce95', './InformationS-28ac133d', './WarningS-f0365779', './PRIVATE_Message/themes/MessageStyles.css', './soundUtils-f6535f03', './useMessagesContext-1395a997', './Transition-04efcc49', './HiddenAccessible-037ef42d', './UNSAFE_ComponentMessage/themes/redwood/ComponentMessageTheme', './UNSAFE_ComponentMessage/themes/ComponentMessageStyles.css', './UNSAFE_ComponentMessage/themes/redwood/ComponentMessageBaseTheme.css', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceTheme', './UNSAFE_UserAssistance/themes/redwood/UserAssistanceBaseTheme.css', './InlineHelp-3dae8034', './InlineHelpSource-359fd9df', './CompactUserAssistance-b2cbdbad', './Separator-181f7541', './useCurrentValueReducer-faded381', './ChevronDown-575edbfc', './ChevronUp-dd92fc9c', './Minus-b821ce41', './Plus-6a258f29', './Grid-209ab070', './grid-767b4587', 'css!./GridStyles.styles.css', './useSpinning-d5dd87af'], (function(e,s,t,o,a,l,d,n,c,i,r,m,S,y,F,h,u,T,b,A,U,p,x,_,f,E,N,w,B,g,C,L,I,k,M,V,R,v,P,O,W,H,G,j,D,z,K,q,J,Q,X,Y,Z,$,ee,se,te,oe,ae,le,de,ne,ce,ie,re,me,Se,ye,Fe,he,ue,Te,be,Ae,Ue,pe,xe,_e,fe,Ee,Ne,we,Be,ge,Ce,Le,Ie,ke,Me,Ve,Re,ve,Pe,Oe,We,He,Ge,je,De,ze,Ke,qe,Je,Qe,Xe,Ye,Ze,$e,es,ss,ts,os,as,ls,ds,ns,cs,is,rs,ms,Ss,ys,Fs,hs,us,Ts,bs,As,Us,ps,xs,_s,fs,Es,Ns,ws,Bs,gs,Cs,Ls,Is,ks,Ms,Vs,Rs,vs,Ps,Os,Ws,Hs,Gs,js,Ds,zs,Ks,qs,Js,Qs,Xs,Ys,Zs,$s,et,st,tt,ot,at,lt,dt,nt,ct,it,rt,mt,St,yt,Ft,ht,ut,Tt,bt,At,Ut,pt,xt,_t,ft,Et,Nt,wt,Bt,gt,Ct,Lt,It,kt,Mt,Vt,Rt,vt,Pt,Ot,Wt,Ht,Gt,jt,Dt,zt,Kt,qt,Jt,Qt,Xt,Yt,Zt,$t,eo,so,to,oo,ao,lo,no,co,io,ro,mo,So,yo,Fo,ho,uo,To,bo,Ao,Uo,po,xo,_o,fo,Eo,No,wo,Bo,go,Co,Lo,Io,ko,Mo,Vo,Ro,vo,Po,Oo,Wo,Ho,Go,jo,Do,zo,Ko,qo,Jo,Qo,Xo,Yo,Zo){"use strict";e.NumberInputText=s.NumberInputText,e.stepperVariants=s.stepperVariants,Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=UNSAFE_NumberInputText.js.map
+;
+define('@oracle/oraclejet-preact/hooks/UNSAFE_useUncontrolledState',['exports', 'preact/hooks'], (function(e,t){"use strict";e.useUncontrolledState=function(e,r){const[u,n]=t.useState(e),c=t.useRef(u),s=t.useRef(r);return s.current=r,[u,t.useCallback(((e,...t)=>{n(e),c.current!==e&&(s.current?.(e,...t),c.current=e)}),[])]},Object.defineProperty(e,"__esModule",{value:!0})}));
+//# sourceMappingURL=UNSAFE_useUncontrolledState.js.map
+;
+define('oj-c/editable-value/UNSAFE_useComponentMessaging/useComponentMessaging',["require", "exports", "@oracle/oraclejet-preact/hooks/UNSAFE_useUncontrolledState", "preact/hooks", "../utils/utils"], function (require, exports, UNSAFE_useUncontrolledState_1, hooks_1, utils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useComponentMessaging = void 0;
+    function useComponentMessaging({ messagesCustom: messagesCustomProp = [], onMessagesCustomChanged }) {
+        const [messagesCustom, setMessagesCustom] = (0, UNSAFE_useUncontrolledState_1.useUncontrolledState)(messagesCustomProp, onMessagesCustomChanged);
+        const [componentMessages, setComponentMessages] = (0, hooks_1.useState)([]);
+        const [deferredComponentMessages, setDeferredComponentMessages] = (0, hooks_1.useState)([]);
+        const prevMessagesCustomPropRef = (0, hooks_1.useRef)(messagesCustomProp);
+        const addComponentMessage = (0, hooks_1.useCallback)((...messages) => {
+            setComponentMessages((prevMessages) => [...prevMessages, ...messages]);
+        }, []);
+        const addDeferredComponentMessage = (0, hooks_1.useCallback)((message) => {
+            setComponentMessages((prevMessages) => [...prevMessages, message]);
+        }, []);
+        const clearAllComponentMessages = (0, hooks_1.useCallback)(() => {
+            setComponentMessages([]);
+            setDeferredComponentMessages([]);
+        }, []);
+        const clearDeferredComponentMessages = (0, hooks_1.useCallback)(() => {
+            setDeferredComponentMessages([]);
+        }, []);
+        const clearAllMessages = (0, hooks_1.useCallback)(() => {
+            setComponentMessages([]);
+            setDeferredComponentMessages([]);
+            setMessagesCustom([]);
+        }, []);
+        const hasCustomErrorMessages = (0, hooks_1.useCallback)(() => {
+            return messagesCustom.some((message) => message.severity === 'error');
+        }, [messagesCustom]);
+        const hasNoErrorMessages = (0, hooks_1.useCallback)(() => {
+            return (componentMessages.length === 0 &&
+                deferredComponentMessages.length === 0 &&
+                hasCustomErrorMessages() === false);
+        }, [componentMessages, deferredComponentMessages, hasCustomErrorMessages]);
+        const hasHiddenMessages = (0, hooks_1.useCallback)(() => {
+            return deferredComponentMessages.length !== 0;
+        }, [deferredComponentMessages]);
+        const showHiddenMessages = (0, hooks_1.useCallback)(() => {
+            setComponentMessages([...componentMessages, ...deferredComponentMessages]);
+            setDeferredComponentMessages([]);
+        }, [componentMessages, deferredComponentMessages]);
+        (0, hooks_1.useEffect)(() => {
+            if (prevMessagesCustomPropRef.current === messagesCustomProp) {
+                return;
+            }
+            prevMessagesCustomPropRef.current = messagesCustomProp;
+            if ((0, utils_1.isShallowEqual)(messagesCustom, messagesCustomProp)) {
+                return;
+            }
+            setMessagesCustom(messagesCustomProp);
+        }, [messagesCustom, messagesCustomProp]);
+        return (0, hooks_1.useMemo)(() => ({
+            componentMessages,
+            deferredComponentMessages,
+            messagesCustom,
+            visibleMessages: [...messagesCustom, ...componentMessages],
+            addComponentMessage,
+            addDeferredComponentMessage,
+            clearAllComponentMessages,
+            clearAllMessages,
+            clearDeferredComponentMessages,
+            hasCustomErrorMessages,
+            hasHiddenMessages,
+            hasNoErrorMessages,
+            setComponentMessages,
+            setDeferredComponentMessages,
+            showHiddenMessages
+        }), [
+            componentMessages,
+            deferredComponentMessages,
+            messagesCustom,
+            hasCustomErrorMessages,
+            hasHiddenMessages,
+            hasNoErrorMessages,
+            showHiddenMessages
+        ]);
+    }
+    exports.useComponentMessaging = useComponentMessaging;
+});
+
+/**
+ * @license
+ * Copyright (c) 2014, 2024, Oracle and/or its affiliates.
+ * Licensed under The Universal Permissive License (UPL), Version 1.0
+ * as shown at https://oss.oracle.com/licenses/upl/
+ * @ignore
+ */
+define('ojs/ojconverter-nativenumber',["exports","ojs/ojconfig","ojs/ojconverter-preferences"],function(t,e,n){"use strict";const i=".",r="-",o=/^([+|-])?(\d+\.\d+|\.?\d+)(?:[e|E])([+|-])?(\d+)$/,a=/^([+|-])?(\d+\.\d+|\.?\d+)$/,s=/0+$/,c=/^0+/;function l(t){let e=t.match(a);if(e){return{negative:e[1]===r,...m(e[2])}}if(e=t.match(o),e){const t=e[1]===r,n=m(e[2]);let i=parseInt(e[4]);return i=e[3]===r?-i:i,{negative:t,...u(n,i)}}throw new Error("Not a valid number")}function u(t,e){let{whole:n,decimal:i}=t;if(0===e||""===n&&""===i)return t;if(e>0){const t=Math.min(e,i.length),r=Math.max(e-t,0);n=n+i.substring(0,t)+"0".repeat(r),t>0&&(i=i.substring(t))}else{const t=Math.min(-e,n.length),r=Math.max(-e-t,0),o=n.length-t;i="0".repeat(r)+n.substring(o)+i,t>0&&(n=n.substring(0,o))}return n=d(n,!1),i=d(i,!0),{whole:n,decimal:i}}function m(t){let e="",n="";const r=t.split(i);if(1==r.length){const o=r[0];t.startsWith(i)?n=o:e=o}else e=r[0],n=r[1];return{whole:d(e,!1),decimal:d(n,!0)}}function d(t,e){return t.replace(e?s:c,"")}function g(t){let e=f.get(t);return e||(e=function(t){const e=function(t){const e=new Intl.NumberFormat(t,{useGrouping:!1,maximumFractionDigits:0}),n=new Map,i=e.format(9876543210);for(let t=0;t<10;t++){const e=i[t],r=(9-t).toString();n.set(e,r)}return n}(t),n=function(t){return p(t,{maximumFractionDigits:1,minimumFractionDigits:1},1.1,"decimal",".")}(t),i=h(t,!1),r=h(t,!0),o=function(t){return p(t,{style:"percent"},1,"percentSign","%")}(t),a=function(t){return p(t,{notation:"scientific"},100,"exponentSeparator","E")}(t);return{localToAsciiNumbers:e,decimalSeparator:n,negativeSign:i,positiveSign:r,percentSign:o,exponentSeparator:a}}(t),f.set(t,e)),e}function h(t,e){const n={signDisplay:"always"};return e?p(t,n,1,"plusSign","+"):p(t,n,-1,"minusSign","-")}function p(t,e,n,i,r){const o=new Intl.NumberFormat(t,e).formatToParts(n);return o.find(t=>t.type===i)?.value??r}const f=new Map,v=new Map([["HALF_UP","halfExpand"],["HALF_DOWN","halfTrunc"],["HALF_EVEN","halfEven"],["UP","expand"],["DOWN","trunc"],["CEILING","ceil"],["FLOOR","floor"]]),w=/0+$/;function F(t,e,n){let{whole:i,negative:r,decimal:o}=t;const a=o.length-e;if(a>0){const t=(i||"0")+o,s=[];let c=t.length-2,l=parseInt(t[c+1]);for(let e=0;c>=0;c--){let i=parseInt(t[c]);10===l&&(l=0,i++),e<a?(l=b(i,l,r,n),e++):(s.unshift(String(l)),l=i)}if(10===l?(s.unshift("0"),s.unshift("1")):s.unshift(String(l)),0===e)i=s.join(""),o="";else{i=s.slice(0,-e).join(""),o=s.slice(-e).join("").replace(w,"")}}return{whole:i,decimal:o}}function y(t){const e=t.roundingMode??"HALF_UP",n=v.get(e);if(!n)throw new Error("Invalid rounding mode");return n}function b(t,e,n,i){if(0===e||"DOWN"===i||"CEILING"===i&&n||"FLOOR"===i&&!n)return t;switch(i){case"HALF_UP":return t+(e>=5?1:0);case"HALF_DOWN":return t+(e>5?1:0);case"HALF_EVEN":return t+(5==e&&t%2==0||e<5?0:1);case"UP":case"CEILING":case"FLOOR":return t+1;default:throw new Error("Invalid rounding mode "+i)}}const D=new Set(["0","1","2","3","4","5","6","7","8","9"]);function I(t,e,n){const i=g(n),{decimal:r,group:o}=e.separators,{negativeSign:a,positiveSign:s,percentSign:c,localToAsciiNumbers:m,exponentSeparator:d}=i;let h,p=0,f="";for(let n of t)switch(n){case a:case"-":f+="-";break;case r:f+=".";break;case d:case"E":case"e":f+="E";break;case c:case"%":case s:case"+":case o:break;default:const t=m.get(n);t?f+=t:(N(e),D.has(n)&&(f+=n))}"percent"===e.style&&(p=-2);try{h=l(f)}catch(t){_()}0!==p&&(h={negative:h.negative,...u(h,p)}),e.roundDuringParse&&(h={negative:h.negative,...F(h,e.maximumFractionDigits,e.roundingMode)});const v=h.whole||"0",w=""!==h.decimal;return f=(h.negative?"-":"")+v+(w?"."+h.decimal:""),f}function N(t){"none"===t.lenientParse&&_()}function _(){throw new Error("Not a valid number",{cause:"userInput"})}function O(t,e){const n=function(t){let e;switch(t.style){case"decimal":case void 0:e=function(t){const e=t.decimalFormat??"standard",n={style:"decimal"};switch(e){case"short":n.notation="compact",n.compactDisplay="short";break;case"long":n.notation="compact",n.compactDisplay="long";break;case"standard":break;default:throw new Error("Invalid decimalFormat: "+e)}return n}(t);break;case"currency":e=function(t){const e=t.currencyFormat??"standard",n=t.currency;if(!n)throw new Error("Currency option is required for currency style");const i={style:"currency",currency:n,currencyDisplay:t.currencyDisplay??"symbol"};switch(e){case"short":i.notation="compact",i.compactDisplay="short";break;case"standard":break;default:throw new Error("Invalid currencyFormat: "+e)}return i}(t);break;case"percent":e={style:"percent"};break;case"unit":const n=t.unit;if("byte"!==n&&"bit"!==n)throw new Error("invalid unit name");e={style:"unit",unitDisplay:"short",unit:n};break;default:throw new Error("Invalid format style")}return e}(t),{defaultMinFractionDigits:i,defaultMaxFractionDigits:r}=function(t,e){const n=new Intl.NumberFormat(e,t).resolvedOptions().minimumFractionDigits??0,i=new Intl.NumberFormat(e,t).resolvedOptions().maximumFractionDigits??0;return{defaultMinFractionDigits:n,defaultMaxFractionDigits:i}}(n,e),o=t.minimumFractionDigits??Math.min(i,t.maximumFractionDigits??Number.MAX_SAFE_INTEGER),a=t.maximumFractionDigits??Math.max(o,r);if(o>a)throw new Error("maximumFractionDigits value is out of range");const s={locale:e,minimumIntegerDigits:t.minimumIntegerDigits??0,minimumFractionDigits:o,maximumFractionDigits:a,useGrouping:t.useGrouping??void 0!==M(n,e,!1),lenientParse:t.lenientParse??"full",roundDuringParse:t.roundDuringParse??!1,roundingMode:t.roundingMode??"HALF_UP",separators:{decimal:t.separators?.decimal??g(e).decimalSeparator,group:t.separators?.group??M(n,e)}};let c;switch(t.style){case"decimal":case void 0:c={style:"decimal",decimalFormat:t.decimalFormat??"standard",...s};break;case"currency":c={style:"currency",currency:t.currency,currencyFormat:t.currencyFormat??"standard",currencyDisplay:t.currencyDisplay??"symbol",...s};break;case"percent":c={style:"percent",...s};break;case"unit":c={style:"unit",unit:t.unit,...s}}return{resolved:c,native:n}}function M(t,e,n=!0){const i=n?{...t,useGrouping:!0}:t,r=new Intl.NumberFormat(e,i).formatToParts(1e6);return r.find(t=>"group"===t.type)?.value}const x=[1e3,10**6,10**9,10**12,10**15],P=[1e3,10**6,10**9,10**12],E=[1e3,10**6,10**9,10**12],S=["byte","kilobyte","megabyte","gigabyte","terabyte","petabyte"],A=["bit","kilobit","megabit","gigabit","terabit"];function R(t,e,n){const{scaled:i,scaleIndex:r}=W(t,e,x,n);return{scaled:i,unit:S[r]}}function k(t,e,n){const{scaled:i,scaleIndex:r}=W(t,e,P,n);return{scaled:i,unit:A[r]}}function G(t,e){const{scaled:n,scaleIndex:i}=T(t,x,e);return{scaled:n,unit:S[i]}}function L(t,e){const{scaled:n,scaleIndex:i}=T(t,P,e);return{scaled:n,unit:A[i]}}function W(t,e,n,i,r=!1){let{whole:o,negative:a,decimal:s}=t;const c=BigInt(o),l=n.length;let m=-1;for(let t=0;t<l&&c>=BigInt(n[t]);t++,m++);let d=3*(m+1),g=u({whole:o,decimal:s},-d),h=F({whole:g.whole,decimal:g.decimal,negative:a},e(g.decimal.length),i.roundingMode);return m<l-1&&BigInt(h.whole)===BigInt(n[m])&&(m++,d+=3,g=u({whole:o,decimal:s},-d),h=F({whole:g.whole,decimal:g.decimal,negative:a},e(g.decimal.length),i.roundingMode)),g={whole:r?(BigInt(h.whole)*BigInt(10**d)).toString():h.whole,decimal:h.decimal},{scaled:g,scaleIndex:m+1}}function T(t,e,n){const i=new Intl.NumberFormat("en-US",{minimumFractionDigits:n.minimumFractionDigits,maximumFractionDigits:n.maximumFractionDigits,useGrouping:!1});i.roundingMode=y(n);const r=e.length;let o=-1;for(let n=0;n<r&&t>=e[n];n++,o++);let a=-3*(o+1),s=t*10**a,c=parseFloat(i.format(s));return o<r-1&&c===e[o]&&(o++,a-=3,s=t*10**a),{scaled:s,scaleIndex:o+1}}t.BigDecimalStringConverter=class{constructor(t){const i=t??{style:"decimal"},r=n.getMergedNumberPreferencesWithOptions(i);this.options=r,this.locale=this.options.locale??e.getLocale()}format(t){if("string"!=typeof t)throw new Error("the value must be a string");const e=l(t),{native:n,resolved:i}=this._getResolvedAndNativeOptions();switch(i.style){case"decimal":case"currency":const t="compact"===n.notation?"compact":null;return this._format(e,n,t);case"percent":return this._format(e,n,"percent");case"unit":return this._format(e,n,i.unit)}}parse(t){return I(t,this.resolvedOptions(),this.locale)}resolvedOptions(){return this._getResolvedAndNativeOptions().resolved}getHint(){return null}_format(t,e={},n){let i=e;const r=this.resolvedOptions(),{minimumFractionDigits:o,maximumFractionDigits:a}=r;function s(t){return Math.min(Math.max(o,t),a)}let{decimal:c,whole:l,negative:m}=t;if("compact"===n){const{scaled:e}=function(t,e,n){return W(t,e,E,n,!0)}(t,s,r);l=e.whole,c=e.decimal}else if("percent"===n){const e=function(t,e,n){let{whole:i,negative:r,decimal:o}=t;const a=u({whole:i,decimal:o},2);return F({whole:a.whole,decimal:a.decimal,negative:r},n(a.decimal.length),e.roundingMode)}(t,r,s);l=e.whole,c=e.decimal}else if("byte"===n||"bit"===n){const e="byte"===n?R:k,{scaled:o,unit:a}=e(t,s,r);l=o.whole,c=o.decimal,i={...i,unit:a}}else{const t=s(c.length);if(t<c.length){const e=F({negative:m,decimal:c,whole:l},t,r.roundingMode);l=e.whole,c=e.decimal}}return l=l||"0","percent"!==n?this._stitchFractionOnly(l,c,m,o,i):this._stitchWholeAndFraction(l,c,m,o,i)}_stitchFractionOnly(t,e,n,i,r={}){const o=this.options,a={...r,minimumIntegerDigits:o.minimumIntegerDigits,minimumFractionDigits:i};a.useGrouping=o.useGrouping;let s="0"===t?0:BigInt(t);if(n&&(s=-s),e){a.minimumFractionDigits=1;const t=this._formatToPartsWithCustomSeparators(new Intl.NumberFormat(this.locale,a),s),n=this._getFractionPart(e,i),r={useGrouping:!1,minimumIntegerDigits:this._getMinimumIntegerDigitsForFraction(e.length)},o=this._formatDecimalPart(r,n,e.length);let c="";for(let e of t)"fraction"===e.type?c+=o:c+=e.value;return c}return this._formatWithCustomSeparators(new Intl.NumberFormat(this.locale,a),s)}_stitchWholeAndFraction(t,e,n,i,r={}){const o=this.options,a=e.length,s={...r,useGrouping:!1,minimumFractionDigits:a>0||i>0?Math.max(i,1):0},c=this._formatToPartsWithCustomSeparators(new Intl.NumberFormat(this.locale,s),n?-1:1),l={minimumIntegerDigits:o.minimumIntegerDigits};l.useGrouping=o.useGrouping;const u=this._formatWithCustomSeparators(new Intl.NumberFormat(this.locale,l),BigInt(t));let m;if(a>0){const t=this._getFractionPart(e,i),n={useGrouping:!1,minimumIntegerDigits:this._getMinimumIntegerDigitsForFraction(a)};m=this._formatDecimalPart(n,t,a)}let d="";for(let t of c){const e=t.type;d+="fraction"===e?m??t.value:"integer"===e?u:t.value}return d}_formatWithCustomSeparators(t,e){const n=this.options?.separators?.decimal,i=this.options?.separators?.group;if(void 0===n&&void 0===i)return t.format(e);const r=t.formatToParts(e);let o="";for(let t of r)"group"===t.type?o+=i??t.value:"decimal"===t.type?o+=n??t.value:o+=t.value;return o}_formatToPartsWithCustomSeparators(t,e){const n=this.options?.separators?.decimal,i=this.options?.separators?.group;if(void 0===n&&void 0===i)return t.formatToParts(e);return t.formatToParts(e).map(t=>"group"===t.type?{...t,value:i??t.value}:"decimal"===t.type?{...t,value:n??t.value}:t)}_getFractionPart(t,e){const n=e-t.length;return n>0&&t.length>0?t+"0".repeat(n):t}_getMinimumIntegerDigitsForFraction(t){return Math.min(t,20)}_formatDecimalPart(t,e,n){let i=new Intl.NumberFormat(this.locale,t).format(BigInt(e));const r=n-i.length;if(r>0){i=new Intl.NumberFormat(this.locale).format(0).repeat(r)+i}return i}_getResolvedAndNativeOptions(){return this.cachedResolvedAndNativeOptions||(this.cachedResolvedAndNativeOptions=O(this.options,this.locale)),this.cachedResolvedAndNativeOptions}},t.NumberConverter=class{constructor(t){const i=t??{style:"decimal"},r=n.getMergedNumberPreferencesWithOptions(i);this.options=r,this.locale=this.options.locale??e.getLocale()}format(t){let e=t;if("number"!=typeof e)throw new Error("the value must be a number");const{resolved:n,native:i}=this._getResolvedAndNativeOptions(),r=this.options,o={...i,minimumIntegerDigits:r.minimumIntegerDigits,minimumFractionDigits:r.minimumFractionDigits,maximumFractionDigits:r.maximumFractionDigits,useGrouping:r.useGrouping,roundingMode:y(n)};if("unit"===n.style){const i="bit"===n.unit?L:G,{scaled:a,unit:s}=i(t,r);e=a,o.unit=s}const a=new Intl.NumberFormat(this.locale,o);if(r.separators){const t=r?.separators?.decimal,n=r?.separators?.group;if(void 0===t&&void 0===n)return a.format(e);return a.formatToParts(e).reduce((e,i)=>"group"===i.type?e+(n??i.value):"decimal"===i.type?e+(t??i.value):e+i.value,"")}return a.format(e)}parse(t){return new Number(I(t,this.resolvedOptions(),this.locale)).valueOf()}resolvedOptions(){return this._getResolvedAndNativeOptions().resolved}getHint(){return null}_getResolvedAndNativeOptions(){return this.cachedResolvedAndNativeOptions||(this.cachedResolvedAndNativeOptions=O(this.options,this.locale)),this.cachedResolvedAndNativeOptions}},t.USER_INPUT_ERROR="userInput",Object.defineProperty(t,"__esModule",{value:!0})});
+//# sourceMappingURL=ojconverter-nativenumber.js.map;
+define('oj-c/editable-value/UNSAFE_useConverter/useConverter',["require", "exports", "ojs/ojconverter-nativenumber", "preact/hooks", "@oracle/oraclejet-preact/hooks/UNSAFE_useTranslationBundle", "../utils/utils"], function (require, exports, ojconverter_nativenumber_1, hooks_1, UNSAFE_useTranslationBundle_1, utils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useConverter = exports.ConverterErrorSymbol = void 0;
+    exports.ConverterErrorSymbol = Symbol('ConverterError');
+    function shouldSkipParse(value) {
+        return value === '' || value === null;
+    }
+    function shouldSkipFormat(value) {
+        return value === null;
+    }
+    function useConverter({ componentMessagingState, validationState, converter }) {
+        const translations = (0, UNSAFE_useTranslationBundle_1.useTranslationBundle)('@oracle/oraclejet-preact');
+        const converterParseError = translations.inputNumber_converterParseError();
+        const parse = (0, hooks_1.useCallback)((displayValue) => {
+            if (!converter || shouldSkipParse(displayValue)) {
+                return displayValue;
+            }
+            try {
+                return converter.parse(displayValue);
+            }
+            catch (error) {
+                const errorMsg = error?.cause === ojconverter_nativenumber_1.USER_INPUT_ERROR
+                    ? {
+                        severity: 'error',
+                        detail: converterParseError
+                    }
+                    : (0, utils_1.createMessageFromError)(error);
+                componentMessagingState.setComponentMessages([errorMsg]);
+                validationState.setValid('invalidShown');
+                return exports.ConverterErrorSymbol;
+            }
+        }, [converter, componentMessagingState, validationState]);
+        const format = (0, hooks_1.useCallback)((value, shouldSuppressError = false) => {
+            if (!converter || shouldSkipFormat(value)) {
+                return (0, utils_1.treatNull)(value, '') ?? '';
+            }
+            try {
+                return converter.format(value);
+            }
+            catch (error) {
+                if (!shouldSuppressError) {
+                    componentMessagingState.setComponentMessages([(0, utils_1.createMessageFromError)(error)]);
+                    validationState.setValid('invalidShown');
+                }
+                return (0, utils_1.treatNull)(value, '');
+            }
+        }, [converter, componentMessagingState, validationState]);
+        return (0, hooks_1.useMemo)(() => ({
+            format,
+            parse
+        }), [format, parse]);
+    }
+    exports.useConverter = useConverter;
+});
+
+define('oj-c/editable-value/UNSAFE_useConverterLifecycle/useConverterLifecycle',["require", "exports", "preact/hooks"], function (require, exports, hooks_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useConverterLifecycle = void 0;
+    function useConverterLifecycle({ converter, validationState, refreshDisplayValue, runFullValidationAndUpdateValue }) {
+        const prevConverterRef = (0, hooks_1.useRef)(converter);
+        (0, hooks_1.useEffect)(() => {
+            if (prevConverterRef.current === converter) {
+                return;
+            }
+            prevConverterRef.current = converter;
+            const { valid } = validationState;
+            switch (valid) {
+                case 'invalidShown':
+                    runFullValidationAndUpdateValue();
+                    break;
+                case 'valid':
+                case 'invalidHidden':
+                default:
+                    refreshDisplayValue();
+                    break;
+            }
+        }, [converter, validationState, refreshDisplayValue, runFullValidationAndUpdateValue]);
+    }
+    exports.useConverterLifecycle = useConverterLifecycle;
+});
+
+define('oj-c/editable-value/UNSAFE_useValidators/useValidators',["require", "exports", "@oracle/oraclejet-preact/hooks/UNSAFE_useUncontrolledState", "preact/hooks", "../UNSAFE_useStaleIdentity/useStaleIdentity", "../utils/utils"], function (require, exports, UNSAFE_useUncontrolledState_1, hooks_1, useStaleIdentity_1, utils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useValidators = exports.ValidationResult = void 0;
+    exports.ValidationResult = {
+        VALID: 'VALID',
+        INVALID: 'INVALID',
+        STALE: 'STALE'
+    };
+    function useValidators({ componentMessagingState, defaultValidState, deferredValidators = [], validators = [], addBusyState, onValidChanged }) {
+        const [valid, setValid] = (0, UNSAFE_useUncontrolledState_1.useUncontrolledState)(defaultValidState, onValidChanged);
+        const { setStaleIdentity } = (0, useStaleIdentity_1.useStaleIdentity)();
+        (0, hooks_1.useLayoutEffect)(() => {
+            if (defaultValidState !== undefined) {
+                onValidChanged?.(defaultValidState);
+            }
+        }, []);
+        const { addComponentMessage, clearAllComponentMessages, clearAllMessages, hasCustomErrorMessages, setComponentMessages } = componentMessagingState;
+        const fullValidate = (0, hooks_1.useCallback)(async (value, options = {}) => {
+            const { doNotClearMessagesCustom = false } = options;
+            const hadCustomErrorMessages = hasCustomErrorMessages();
+            setValid('pending');
+            if (doNotClearMessagesCustom) {
+                clearAllComponentMessages();
+            }
+            else {
+                clearAllMessages();
+            }
+            if (validators.length === 0 && deferredValidators.length === 0) {
+                if (hadCustomErrorMessages && doNotClearMessagesCustom) {
+                    setValid('invalidShown');
+                }
+                else {
+                    setValid('valid');
+                }
+                return true;
+            }
+            function nonDeferredValidate(validator, value) {
+                try {
+                    const validateResult = validator.validate(value);
+                    if (validateResult instanceof Promise) {
+                        return validateResult.then(() => { }, (error) => (0, utils_1.createMessageFromError)(error));
+                    }
+                }
+                catch (error) {
+                    return (0, utils_1.createMessageFromError)(error);
+                }
+                return;
+            }
+            const errors = [];
+            const maybeErrorsPromise = [];
+            const deferredErrors = deferredValidate(value);
+            if (deferredErrors !== undefined) {
+                errors.push(...deferredErrors);
+            }
+            if (value !== null && value !== undefined) {
+                for (const validator of validators) {
+                    const maybeComponentMessageItem = nonDeferredValidate(validator, value);
+                    if (maybeComponentMessageItem !== undefined) {
+                        if (maybeComponentMessageItem instanceof Promise) {
+                            maybeErrorsPromise.push(maybeComponentMessageItem);
+                        }
+                        else {
+                            errors.push(maybeComponentMessageItem);
+                        }
+                    }
+                }
+            }
+            if (!errors.length && !maybeErrorsPromise.length) {
+                if (hadCustomErrorMessages && doNotClearMessagesCustom) {
+                    setValid('invalidShown');
+                }
+                else {
+                    setValid('valid');
+                }
+                return true;
+            }
+            const hasSyncError = errors.length !== 0;
+            if (hasSyncError) {
+                setComponentMessages(errors);
+                setValid('invalidShown');
+            }
+            if (!maybeErrorsPromise.length) {
+                return !hasSyncError;
+            }
+            const resolver = addBusyState?.('running validation');
+            const { isStale } = setStaleIdentity('useValidators-validate');
+            let hasAsyncError = false;
+            for (const asyncValidationResult of maybeErrorsPromise) {
+                const maybeValidationError = await asyncValidationResult;
+                if (maybeValidationError && !isStale()) {
+                    addComponentMessage(maybeValidationError);
+                    setValid('invalidShown');
+                    hasAsyncError = true;
+                }
+            }
+            if (!hasSyncError && !hasAsyncError && !isStale()) {
+                if (hadCustomErrorMessages && doNotClearMessagesCustom) {
+                    setValid('invalidShown');
+                }
+                else {
+                    setValid('valid');
+                }
+            }
+            resolver?.();
+            return !hasSyncError && !hasAsyncError;
+        }, [
+            addComponentMessage,
+            clearAllComponentMessages,
+            clearAllMessages,
+            deferredValidators,
+            validators
+        ]);
+        const deferredValidate = (0, hooks_1.useCallback)((value) => {
+            const errors = [];
+            for (const validator of deferredValidators) {
+                try {
+                    validator.validate(value);
+                }
+                catch (error) {
+                    errors.push((0, utils_1.createMessageFromError)(error));
+                }
+            }
+            if (errors.length) {
+                return errors;
+            }
+            return undefined;
+        }, [deferredValidators]);
+        const validateValueOnInternalChange = (0, hooks_1.useCallback)(async (value, options = {}) => {
+            const { isStale } = setStaleIdentity('useValidationLifeCycle-validateValueOnInternalChange');
+            const resolver = addBusyState?.('running validateValueOnInternalChange');
+            const validationResult = await fullValidate(value, options);
+            resolver?.();
+            if (isStale()) {
+                return exports.ValidationResult.STALE;
+            }
+            return validationResult ? exports.ValidationResult.VALID : exports.ValidationResult.INVALID;
+        }, [addBusyState, fullValidate]);
+        const validateValueOnExternalChange = (0, hooks_1.useCallback)((value) => {
+            const { clearAllMessages, setDeferredComponentMessages } = componentMessagingState;
+            clearAllMessages();
+            const maybeErrors = deferredValidate(value);
+            if (maybeErrors) {
+                setDeferredComponentMessages(maybeErrors);
+                setValid('invalidHidden');
+            }
+            else {
+                setValid('valid');
+            }
+            return exports.ValidationResult.VALID;
+        }, [componentMessagingState, deferredValidate]);
+        return (0, hooks_1.useMemo)(() => ({
+            valid,
+            setValid,
+            deferredValidate,
+            fullValidate,
+            validateValueOnExternalChange,
+            validateValueOnInternalChange
+        }), [
+            valid,
+            deferredValidate,
+            fullValidate,
+            validateValueOnExternalChange,
+            validateValueOnInternalChange
+        ]);
+    }
+    exports.useValidators = useValidators;
+});
+
+define('oj-c/editable-value/UNSAFE_useValidationLifecycle/useValidationLifecycle',["require", "exports", "preact/hooks", "../UNSAFE_useConverter/useConverter", "../UNSAFE_useValidators/useValidators", "../utils/utils"], function (require, exports, hooks_1, useConverter_1, useValidators_1, utils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useValidationLifecycle = void 0;
+    function useValidationLifecycle({ componentMessagingState, disabled, deferredValidators, readonly, validationState, validators, getValueForValidation, setValueAfterValidation }) {
+        const prevDeferredValidatorsRef = (0, hooks_1.useRef)(deferredValidators);
+        const prevValidatorsRef = (0, hooks_1.useRef)(validators);
+        const prevMessagesCustomRef = (0, hooks_1.useRef)(componentMessagingState.messagesCustom);
+        const prevReadonlyRef = (0, hooks_1.useRef)(readonly);
+        const prevDisabledRef = (0, hooks_1.useRef)(disabled);
+        const isFirstRender = (0, hooks_1.useRef)(true);
+        const runFullValidationAndUpdateValue = (0, hooks_1.useCallback)(async () => {
+            if (readonly || disabled)
+                return;
+            const { valid, validateValueOnInternalChange } = validationState;
+            const value = getValueForValidation(valid);
+            if (value === useConverter_1.ConverterErrorSymbol) {
+                return;
+            }
+            const validationResult = await validateValueOnInternalChange(value, {
+                doNotClearMessagesCustom: true
+            });
+            if (validationResult === useValidators_1.ValidationResult.VALID) {
+                setValueAfterValidation(value);
+            }
+        }, [disabled, readonly, validationState, getValueForValidation, setValueAfterValidation]);
+        (0, hooks_1.useEffect)(() => {
+            if (!isFirstRender.current)
+                return;
+            isFirstRender.current = false;
+            if (readonly || disabled) {
+                return;
+            }
+            const value = getValueForValidation('valid');
+            if (value === useConverter_1.ConverterErrorSymbol) {
+                return;
+            }
+            const { deferredValidate, setValid } = validationState;
+            const { hasCustomErrorMessages, setDeferredComponentMessages } = componentMessagingState;
+            const maybeErrors = deferredValidate(value);
+            if (maybeErrors) {
+                setDeferredComponentMessages(maybeErrors);
+                setValid('invalidHidden');
+            }
+            if (hasCustomErrorMessages()) {
+                setValid('invalidShown');
+            }
+        }, [disabled, readonly]);
+        (0, hooks_1.useEffect)(() => {
+            const isRequiredToggledToFalse = prevDeferredValidatorsRef.current !== deferredValidators && deferredValidators.length === 0;
+            if (prevDeferredValidatorsRef.current === deferredValidators &&
+                prevReadonlyRef.current === readonly &&
+                prevDisabledRef.current === disabled) {
+                return;
+            }
+            else {
+                prevReadonlyRef.current = readonly;
+                prevDisabledRef.current = disabled;
+                prevDeferredValidatorsRef.current = deferredValidators;
+            }
+            const runValidation = isRequiredToggledToFalse || (!readonly && !disabled);
+            if (!runValidation) {
+                return;
+            }
+            const { valid, deferredValidate, setValid } = validationState;
+            const { clearDeferredComponentMessages, setDeferredComponentMessages } = componentMessagingState;
+            switch (valid) {
+                case 'valid':
+                    const value = getValueForValidation(valid);
+                    if (value !== useConverter_1.ConverterErrorSymbol) {
+                        const maybeErrors = deferredValidate(value);
+                        if (maybeErrors) {
+                            setDeferredComponentMessages(maybeErrors);
+                            setValid('invalidHidden');
+                        }
+                    }
+                    break;
+                case 'invalidHidden':
+                    if (deferredValidators.length === 0) {
+                        setValid('valid');
+                        clearDeferredComponentMessages();
+                    }
+                    break;
+                case 'invalidShown':
+                    runFullValidationAndUpdateValue();
+                    break;
+            }
+        }, [
+            disabled,
+            readonly,
+            deferredValidators,
+            componentMessagingState,
+            validationState,
+            getValueForValidation,
+            runFullValidationAndUpdateValue
+        ]);
+        (0, hooks_1.useEffect)(() => {
+            if (prevValidatorsRef.current === validators) {
+                return;
+            }
+            else {
+                prevValidatorsRef.current = validators;
+            }
+            if (readonly || disabled) {
+                return;
+            }
+            switch (validationState.valid) {
+                case 'invalidShown':
+                    runFullValidationAndUpdateValue();
+                    break;
+            }
+        }, [disabled, readonly, validators, validationState]);
+        (0, hooks_1.useEffect)(() => {
+            if ((0, utils_1.isShallowEqual)(prevMessagesCustomRef.current, componentMessagingState.messagesCustom)) {
+                return;
+            }
+            const { messagesCustom, hasCustomErrorMessages, hasHiddenMessages, hasNoErrorMessages } = componentMessagingState;
+            const { valid, setValid } = validationState;
+            prevMessagesCustomRef.current = messagesCustom;
+            if (hasCustomErrorMessages()) {
+                setValid('invalidShown');
+            }
+            else if (valid === 'pending') {
+                return;
+            }
+            else if (hasNoErrorMessages()) {
+                setValid('valid');
+            }
+            else if (hasHiddenMessages()) {
+                setValid('invalidHidden');
+            }
+        }, [componentMessagingState, validationState]);
+        return {
+            runFullValidationAndUpdateValue
+        };
+    }
+    exports.useValidationLifecycle = useValidationLifecycle;
+});
+
+define('oj-c/editable-value/UNSAFE_useValue/useValue',["require", "exports", "@oracle/oraclejet-preact/hooks/UNSAFE_useUncontrolledState", "preact/hooks", "../utils/utils"], function (require, exports, UNSAFE_useUncontrolledState_1, hooks_1, utils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useValue = void 0;
+    function useValue({ value: valueProp, format, parse, onRawValueChanged, onTransientValueChanged, onValueChanged }) {
+        const [displayValue, setDisplayValue] = (0, UNSAFE_useUncontrolledState_1.useUncontrolledState)(format(valueProp, true), onRawValueChanged);
+        const [value, setValue] = (0, UNSAFE_useUncontrolledState_1.useUncontrolledState)(valueProp, onValueChanged);
+        (0, hooks_1.useEffect)(() => {
+            if (displayValue !== undefined) {
+                onRawValueChanged?.(displayValue);
+            }
+        }, []);
+        const [transientValue, setTransientValue] = (0, UNSAFE_useUncontrolledState_1.useUncontrolledState)(valueProp, onTransientValueChanged);
+        (0, hooks_1.useEffect)(() => {
+            if (valueProp !== undefined) {
+                onTransientValueChanged?.(valueProp);
+            }
+        }, []);
+        return {
+            displayValue,
+            transientValue,
+            value,
+            getValueForValidation: (0, hooks_1.useCallback)((valid) => {
+                if (valid !== 'invalidShown') {
+                    return value;
+                }
+                return parse((0, utils_1.normalizeValue)(displayValue));
+            }, [displayValue, value, parse]),
+            setValueAfterValidation: (0, hooks_1.useCallback)((value) => {
+                setValue(value);
+                setDisplayValue(format(value));
+            }, [format]),
+            setDisplayValue,
+            setTransientValue,
+            setValue,
+            refreshDisplayValue: (0, hooks_1.useCallback)(() => {
+                setDisplayValue(format(value));
+            }, [value, format])
+        };
+    }
+    exports.useValue = useValue;
+});
+
+define('oj-c/editable-value/UNSAFE_useValueLifecycle/useValueLifecycle',["require", "exports", "preact/hooks", "../UNSAFE_useValidators/useValidators"], function (require, exports, hooks_1, useValidators_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useValueLifecycle = void 0;
+    function useValueLifecycle({ value, valueState, format, validateValueOnExternalChange }) {
+        const previousValueRef = (0, hooks_1.useRef)(value);
+        (0, hooks_1.useEffect)(() => {
+            const { value, setDisplayValue } = valueState;
+            setDisplayValue(format(value));
+        }, []);
+        if (previousValueRef.current !== value) {
+            previousValueRef.current = value;
+            if (value !== undefined && value !== valueState.value) {
+                const { setDisplayValue, setValue } = valueState;
+                const validationResult = validateValueOnExternalChange(value);
+                if (validationResult === useValidators_1.ValidationResult.VALID) {
+                    setValue(value);
+                    setDisplayValue(format(value));
+                }
+            }
+        }
+    }
+    exports.useValueLifecycle = useValueLifecycle;
+});
+
+define('oj-c/editable-value/UNSAFE_useEditableValue/useEditableValue',["require", "exports", "preact/hooks", "../UNSAFE_useComponentMessaging/useComponentMessaging", "../UNSAFE_useConverter/useConverter", "../UNSAFE_useConverterLifecycle/useConverterLifecycle", "../UNSAFE_useDeferredValidators/useDeferredValidators", "../UNSAFE_useValidationLifecycle/useValidationLifecycle", "../UNSAFE_useValidators/useValidators", "../UNSAFE_useValue/useValue", "../UNSAFE_useValueLifecycle/useValueLifecycle", "../utils/utils"], function (require, exports, hooks_1, useComponentMessaging_1, useConverter_1, useConverterLifecycle_1, useDeferredValidators_1, useValidationLifecycle_1, useValidators_1, useValue_1, useValueLifecycle_1, utils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useEditableValue = void 0;
+    function useEditableValue({ ariaDescribedBy, converter, disabled, displayOptions, implicitComponentValidator, labelHint, messagesCustom, readonly, required, requiredMessageDetail, shouldNormalizeValueOnCommit = true, validators, value: valueProp, addBusyState, onMessagesCustomChanged, onRawValueChanged, onValidChanged, onValueChanged, onTransientValueChanged, wrapValueState }) {
+        const componentMessagingState = (0, useComponentMessaging_1.useComponentMessaging)({
+            messagesCustom,
+            onMessagesCustomChanged
+        });
+        const { clearAllMessages, visibleMessages } = componentMessagingState;
+        const deferredValidators = (0, useDeferredValidators_1.useDeferredValidators)({
+            labelHint,
+            required,
+            requiredMessageDetail
+        });
+        const combinedValidators = !implicitComponentValidator
+            ? validators
+            : validators
+                ? [implicitComponentValidator, ...validators]
+                : [implicitComponentValidator];
+        const validationState = (0, useValidators_1.useValidators)({
+            componentMessagingState,
+            defaultValidState: 'valid',
+            deferredValidators,
+            validators: combinedValidators,
+            addBusyState,
+            onValidChanged
+        });
+        const { validateValueOnExternalChange, validateValueOnInternalChange } = validationState;
+        const { format, parse } = (0, useConverter_1.useConverter)({
+            componentMessagingState,
+            converter,
+            validationState
+        });
+        const defaultValueState = (0, useValue_1.useValue)({
+            value: valueProp,
+            format,
+            parse,
+            onRawValueChanged,
+            onTransientValueChanged,
+            onValueChanged
+        });
+        const valueState = wrapValueState ? wrapValueState(defaultValueState) : defaultValueState;
+        const { displayValue, value, getValueForValidation, setValueAfterValidation, refreshDisplayValue, setDisplayValue, setTransientValue, setValue } = valueState;
+        const { runFullValidationAndUpdateValue } = (0, useValidationLifecycle_1.useValidationLifecycle)({
+            componentMessagingState,
+            validationState,
+            deferredValidators,
+            validators,
+            getValueForValidation,
+            setValueAfterValidation,
+            readonly,
+            disabled
+        });
+        (0, useConverterLifecycle_1.useConverterLifecycle)({
+            converter,
+            validationState,
+            refreshDisplayValue,
+            runFullValidationAndUpdateValue
+        });
+        (0, useValueLifecycle_1.useValueLifecycle)({
+            value: valueProp,
+            valueState,
+            format,
+            validateValueOnExternalChange
+        });
+        const normalizeAndParseValue = (0, hooks_1.useCallback)((value) => {
+            return parse(shouldNormalizeValueOnCommit ? (0, utils_1.normalizeValue)(value) : value);
+        }, [shouldNormalizeValueOnCommit, parse]);
+        const onCommitValue = (0, hooks_1.useCallback)(async (value, doCommitOnValid = true) => {
+            const validationResult = await validateValueOnInternalChange(value);
+            if (validationResult === useValidators_1.ValidationResult.VALID && doCommitOnValid) {
+                setValue(value);
+            }
+            return validationResult;
+        }, [validateValueOnInternalChange]);
+        const onCommit = (0, hooks_1.useCallback)(async ({ value }) => {
+            const parsedValueOrSymbol = normalizeAndParseValue(value);
+            if (parsedValueOrSymbol === useConverter_1.ConverterErrorSymbol) {
+                return;
+            }
+            const parsedValue = parsedValueOrSymbol;
+            const validationResult = await onCommitValue(parsedValue);
+            if (validationResult === useValidators_1.ValidationResult.VALID) {
+                setDisplayValue(format(parsedValue));
+            }
+        }, [format, onCommitValue, normalizeAndParseValue]);
+        const onInput = (0, hooks_1.useCallback)(({ value }) => {
+            setDisplayValue(value ?? '');
+        }, []);
+        const reset = (0, hooks_1.useCallback)(() => {
+            clearAllMessages();
+            validateValueOnExternalChange(value);
+            refreshDisplayValue();
+        }, [value, clearAllMessages, refreshDisplayValue, validateValueOnExternalChange]);
+        const validate = (0, hooks_1.useCallback)(async () => {
+            if (readonly || disabled) {
+                return 'valid';
+            }
+            const { fullValidate } = validationState;
+            const { displayValue, value, setValueAfterValidation } = valueState;
+            const newValueOrSymbol = normalizeAndParseValue(displayValue);
+            if (newValueOrSymbol === useConverter_1.ConverterErrorSymbol) {
+                return 'invalid';
+            }
+            const newValue = newValueOrSymbol;
+            const resolver = addBusyState?.('running component method validate');
+            const validateResult = await fullValidate(newValue);
+            resolver?.();
+            if (validateResult) {
+                if (newValue !== value) {
+                    setValueAfterValidation(newValue);
+                }
+                return 'valid';
+            }
+            return 'invalid';
+        }, [validationState, valueState, addBusyState, normalizeAndParseValue, readonly, disabled]);
+        const showMessages = (0, hooks_1.useCallback)(() => {
+            const { hasHiddenMessages, showHiddenMessages } = componentMessagingState;
+            const { setValid } = validationState;
+            if (hasHiddenMessages()) {
+                showHiddenMessages();
+                setValid('invalidShown');
+            }
+        }, [componentMessagingState, validationState]);
+        return {
+            value,
+            setValue,
+            displayValue,
+            setDisplayValue,
+            setTransientValue,
+            methods: {
+                reset,
+                validate,
+                showMessages
+            },
+            textFieldProps: {
+                messages: displayOptions?.messages !== 'none' ? visibleMessages : undefined,
+                value: displayValue,
+                'aria-describedby': ariaDescribedBy,
+                onCommit,
+                onInput
+            },
+            onCommitValue,
+            format,
+            normalizeAndParseValue,
+            validateValueOnExternalChange
+        };
+    }
+    exports.useEditableValue = useEditableValue;
+});
+
+define('oj-c/input-number/useImplicitNumberConverter',["require", "exports", "ojs/ojconverter-nativenumber", "preact/hooks"], function (require, exports, ojconverter_nativenumber_1, hooks_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useImplicitNumberConverter = void 0;
+    function useImplicitNumberConverter({ converter }) {
+        const implicitConverter = (0, hooks_1.useMemo)(() => {
+            return converter ?? new ojconverter_nativenumber_1.NumberConverter();
+        }, [converter]);
+        return implicitConverter;
+    }
+    exports.useImplicitNumberConverter = useImplicitNumberConverter;
+});
+
+define('oj-c/input-number/useImplicitNumberRangeValidator',["require", "exports", "preact/hooks", "ojs/ojvalidator-numberrange"], function (require, exports, hooks_1, NumberRangeValidator) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useImplicitNumberRangeValidator = void 0;
+    function useImplicitNumberRangeValidator({ converter, max, min, numberRangeExactMessageDetail, numberRangeOverflowMessageDetail, numberRangeUnderflowMessageDetail }) {
+        const numberRangeValidator = (0, hooks_1.useMemo)(() => {
+            if (min !== undefined || max !== undefined) {
+                return new NumberRangeValidator({
+                    converter,
+                    max,
+                    min,
+                    messageDetail: {
+                        exact: numberRangeExactMessageDetail,
+                        rangeOverflow: numberRangeOverflowMessageDetail,
+                        rangeUnderflow: numberRangeUnderflowMessageDetail
+                    }
+                });
+            }
+            return null;
+        }, [converter, min, max]);
+        return numberRangeValidator;
+    }
+    exports.useImplicitNumberRangeValidator = useImplicitNumberRangeValidator;
+});
+
+define('oj-c/input-number/stepBasisUtils',["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.determineSteppedValue = void 0;
+    function determineSteppedValue(step, stepOpt, currentParsedValue, initialValue, maxOpt, minOpt) {
+        const precision = _precision(stepOpt, initialValue, minOpt);
+        if (precision > 0) {
+            const power = Math.pow(10, precision);
+            const minOptPower = minOpt !== undefined ? Math.round(minOpt * power) : minOpt;
+            const maxOptPower = maxOpt != null ? Math.round(maxOpt * power) : maxOpt;
+            const stepOptPower = Math.round(stepOpt * power);
+            const adjustValuePower = _adjustValueForZeroPrecision(Math.round(step * power), stepOptPower, Math.round(currentParsedValue * power), initialValue !== undefined && initialValue !== null
+                ? Math.round(initialValue * power)
+                : initialValue, maxOptPower, minOptPower);
+            return adjustValuePower / power;
+        }
+        return _adjustValueForZeroPrecision(step, stepOpt, currentParsedValue, initialValue, maxOpt, minOpt);
+    }
+    exports.determineSteppedValue = determineSteppedValue;
+    function _adjustValueForZeroPrecision(step, stepOpt, currentParsedValue, initialValue, maxOpt, minOpt) {
+        let stepBase = minOpt != null ? minOpt : initialValue;
+        if (stepBase === null || stepBase === undefined) {
+            stepBase = 0;
+        }
+        try {
+            currentParsedValue = parseFloat(currentParsedValue.toFixed(0));
+        }
+        catch (e) {
+            if (e instanceof TypeError) {
+                currentParsedValue = +currentParsedValue;
+            }
+        }
+        let aboveMin = currentParsedValue - stepBase;
+        let rounded = Math.round(aboveMin / stepOpt) * stepOpt;
+        rounded = parseFloat(rounded.toFixed(0));
+        const multiple = rounded === aboveMin;
+        let newValue;
+        if (!multiple) {
+            if (step < 0) {
+                aboveMin = Math.ceil(aboveMin / stepOpt) * stepOpt;
+            }
+            else {
+                aboveMin = Math.floor(aboveMin / stepOpt) * stepOpt;
+            }
+            newValue = stepBase + aboveMin + step;
+        }
+        else {
+            newValue = currentParsedValue + step;
+        }
+        newValue = parseFloat(newValue.toFixed(0));
+        if (minOpt != null && newValue < minOpt) {
+            return minOpt;
+        }
+        if (maxOpt != null && newValue > maxOpt) {
+            let validMax = Math.floor((maxOpt - stepBase) / stepOpt) * stepOpt + stepBase;
+            validMax = parseFloat(validMax.toFixed(0));
+            return validMax;
+        }
+        return newValue;
+    }
+    function _precision(stepOpt, initialValue, minOpt) {
+        let precision = _precisionOf(stepOpt);
+        if (minOpt != null) {
+            precision = Math.max(precision, _precisionOf(minOpt));
+        }
+        if (initialValue != null) {
+            precision = Math.max(precision, _precisionOf(initialValue));
+        }
+        return precision;
+    }
+    function _precisionOf(num) {
+        const str = num.toString();
+        const decimal = str.indexOf('.');
+        return decimal === -1 ? 0 : str.length - decimal - 1;
+    }
+});
+
+define('oj-c/input-number/useNumberInputTextPreact',["require", "exports", "oj-c/editable-value/UNSAFE_useEditableValue/useEditableValue", "oj-c/editable-value/UNSAFE_useValidators/useValidators", "./useImplicitNumberConverter", "./useImplicitNumberRangeValidator", "preact/hooks", "oj-c/editable-value/utils/utils", "./stepBasisUtils"], function (require, exports, useEditableValue_1, useValidators_1, useImplicitNumberConverter_1, useImplicitNumberRangeValidator_1, hooks_1, utils_1, stepBasisUtils_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.useNumberInputTextPreact = void 0;
+    function useNumberInputTextPreact({ autocomplete = 'on', autofocus, converter: propConverter, disabled, displayOptions, inputPrefix, inputSuffix, labelEdge, labelHint, labelStartWidth, max, messagesCustom, min, numberRangeExactMessageDetail, numberRangeOverflowMessageDetail, numberRangeUnderflowMessageDetail, placeholder, readonly, required, requiredMessageDetail, step, stepperVariant, textAlign, userAssistanceDensity, validators, value: propValue, virtualKeyboard, onMessagesCustomChanged, onRawValueChanged, onTransientValueChanged, onValidChanged, onValueChanged, ...otherProps }, addBusyState) {
+        const minTreatNull = (0, utils_1.treatNull)(min);
+        const maxTreatNull = (0, utils_1.treatNull)(max);
+        const converter = (0, useImplicitNumberConverter_1.useImplicitNumberConverter)({
+            converter: propConverter
+        });
+        const implicitComponentValidator = (0, useImplicitNumberRangeValidator_1.useImplicitNumberRangeValidator)({
+            converter,
+            max: maxTreatNull,
+            min: minTreatNull,
+            numberRangeExactMessageDetail,
+            numberRangeOverflowMessageDetail,
+            numberRangeUnderflowMessageDetail
+        });
+        const { onCommitValue, format, normalizeAndParseValue, methods, textFieldProps, value, setValue, displayValue, setDisplayValue, setTransientValue } = (0, useEditableValue_1.useEditableValue)({
+            ariaDescribedBy: otherProps['aria-describedby'],
+            converter,
+            disabled,
+            displayOptions,
+            implicitComponentValidator,
+            messagesCustom,
+            readonly,
+            required,
+            requiredMessageDetail,
+            validators,
+            value: propValue,
+            addBusyState,
+            onMessagesCustomChanged,
+            onRawValueChanged,
+            onTransientValueChanged,
+            onValidChanged,
+            onValueChanged
+        });
+        const hasMin = minTreatNull !== undefined;
+        const hasMax = maxTreatNull !== undefined;
+        const isValidating = (0, hooks_1.useRef)(false);
+        const stepQueue = (0, hooks_1.useRef)(new Array());
+        const currentDisplayValueInStep = (0, hooks_1.useRef)(displayValue);
+        const initialValue = (0, hooks_1.useRef)((0, utils_1.treatNull)(propValue));
+        if (propValue !== value) {
+            initialValue.current = (0, utils_1.treatNull)(propValue);
+        }
+        const [valueNow, setValueNow] = (0, hooks_1.useState)((0, utils_1.treatNull)(value));
+        const [prevValue, setPrevValue] = (0, hooks_1.useState)(value);
+        if (value !== prevValue) {
+            setPrevValue(value);
+            setValueNow((0, utils_1.treatNull)(value));
+            setTransientValue(value);
+        }
+        const [hasUncommittedDisplayValue, setHasUncommittedDisplayValue] = (0, hooks_1.useState)(false);
+        currentDisplayValueInStep.current = displayValue;
+        const onCommit = (0, hooks_1.useCallback)(async ({ value }) => {
+            setHasUncommittedDisplayValue(false);
+            const parsedValueOrSymbol = normalizeAndParseValue(value);
+            const parsedValue = parsedValueOrSymbol;
+            if (typeof parsedValueOrSymbol === 'symbol') {
+                setValueNow(undefined);
+                return;
+            }
+            const validationResult = await onCommitValue(parsedValue);
+            if (validationResult === useValidators_1.ValidationResult.VALID) {
+                const formattedValue = format(parsedValue);
+                setDisplayValue(formattedValue);
+            }
+            else {
+                setValueNow(parsedValue);
+            }
+        }, [format, normalizeAndParseValue, onCommitValue]);
+        const onInput = (0, hooks_1.useCallback)(({ value }) => {
+            setDisplayValue(value ?? '');
+            setHasUncommittedDisplayValue(true);
+        }, []);
+        const textFieldPropsWithOverride = { ...textFieldProps, onCommit, onInput };
+        const doStep = (0, hooks_1.useCallback)(async (direction, doCommit) => {
+            if (step === undefined || isValidating.current) {
+                return;
+            }
+            const displayValueToStep = currentDisplayValueInStep.current || '0';
+            const parsedValueOrSymbol = normalizeAndParseValue(displayValueToStep);
+            if (typeof parsedValueOrSymbol === 'symbol') {
+                return;
+            }
+            const parsedValue = parsedValueOrSymbol;
+            let newSteppedValue;
+            if (direction !== undefined) {
+                const stepValue = direction === 'increase' ? step : -1 * step;
+                newSteppedValue = (0, stepBasisUtils_1.determineSteppedValue)(stepValue, step, parsedValue, initialValue.current, maxTreatNull, minTreatNull);
+            }
+            else {
+                newSteppedValue = parsedValue;
+            }
+            isValidating.current = true;
+            const formattedValue = format(newSteppedValue);
+            setDisplayValue(formattedValue);
+            currentDisplayValueInStep.current = formattedValue;
+            const validationResult = await onCommitValue(newSteppedValue, doCommit);
+            const isSpinning = doCommit === false;
+            const valueCommitted = doCommit && validationResult === useValidators_1.ValidationResult.VALID;
+            if (isSpinning && validationResult === useValidators_1.ValidationResult.VALID) {
+                setTransientValue(newSteppedValue);
+            }
+            if (!valueCommitted) {
+                setValueNow(newSteppedValue);
+            }
+            isValidating.current = false;
+        }, [value, displayValue, format, normalizeAndParseValue, onCommitValue]);
+        const processStepQueue = (0, hooks_1.useCallback)(async (direction) => {
+            await doStep(direction, true);
+            if (stepQueue.current.length > 0) {
+                const direction = stepQueue.current.shift();
+                processStepQueue(direction);
+            }
+        }, [doStep]);
+        const handleStep = (0, hooks_1.useCallback)(async ({ direction }) => {
+            if (isValidating.current) {
+                stepQueue.current.push(direction);
+            }
+            else {
+                processStepQueue(direction);
+            }
+        }, [processStepQueue]);
+        const handleSpin = (0, hooks_1.useCallback)(async ({ direction }) => {
+            const doCommit = false;
+            stepQueue.current = [];
+            doStep(direction, doCommit);
+        }, [doStep]);
+        const handleSpinComplete = (0, hooks_1.useCallback)(async () => {
+            const parsedValueOrSymbol = normalizeAndParseValue(currentDisplayValueInStep.current);
+            const parsedValue = parsedValueOrSymbol;
+            if (typeof parsedValueOrSymbol === 'symbol') {
+                return;
+            }
+            await onCommitValue(parsedValue);
+        }, [onCommitValue, normalizeAndParseValue]);
+        const valueText = calculateValueText(hasUncommittedDisplayValue, displayValue, valueNow, format);
+        return {
+            value,
+            setValue,
+            methods,
+            inputNumberProps: {
+                'aria-valuemax': maxTreatNull,
+                'aria-valuemin': minTreatNull,
+                'aria-valuenow': valueNow ?? undefined,
+                'aria-valuetext': valueText,
+                autoComplete: autocomplete,
+                autoFocus: autofocus,
+                hasSteppers: step !== undefined && step > 0,
+                isDisabled: disabled,
+                isReadonly: readonly,
+                isRequired: required,
+                isRequiredShown: required && (userAssistanceDensity === 'compact' || (0, utils_1.treatNull)(value) === undefined),
+                label: labelHint,
+                labelEdge,
+                labelStartWidth,
+                stepperVariant,
+                onSpin: step ? handleSpin : undefined,
+                onSpinComplete: step ? handleSpinComplete : undefined,
+                onStep: step ? handleStep : undefined,
+                placeholder,
+                prefix: inputPrefix,
+                suffix: inputSuffix,
+                isStepDownDisabled: disabled ||
+                    (hasMin &&
+                        ((valueNow !== undefined && valueNow <= minTreatNull) ||
+                            (displayValue === '' && minTreatNull === 0))),
+                isStepUpDisabled: disabled ||
+                    (hasMax &&
+                        ((valueNow !== undefined && valueNow >= maxTreatNull) ||
+                            (displayValue === '' && maxTreatNull === 0))),
+                textAlign,
+                userAssistanceDensity,
+                virtualKeyboard,
+                ...textFieldPropsWithOverride
+            }
+        };
+    }
+    exports.useNumberInputTextPreact = useNumberInputTextPreact;
+    function calculateValueText(hasUncommittedDisplayValue, displayValue, valueNow, format) {
+        if (!hasUncommittedDisplayValue) {
+            return displayValue !== '' ? displayValue : undefined;
+        }
+        let valueText;
+        if (valueNow) {
+            valueText = format(valueNow);
+        }
+        return valueText === '' || valueText === null ? undefined : valueText;
+    }
+});
+
+
+define('css!oj-c/input-number/input-number-styles',[],function(){});
+define('oj-c/input-number/input-number',["require", "exports", "preact/jsx-runtime", '@oracle/oraclejet-preact/translationBundle', "@oracle/oraclejet-preact/hooks/UNSAFE_useFormContext", "oj-c/hooks/UNSAFE_useMergedFormContext/useMergedFormContext", "@oracle/oraclejet-preact/hooks/UNSAFE_useFormVariantContext", "@oracle/oraclejet-preact/hooks/UNSAFE_useTabbableMode", "@oracle/oraclejet-preact/UNSAFE_NumberInputText", "oj-c/editable-value/UNSAFE_useAssistiveText/useAssistiveText", "ojs/ojcontext", "ojs/ojvcomponent", "preact/compat", "preact/hooks", "./useNumberInputTextPreact", "@oracle/oraclejet-preact/utils/UNSAFE_styles/Layout", "css!oj-c/input-number/input-number-styles.css"], function (require, exports, jsx_runtime_1, translationBundle_1, UNSAFE_useFormContext_1, useMergedFormContext_1, UNSAFE_useFormVariantContext_1, UNSAFE_useTabbableMode_1, UNSAFE_NumberInputText_1, useAssistiveText_1, Context, ojvcomponent_1, compat_1, hooks_1, useNumberInputTextPreact_1, Layout_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.InputNumber = void 0;
+    const displayOptionsDefault = {
+        converterHint: 'display',
+        messages: 'display',
+        validatorHint: 'display'
+    };
+    const helpDefault = {
+        instruction: ''
+    };
+    const helpHintsDefault = {
+        definition: '',
+        source: ''
+    };
+    const messagesCustomDefault = [];
+    const validatorsDefault = [];
+    const InputNumberImpl = ({ autocomplete = 'on', columnSpan = 1, converter = null, containerReadonly: propContainerReadonly, disabled = false, displayOptions = displayOptionsDefault, help = helpDefault, helpHints = helpHintsDefault, id, labelWrapping: propLabelWrapping, messagesCustom = messagesCustomDefault, readonly: propReadonly, required = false, stepperVariant = 'directional', userAssistanceDensity: propUserAssistanceDensity, validators = validatorsDefault, virtualKeyboard = 'auto', value = null, ...otherProps }, ref) => {
+        const rootRef = (0, hooks_1.useRef)();
+        const inputNumberRef = (0, hooks_1.useRef)();
+        const addBusyState = (0, hooks_1.useCallback)((desc = 'InputNumber: busyState') => {
+            return rootRef.current
+                ? Context.getContext(rootRef.current)
+                    .getBusyContext()
+                    .addBusyState({ description: `oj-c-input-number id=${id} is ${desc}` })
+                : () => { };
+        }, [id]);
+        const { containerProps, uadValue, readonlyValue } = (0, useMergedFormContext_1.useMergedFormContext)({
+            propContainerReadonly,
+            propLabelWrapping,
+            propReadonly,
+            propUserAssistanceDensity
+        });
+        const { inputNumberProps, methods } = (0, useNumberInputTextPreact_1.useNumberInputTextPreact)({
+            autocomplete,
+            converter,
+            disabled,
+            displayOptions,
+            messagesCustom,
+            readonly: readonlyValue,
+            required,
+            stepperVariant,
+            userAssistanceDensity: uadValue,
+            validators,
+            virtualKeyboard,
+            value,
+            ...otherProps
+        }, addBusyState);
+        (0, hooks_1.useImperativeHandle)(ref, () => ({
+            blur: () => inputNumberRef.current?.blur(),
+            focus: () => inputNumberRef.current?.focus(),
+            ...methods
+        }), [methods]);
+        const assistiveTextProps = (0, useAssistiveText_1.useAssistiveText)({
+            displayOptions,
+            help,
+            helpHints,
+            userAssistanceDensity: inputNumberProps.userAssistanceDensity,
+            validators
+        });
+        const variant = (0, UNSAFE_useFormVariantContext_1.useFormVariantContext)();
+        if (otherProps.step !== undefined && otherProps.step < 0) {
+            throw new Error('step must be a positive number');
+        }
+        if (otherProps.min != null && otherProps.max != null && otherProps.max < otherProps.min) {
+            throw new Error('max cannot be less than min');
+        }
+        return ((0, jsx_runtime_1.jsx)(ojvcomponent_1.Root, { id: id, ref: rootRef, class: Layout_1.layoutSpanStyles.layoutSpanColumn[columnSpan], children: (0, jsx_runtime_1.jsx)(UNSAFE_useFormContext_1.FormContext.Provider, { value: containerProps, children: (0, jsx_runtime_1.jsx)(UNSAFE_NumberInputText_1.NumberInputText, { ref: inputNumberRef, ...assistiveTextProps, ...inputNumberProps, variant: variant }) }) }));
+    };
+    exports.InputNumber = (0, ojvcomponent_1.registerCustomElement)('oj-c-input-number', (0, compat_1.forwardRef)(InputNumberImpl), "InputNumber", { "properties": { "autocomplete": { "type": "string" }, "columnSpan": { "type": "number" }, "containerReadonly": { "type": "boolean", "binding": { "consume": { "name": "containerReadonly" } } }, "converter": { "type": "object|null" }, "disabled": { "type": "boolean" }, "displayOptions": { "type": "object", "properties": { "converterHint": { "type": "string", "enumValues": ["none", "display"] }, "messages": { "type": "string", "enumValues": ["none", "display"] }, "validatorHint": { "type": "string", "enumValues": ["none", "display"] } } }, "help": { "type": "object", "properties": { "instruction": { "type": "string" } } }, "helpHints": { "type": "object", "properties": { "definition": { "type": "string" }, "source": { "type": "string" }, "sourceText": { "type": "string" } } }, "inputPrefix": { "type": "string" }, "inputSuffix": { "type": "string" }, "labelEdge": { "type": "string", "enumValues": ["none", "start", "top", "inside"], "binding": { "consume": { "name": "containerLabelEdge" } } }, "labelHint": { "type": "string" }, "labelStartWidth": { "type": "number|string", "binding": { "consume": { "name": "labelWidth" } } }, "labelWrapping": { "type": "string", "enumValues": ["truncate", "wrap"], "binding": { "consume": { "name": "labelWrapping" } } }, "max": { "type": "number|null" }, "min": { "type": "number|null" }, "messagesCustom": { "type": "Array<object>", "writeback": true }, "numberRangeExactMessageDetail": { "type": "string" }, "numberRangeOverflowMessageDetail": { "type": "string" }, "numberRangeUnderflowMessageDetail": { "type": "string" }, "placeholder": { "type": "string" }, "readonly": { "type": "boolean", "binding": { "consume": { "name": "containerReadonly" } } }, "required": { "type": "boolean" }, "requiredMessageDetail": { "type": "string" }, "step": { "type": "number" }, "stepperVariant": { "type": "string", "enumValues": ["directional", "quantitative"] }, "textAlign": { "type": "string", "enumValues": ["end", "start", "right"] }, "userAssistanceDensity": { "type": "string", "enumValues": ["compact", "reflow", "efficient"], "binding": { "consume": { "name": "containerUserAssistanceDensity" } } }, "validators": { "type": "Array<object>|null" }, "value": { "type": "number|null", "writeback": true }, "virtualKeyboard": { "type": "string", "enumValues": ["number", "auto", "text"] }, "rawValue": { "type": "string", "readOnly": true, "writeback": true }, "transientValue": { "type": "number", "readOnly": true, "writeback": true }, "valid": { "type": "string", "enumValues": ["pending", "valid", "invalidHidden", "invalidShown"], "readOnly": true, "writeback": true } }, "extension": { "_WRITEBACK_PROPS": ["messagesCustom", "rawValue", "transientValue", "valid", "value"], "_READ_ONLY_PROPS": ["rawValue", "transientValue", "valid"], "_OBSERVED_GLOBAL_PROPS": ["aria-describedby", "id", "autofocus"] }, "methods": { "blur": {}, "focus": {}, "showMessages": {}, "reset": {}, "validate": {} } }, { "autocomplete": "on", "columnSpan": 1, "converter": null, "disabled": false, "displayOptions": { "converterHint": "display", "messages": "display", "validatorHint": "display" }, "help": { "instruction": "" }, "helpHints": { "definition": "", "source": "" }, "messagesCustom": [], "required": false, "stepperVariant": "directional", "validators": [], "virtualKeyboard": "auto", "value": null }, {
+        '@oracle/oraclejet-preact': translationBundle_1.default
+    }, { consume: [UNSAFE_useFormVariantContext_1.FormVariantContext, UNSAFE_useTabbableMode_1.TabbableModeContext] });
+});
+
+define('oj-c/input-number',["require", "exports", "oj-c/input-number/input-number"], function (require, exports, input_number_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.InputNumber = void 0;
+    Object.defineProperty(exports, "InputNumber", { enumerable: true, get: function () { return input_number_1.InputNumber; } });
+});
+
+/**
+ * @license
+ * Copyright (c) 2014, 2024, Oracle and/or its affiliates.
+ * Licensed under The Universal Permissive License (UPL), Version 1.0
+ * as shown at https://oss.oracle.com/licenses/upl/
+ * @ignore
+ */
+define('ojs/ojswitch',["ojs/ojcore","ojs/ojeditablevalue","ojs/ojcore-base","jquery","ojs/ojdomutils","ojs/ojfocusutils"],function(t,e,i,s,n,a){"use strict";var o;i=i&&Object.prototype.hasOwnProperty.call(i,"default")?i.default:i,s=s&&Object.prototype.hasOwnProperty.call(s,"default")?s.default:s,a=a&&Object.prototype.hasOwnProperty.call(a,"default")?a.default:a,(o={properties:{describedBy:{type:"string"},disabled:{type:"boolean",value:!1},displayOptions:{type:"object",properties:{converterHint:{type:"Array<string>|string"},helpInstruction:{type:"Array<string>|string",value:["notewindow"]},messages:{type:"Array<string>|string"},validatorHint:{type:"Array<string>|string"}}},help:{type:"object",properties:{instruction:{type:"string",value:""}}},helpHints:{type:"object",properties:{definition:{type:"string",value:""},source:{type:"string",value:""}}},labelEdge:{type:"string",enumValues:["inside","none","provided"]},labelHint:{type:"string",value:""},labelledBy:{type:"string"},messagesCustom:{type:"Array<Object>",writeback:!0,value:[]},readonly:{type:"boolean",value:!1},translations:{type:"object",value:{},properties:{switchOff:{type:"string"},switchOn:{type:"string"}}},userAssistanceDensity:{type:"string",enumValues:["compact","efficient","reflow"],value:"reflow"},valid:{type:"string",writeback:!0,enumValues:["invalidHidden","invalidShown","pending","valid"],readOnly:!0},value:{type:"boolean",writeback:!0,value:!1}},methods:{getProperty:{},refresh:{},reset:{},setProperties:{},setProperty:{},showMessages:{},getNodeBySubId:{},getSubIdByNode:{}},events:{ojAnimateEnd:{},ojAnimateStart:{}},extension:{}}).extension._WIDGET_NAME="ojSwitch",o.extension._INNER_ELEM="input",o.extension._ALIASED_PROPS={readonly:"readOnly"},o.extension._GLOBAL_TRANSFER_ATTRS=["tabindex"],i.CustomElementBridge.register("oj-switch",{metadata:i.CollectionUtils.mergeDeep(o,{properties:{readonly:{binding:{consume:{name:"readonly"}}},userAssistanceDensity:{binding:{consume:{name:"userAssistanceDensity"}}},labelEdge:{binding:{consume:{name:"labelEdge"}}}}})});const r="oj-switch-thumb",l="oj-switch-track",h="aria-label",u="aria-disabled";i.__registerWidget("oj.ojSwitch",s.oj.editableValue,{version:"1.1.0",defaultElement:"<input>",widgetEventPrefix:"oj",options:{disabled:!1,labelledBy:null,readOnly:!1,value:!1},widget:function(){return this._element2},getNodeBySubId:function(t){var e,i=this._super(t),s=this.widget();return i||(i=null==t||null==t.subId?s:null)||!t||(e=t.subId)!==r&&e!==l?i||null:s.find("."+e)[0]},getSubIdByNode:function(t){var e,i=s(this.element).attr("id"),n=this._super(t);return null!=t&&(s(t).hasClass(l)||s(t).hasClass(r))&&(i===(e=s(t).parents("div.oj-switch").find("input.oj-component-initnode").attr("id"))&&s(t).hasClass(l)?n={subId:l}:i===e&&s(t).hasClass(r)&&(n={subId:r})),n},_GetReadonlyFocusElement:function(){return this.widget()[0].querySelector(".oj-switch-thumb")},_BUNDLE_KEY:{_SWITCH_OFF:"SwitchOFF",_SWITCH_ON:"SwitchON"},_InitOptions:function(t,i){var s,n;s=[{attribute:"disabled",validateOption:!0},{attribute:"readonly",option:"readOnly",validateOption:!0},{attribute:"checked",option:"value",validateOption:!1,coerceDomValue:function(t){return!!t}},{attribute:"title"}];let a=i;const o=i.translations;if(o){const t=Object.assign({},o);void 0!==o.switchOn&&(t.SwitchON=o.switchOn),void 0!==o.switchOff&&(t.SwitchOFF=o.switchOff),a=Object.assign({},i,{translations:t})}this._super(t,a),this._IsCustomElement()||(e.EditableValueUtils.initializeOptionsFromDom(s,i,this),n=this.option("value"),this.option({value:!!n},{_context:{writeback:!0,internalSet:!0}}))},_ComponentCreate:function(){if(this._super(),!this.element.is("input"))throw new Error("ojSwitch can be bound to INPUT only.");this._inputElementOriginalDisplay=this.element.css("display"),this._inputElementTabIndex=this.element.attr("tabindex")||0,this.element.css("display","none").attr("type","checkbox").attr("checked",this.option("value")).attr("tabindex","-1").attr("disabled",this.option("disabled")).attr("readonly",this.option("readOnly")),this.OuterWrapper?this._element2=s(this.OuterWrapper):this._element2=this.element.wrap("<div></div>").parent(),this._element2.addClass("oj-switch oj-component oj-form-control");const t=`\n      <div class='oj-switch-container oj-form-control-container'>\n        <div class='oj-switch-track'>\n          <div class='oj-switch-thumb' tabIndex='${this._inputElementTabIndex}'></div>\n        </div>\n      </div>\n      `;this._element2.append(t),this.switchThumb=this._element2.find(".oj-switch-thumb"),this.switchThumb.attr("role",this._setSwitchRole()),this.switchTrack=this._element2.find(".oj-switch-track")},_AfterCreate:function(){this._super();var t=this.switchThumb;this._SetAriaInfo(t),this._ariaLabelElement=this.switchThumb[0],this._setup()},_SetAriaInfo:function(t){var i,s;if(i=this.OuterWrapper?this._element2[0]:this._element2[0].querySelector("input"),this._IsCustomElement()){if(this.options.labelledBy){var n=this.uuid+"_Label";s=e.EditableValueUtils._getOjLabelAriaLabelledBy(this.options.labelledBy,n)}}else{var a=this._GetLabelElement();a&&(s=a.attr("id"))}if(s)t.attr("aria-labelledby",s);else{var o=i.getAttribute(h);o&&(t.attr(h,o),i.removeAttribute(h))}},_GetAriaLabelElement:function(){return this._ariaLabelElement?this._ariaLabelElement:this._super()},_setup:function(){var t=s(this.widget());if(this._setupEvents(),void 0!==t){if(this.element.attr("checked",this.option("value")),t.removeClass("oj-disabled oj-read-only oj-selected oj-hover oj-active"),s(this.switchThumb).attr("tabindex",this._inputElementTabIndex),s(this.switchThumb).html(""),this.option("disabled")||this.option("readOnly"))if(this.option("disabled"))t.addClass("oj-disabled"),s(this.switchThumb).removeAttr("tabindex");else{t.addClass("oj-read-only");let e=this._setReadOnlyValue();s(this.switchThumb).html(e)}this.option("value")&&t.addClass("oj-selected"),s(this.switchThumb).attr("aria-checked",this.option("value")),s(this.switchThumb).removeAttr(u),s(this.switchThumb).removeAttr("aria-readonly"),t.removeAttr(u),this._CanSetValue()||(this.option("disabled")?s(this.switchThumb).attr(u,"true"):s(this.switchThumb).attr("aria-readonly","true"))}},_setReadOnlyValue:function(){var t=this._BUNDLE_KEY._SWITCH_OFF;return this.option("value")&&(t=this._BUNDLE_KEY._SWITCH_ON),this.getTranslatedString(t)},_setupEvents:function(){this._off(this._element2,"keydown keyup mouseup touchend"),this._CanSetValue()&&(this._on(this._element2,this._switchEvents),this._AddHoverable(this._element2),this._AddActiveable(this._element2)),this._focusable({element:this.switchTrack,applyHighlight:!0})},_switchEvents:{keydown:function(t){const e=t.which||t.keyCode;e!==s.ui.keyCode.ENTER&&e!==s.ui.keyCode.SPACE||(s(t.currentTarget).addClass("oj-active"),t.preventDefault())},keyup:function(t){const e=t.which||t.keyCode;e!==s.ui.keyCode.ENTER&&e!==s.ui.keyCode.SPACE||this._SetValue(!this.option("value"),t)},mouseup:function(t){n.isAncestorOrSelf(this.switchTrack[0],t.target)&&(0===t.button&&this._isRealMouseEvent(t)&&this._SetValue(!this.option("value"),t),a.focusElement(this.switchThumb[0]))},touchend:function(t){n.isAncestorOrSelf(this.switchTrack[0],t.target)&&(this._SetValue(!this.option("value"),t),a.focusElement(this.switchThumb[0]))}},_GetDefaultStyleClass:function(){return"oj-switch"},_CanSetValue:function(){return!!this._super()&&!this.options.readOnly},_setSwitchRole:function(){return"switch"},_destroy:function(){return this._CanSetValue()&&(this._RemoveHoverable(this._element2),this._RemoveActiveable(this._element2)),this._element2.find(".oj-switch-track").remove(),n.unwrap(this.element),this._RestoreAttributes(this.element),this._super()},_GetMessagingLauncherElement:function(){return this._element2},_GetContentElement:function(){return this.switchThumb},_AfterSetOption:function(t,i,s){this._superApply(arguments),"readOnly"===t&&this._AfterSetOptionDisabledReadOnly(t,e.EditableValueUtils.readOnlyOptionOptions)},option:function(t,e){let i=arguments,s=t;return"translations.switchOn"===t?s="translations.SwitchON":"translations.switchOff"===t&&(s="translations.SwitchOFF"),i.length>0&&(i[0]=s),this._superApply(i)},_setOption:function(t,e,i){var s;switch(t){case"disabled":case"readOnly":case"value":s=!!e;break;default:s=e}this._super(t,s,i),"labelledBy"===t&&this._SetAriaInfo(this.switchThumb)},_isRealMouseEvent:function(){return!n.recentTouchEnd()},_Refresh:function(t,e,i){this._superApply(arguments),this._setup()}})});
+//# sourceMappingURL=ojswitch.js.map;
+define('components/reference-areas/reference-areas-viewModel',["ojs/ojcontext","knockout","jquery","./reference-areas-utils","oj-c/input-text","oj-c/input-number","ojs/ojswitch"],(function(e,s,a,r){function t(e){this.properties=e.properties,this._initState(),this._defineHandlers()}return t.prototype._initState=function(){this.mappedAreas=s.observableArray(r.mapAreasToObservables(this.properties.areas??[])),this.displayInLegend=s.observable(!!this.mappedAreas()[0]&&this.mappedAreas()[0].displayInLegend),this.globalErrm=s.observable("")},t.prototype._defineHandlers=function(){this.handleValueChanged=()=>{this._processAreasChange()},this.addArea=()=>{this.mappedAreas().length>=r.REF_AREAS_VALIDATION.max?this.globalErrm(r.REF_AREAS_VALIDATION.maxErrm):(this.globalErrm(""),this._addArea())},this.removeArea=e=>{this._removeArea(e.observableIndex())},this.handleDisplayInLegendChange=()=>{this._toggleLegendForAreas(this.displayInLegend()?"on":"off")}},t.prototype._processAreasChange=function(){const e=r.mapObservablesToAreas(this.mappedAreas());this.properties.areas=e},t.prototype._addArea=function(){this.mappedAreas.push(r.getAreaObject({name:`Area ${this.mappedAreas().length+1}`,displayInLegend:this.displayInLegend()?"on":"off"})),this._processAreasChange()},t.prototype._removeArea=function(e){this.mappedAreas.splice(e,1),this._processAreasChange()},t.prototype._toggleLegendForAreas=function(e){this.mappedAreas(this.mappedAreas().map((s=>({...s,displayInLegend:e})))),this._processAreasChange()},t.prototype.propertyChanged=function(e){"areas"===e.property&&"external"===e.updatedFrom&&this.mappedAreas(r.mapAreasToObservables(e.value))},t}));
+
+define('text!components/reference-areas/reference-areas-component.json',[],function () { return '{\r\n  "name": "reference-areas",\r\n  "version": "1.0.0",\r\n  "jetVersion": "~17.0.0",\r\n  "properties": {\r\n    "areas": {\r\n      "type": "array",\r\n      "writeback": true,\r\n      "required": true\r\n    }\r\n  },\r\n  "methods": {},\r\n  "events": {}\r\n}';});
+
+
+define('css!components/reference-areas/reference-areas-styles',[],function(){});
+define('components/reference-areas/loader',["ojs/ojcomposite","text!./reference-areas-view.html","./reference-areas-viewModel","text!./reference-areas-component.json","css!./reference-areas-styles"],(function(e,r,a,s){e.register("reference-areas",{metadata:JSON.parse(s),view:r,viewModel:a})}));
+define('appController',["ojs/ojcontext","knockout","jquery","ojs/ojarraydataprovider","./equivalences/scalesEquivalences","./utils/utils","ojs/ojcolor","ojs/ojknockout","ojs/ojinputtext","ojs/ojinputnumber","ojs/ojselectsingle","oj-c/buttonset-single","oj-c/button","oj-c/popup","ojs/ojchart","ojs/ojcolorspectrum","oj-c/message-toast","./components/graphs-templates/loader","./components/draggable-categories/loader","./components/reference-areas/loader"],(function(e,t,a,r,o,s,i){function l(){this._initializeVars(),this._initializeDP(),this._initializeListeners()}return l.prototype._initializeVars=function(){this.graphCategories=t.observableArray([s.getGraphCatModel()]),this.chartData=t.observableArray([]),this.maxY=t.observable(100),this.stepY=t.observable(10),this.legendPosition=t.observable("bottom"),this.chartType=t.observable("polar"),this.curIdx=t.observable(),this.curCategoryName=t.observable(),this.curColorSelected=t.observable(),this.labelPosition=t.observable("auto"),this.chartOrientation=t.observable("vertical"),this.templateApplied=t.observable(!1),this.templateAppliedName=t.observable(""),this.graphSettingsOpened=t.observable(!1),this.btnOpenGraphSettingsId="btnOpenGraphSettings",this.categoryFormOpened=t.observable(!1),this.curCategoryNameToUpdate=t.observable(),this.curCategoryValueToUpdate=t.observable(),this.curCategoryColorToUpdate=t.observable(),this.curCategoryScaleToUpdate=t.observable(),this.curCategoryIdToUpdate=t.observable(),this.curCategoryPeScaleToUpdate=t.observable(),this.curColorAuxiliar=t.observable(),this.colorInputErrorMessage=t.observable(""),this.toastMessages=t.observableArray([]),this.inputTextTranslations=s.INPUT_TEXT_TRANSLATIONS,this.editCategoryErrorMessage=t.observable(""),this.referenceAreas=t.observableArray([]),this.yReferenceObjects=t.computed((function(){const e=this.referenceAreas();return s.getReferenceObjects(e)}),this)},l.prototype._initializeDP=function(){this.scalesDp=new r(o.SCALES_LOV,{keyAttributes:"value"}),this.scalesObject=o.SCALES_LOV.reduce(((e,t)=>({...e,[t.value]:t.label})),{}),this.chartTypeOptions=[{label:"Bar",value:"cartesian"},{label:"Polar",value:"polar"}],this.labelPositionOptions=[{label:"Ver",value:"auto"},{label:"Ocultar",value:"none"}],this.orientationOptions=[{label:"Vertical",value:"vertical"},{label:"Horizontal",value:"horizontal"}],this.legendPositionDp=new r([{value:"start",label:"Izquierda"},{value:"end",label:"Derecha"},{value:"bottom",label:"Abajo"},{value:"top",label:"Arriba"}],{keyAttributes:"value"}),this.chartDataDp=new r(this.chartData,{keyAttributes:"id"}),this.toastMessagesDP=new r(this.toastMessages,{keyAttributes:"id"})},l.prototype._initializeListeners=function(){this.handleGraph=()=>this._refreshGraph(),this.handleCatValueChanged=()=>{this.curCategoryPeScaleToUpdate(this._convertToPercentile(this.curCategoryValueToUpdate(),this.curCategoryScaleToUpdate()))},this.closeToastMessage=e=>{this._deleteToastMessage(e.detail.key)},this.handleAddCategory=()=>{this._addCategory()},this.handleRemoveCategory=(e,t)=>{this._deleteCategory(t.id)},this.handleGetCurrentGraph=()=>this._getCurrentGraph(),this.handleApplyGraph=(e,t)=>this._applyGraph(e,t),this.handleGraphSaved=e=>{this.templateApplied(!0),this.templateAppliedName(e.name)},this.handleItemDrilling=e=>{this._prepareEditCategory(e.detail.data.itemData)},this.handleEditCategory=(e,t)=>{this._prepareEditCategory(t)},this.handleSaveEditCategory=()=>{this._editCategory()},this.handleCategoriesOnSortEnd=e=>this._handleCategoriesSorting(e),this.handleColorInputTextChange=e=>{try{const e=this.curColorAuxiliar();if(e){const t=new i(e);this.curCategoryColorToUpdate(t),this.colorInputErrorMessage("")}}catch(e){this.colorInputErrorMessage("Color Inválido"),this.curCategoryColorToUpdate("")}},this.handleColorSpectrumChange=e=>{this.curColorAuxiliar(this.curCategoryColorToUpdate().toString())}},l.prototype._getCurrentGraph=function(){return{categories:this.graphCategories().map((e=>s.getGraphCatModel(e))),graphSettings:{maxY:this.maxY(),stepY:this.stepY(),legendPosition:this.legendPosition(),chartType:this.chartType(),chartOrientation:this.chartOrientation(),labelPosition:this.labelPosition(),referenceAreas:this.referenceAreas()}}},l.prototype._applyGraph=function(e,t){this.templateApplied(!0),this.templateAppliedName(e);const{graphSettings:a,categories:r}=t;if(void 0===a||void 0===r)return;this.maxY(a.maxY),this.stepY(a.stepY),this.legendPosition(a.legendPosition),this.chartType(a.chartType),this.chartOrientation(a.chartOrientation),this.labelPosition(a.labelPosition),this.referenceAreas(a.referenceAreas??[]);const o=r.map((e=>{const t=s.getGraphCatModel();return t.name=e.name,t.value=e.value,t.scale=e.scale,t.peScale=e.peScale,t.color=e.color,t}));this.graphCategories(o),this._refreshGraph()},l.prototype._handleCategoriesSorting=function(e){const t=e.oldDraggableIndex,a=e.newDraggableIndex;if(t===a)return;const r=this.graphCategories(),o=r.splice(t,1)[0];this._deleteCategoryCardFromDOM(o.id),r.splice(a,0,o),this.graphCategories([...r]),this._refreshGraph()},l.prototype._deleteCategoryCardFromDOM=function(e){const t=a(`#${e}`);t.length>0&&t.remove()},l.prototype._convertToPercentile=function(e,t){return""!==e&&t?o.transformScaleToPercentile(e,t):null},l.prototype._addToastMessage=function(e){this.toastMessages.push({...e,id:crypto.randomUUID(),autoTimeout:s.TOAST_MESSAGES_AUTO_TIMEOUT_MS})},l.prototype._deleteToastMessage=function(e){this.toastMessages.remove((t=>t.id===e))},l.prototype._deleteCategory=function(e){this.graphCategories.remove((t=>t.id===e)),this._refreshGraph()},l.prototype._refreshGraph=function(){const e=this.graphCategories().map((e=>s.getDataItemForChart(e)));this.chartData(e)},l.prototype._addCategory=function(e=void 0){if(this.graphCategories().length===s.CATEGORIES_VALIDATIONS.MAX_NUMBER_OF_CATEGORIES)return void this._addToastMessage({severity:"warning",summary:s.CATEGORIES_VALIDATIONS.ON_MAX_SUMMARY,detail:s.CATEGORIES_VALIDATIONS.ON_MAX_DETAIL});const t=s.getGraphCatModel(e);this.graphCategories.push(t),this._prepareEditCategory(t)},l.prototype._prepareEditCategory=function(e){this.curCategoryIdToUpdate(e.id),this.curCategoryNameToUpdate(e.name),this.curCategoryValueToUpdate(e.value),this.curCategoryScaleToUpdate(e.scale),this.curCategoryPeScaleToUpdate(e.peScale);const t=e.color?new i(e.color):"";this.curCategoryColorToUpdate(t),this.curColorAuxiliar(t.toString()),this.colorInputErrorMessage(""),this.categoryFormOpened(!0)},l.prototype._editCategory=function(){const e=this.curCategoryIdToUpdate(),t=this.curCategoryNameToUpdate(),a=this.curCategoryValueToUpdate(),r=this.curCategoryScaleToUpdate(),o=this.curCategoryPeScaleToUpdate(),i=this.curCategoryColorToUpdate()?this.curCategoryColorToUpdate().toString():"";if(!t||""===a||!r)return void this.editCategoryErrorMessage(s.EDIT_CAT_ERROR_MESSAGE);this.editCategoryErrorMessage();const l=this.graphCategories().find((t=>t.id===e)),h=s.getGraphCatModel({name:t,value:a,scale:r,peScale:o,color:i,id:e});this.graphCategories.replace(l,h),this.categoryFormOpened(!1),this._refreshGraph()},e.getPageContext().getBusyContext().applicationBootstrapComplete(),new l}));
 /**
  * @license
  * Copyright (c) 2014, 2024, Oracle and/or its affiliates.
@@ -2988,4 +5402,4 @@ define("bundle-temp", function(){});
 
 
 (function(c){var d=document,a='appendChild',i='styleSheet',s=d.createElement('style');s.type='text/css';d.getElementsByTagName('head')[0][a](s);s[i]?s[i].cssText=c:s[a](d.createTextNode(c));})
-('.LayerStyles_baseStyle__g9p4b90 {\n  position: relative;\n}\n.LayerStyles_popupPriorityStyle__g9p4b91 {\n  z-index: 1000;\n}\n.LayerStyles_dialogPriorityStyle__g9p4b92 {\n  z-index: 1050;\n}\n.LayerStyles_messagesPriorityStyle__g9p4b93 {\n  z-index: 2000;\n}.ButtonSetStyles_base__r2ajrb0 {\n  display: inline-flex;\n}\n.ButtonSetStyles_fullWidth__r2ajrb1 {\n  width: 100%;\n}.BaseButtonStyles_styles_base__jvi3ds0 {\n  cursor: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-cursor-clickable);\n  box-sizing: border-box;\n}\n.BaseButtonStyles_styles_styled__jvi3ds1 {\n  align-items: center;\n  border-style: solid;\n  border-width: 1px;\n  box-sizing: border-box;\n  display: inline-block;\n  font-family: inherit;\n  justify-content: center;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  padding-top: 0;\n  padding-bottom: 0;\n  pointer-events: auto;\n  text-overflow: ellipsis;\n  vertical-align: top;\n  -webkit-tap-highlight-color: rgba(0,0,0,0);\n  white-space: nowrap;\n  border-radius: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-border-radius);\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);\n}\n.BaseButtonStyles_styles_styled__jvi3ds1:focus-visible {\n  outline-style: dotted;\n  outline-offset: 1px;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  z-index: 2;\n}\n.BaseButtonStyles_styles_styled__jvi3ds1:has(input:focus-visible) {\n  outline-style: dotted;\n  outline-offset: 1px;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  z-index: 2;\n}\n.BaseButtonStyles_styles_outline__jvi3ds2 {\n  outline-style: dotted;\n  outline-offset: 1px;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  z-index: 2;\n}\n.BaseButtonStyles_styles_min__jvi3ds3 {\n  padding-inline-start: unset !important;\n  padding-inline-end: unset !important;\n}\n.BaseButtonStyles_styles_fill__jvi3ds4 {\n  width: 100%;\n}\n.BaseButtonStyles_styles_spanOnly__jvi3ds5 {\n  display: inline-flex;\n}\n.BaseButtonStyles_styles_embedded__jvi3ds6 {\n  height: 100%;\n  display: inline-flex;\n}\n.BaseButtonStyles_styles_embedded__jvi3ds6:focus-visible {\n  outline-style: none;\n}\n.BaseButtonStyles_styles_noBorderStart__jvi3ds7 {\n  border-inline-start-width: 0px;\n}\n.BaseButtonStyles_styles_noBorderEnd__jvi3ds8 {\n  border-inline-end-width: 0px;\n}\n.BaseButtonStyles_styles_noBorderStartButtonset__jvi3ds9 {\n  position: relative;\n  z-index: 0;\n  margin-inline-start: -1px;\n}\n.BaseButtonStyles_styles_noBorderEndButtonset__jvi3dsa {\n  position: relative;\n  z-index: 0;\n}\n.BaseButtonStyles_styles_unselectedBorderEnd__jvi3dsb {\n  border-inline-end-color: transparent;\n}\n.BaseButtonStyles_styles_unselectedBorderStart__jvi3dsc {\n  border-inline-start-color: transparent;\n}\n.BaseButtonStyles_styles_noBorderRadiusStart__jvi3dsd {\n  border-start-start-radius: 0;\n  border-end-start-radius: 0;\n}\n.BaseButtonStyles_styles_noBorderRadiusEnd__jvi3dse {\n  border-end-end-radius: 0;\n  border-start-end-radius: 0;\n}\n.BaseButtonStyles_styles_inputLabel__jvi3dsf {\n  cursor: inherit;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  height: 100%;\n}\n.BaseButtonStyles_styles_widthEqual__jvi3dsg {\n  flex: 1;\n  overflow: hidden;\n}\n.BaseButtonStyles_styles_widthAuto__jvi3dsh {\n  flex: auto;\n}\n.BaseButtonStyles_styles_bottom__jvi3dsi {\n  border-inline-start-width: 0;\n  border-right-width: 0;\n  border-block-end-width: 0;\n  width: 100%;\n  border-top-left-radius: 0;\n  border-top-right-radius: 0;\n}\n.BaseButtonStyles_styles_variants_outlined_base__jvi3dsj {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-base-color);\n}\n.BaseButtonStyles_styles_variants_outlined_disabled__jvi3dsk {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_outlined_hover__jvi3dsl:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color));\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-enabled);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_outlined_active__jvi3dsm {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-active-background-overlay-color));\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-enabled);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_outlined_selected__jvi3dsn {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-selected);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-selected);\n  z-index: 1;\n}\n.BaseButtonStyles_styles_variants_outlined_selectedDisabled__jvi3dso {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-disabled);\n}\n.BaseButtonStyles_styles_variants_outlined_container__jvi3dst {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_variants_outlined_buttonSetItem__jvi3dsu {\n  border-inline-start-color: transparent;\n  border-inline-start-width: 1px;\n}\n.BaseButtonStyles_styles_variants_outlined_buttonSetItemSelected__jvi3dsv {\n  border-inline-start-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-selected);\n  border-inline-start-width: 1px;\n}\n.BaseButtonStyles_styles_variants_outlined_buttonSetItemDisabled__jvi3dsw {\n  border-inline-start-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-disabled-border-color);\n  border-inline-start-width: 1px;\n}\n.BaseButtonStyles_styles_variants_callToAction_base__jvi3dsx {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-base-color);\n}\n.BaseButtonStyles_styles_variants_callToAction_disabled__jvi3dsy {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_callToAction_hover__jvi3dsz:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-inverse);\n}\n.BaseButtonStyles_styles_variants_callToAction_active__jvi3ds10 {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-active-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-inverse);\n}\n.BaseButtonStyles_styles_variants_callToAction_container__jvi3ds13 {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_variants_borderless_base__jvi3ds14 {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-base-color);\n}\n.BaseButtonStyles_styles_variants_borderless_disabled__jvi3ds15 {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_borderless_hover__jvi3ds16:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_borderless_active__jvi3ds17 {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-active-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_borderless_selected__jvi3ds18 {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-selected);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-selected);\n}\n.BaseButtonStyles_styles_variants_borderless_selectedDisabled__jvi3ds19 {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-disabled);\n}\n.BaseButtonStyles_styles_variants_borderless_container__jvi3ds1e {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_variants_borderless_buttonSetItem__jvi3ds1f {\n  margin-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n}\n.BaseButtonStyles_styles_variants_ghost_base__jvi3ds1g {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-color);\n}\n.BaseButtonStyles_styles_variants_ghost_disabled__jvi3ds1h {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_ghost_hover__jvi3ds1i:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n}\n.BaseButtonStyles_styles_variants_ghost_active__jvi3ds1j {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-active-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n}\n.BaseButtonStyles_styles_variants_ghost_container__jvi3ds1m {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_variants_solid_base__jvi3ds1n {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-base-color);\n}\n.BaseButtonStyles_styles_variants_solid_disabled__jvi3ds1o {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_solid_hover__jvi3ds1p:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_solid_active__jvi3ds1q {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-active-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_solid_container__jvi3ds1t {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_variants_danger_base__jvi3ds1u {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-base-color);\n}\n.BaseButtonStyles_styles_variants_danger_disabled__jvi3ds1v {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_danger_hover__jvi3ds1w:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-on-color);\n}\n.BaseButtonStyles_styles_variants_danger_active__jvi3ds1x {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-active-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-on-color);\n}\n.BaseButtonStyles_styles_variants_danger_container__jvi3ds20 {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_sizes_xs__jvi3ds21 {\n  height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-height);\n  min-width: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-height);\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-text-to-edge-padding);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);\n}\n.BaseButtonStyles_styles_sizes_sm__jvi3ds22 {\n  height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-height);\n  min-width: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-height);\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-text-to-edge-padding);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);\n}\n.BaseButtonStyles_styles_sizes_md__jvi3ds23 {\n  height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-height);\n  min-width: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-height);\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-text-to-edge-padding);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);\n}\n.BaseButtonStyles_styles_sizes_lg__jvi3ds24 {\n  height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-height);\n  min-width: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-height);\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-text-to-edge-padding);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);\n}\n.BaseButtonStyles_styles_labelSizes_xs__jvi3ds25 {\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-text-to-edge-padding);\n}\n.BaseButtonStyles_styles_labelSizes_sm__jvi3ds26 {\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-text-to-edge-padding);\n}\n.BaseButtonStyles_styles_labelSizes_md__jvi3ds27 {\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-text-to-edge-padding);\n}\n.BaseButtonStyles_styles_labelSizes_lg__jvi3ds28 {\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-text-to-edge-padding);\n}\n.BaseButtonStyles_styles_base__jvi3ds0 > * {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n  margin-left: 0 !important;\n  margin-right: 0 !important;\n}\n@media (hover: hover) {\n  .BaseButtonStyles_styles_variants_outlined_pseudohover__jvi3dsp:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color));\n    border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-enabled);\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_outlined_pseudohoverSelected__jvi3dsq:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color));\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_outlined_pseudohoverSpan__jvi3dsr:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color));\n    border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-enabled);\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_outlined_pseudohoverSpanSelected__jvi3dss:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color));\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_callToAction_pseudohover__jvi3ds11:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-inverse);\n  }\n  .BaseButtonStyles_styles_variants_callToAction_pseudohoverSpan__jvi3ds12:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-inverse);\n  }\n  .BaseButtonStyles_styles_variants_borderless_pseudohover__jvi3ds1a:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_borderless_pseudohoverSelected__jvi3ds1b:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color));\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_borderless_pseudohoverSpan__jvi3ds1c:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_borderless_pseudohoverSpanSelected__jvi3ds1d:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color));\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_ghost_pseudohover__jvi3ds1k:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n  }\n  .BaseButtonStyles_styles_variants_ghost_pseudohoverSpan__jvi3ds1l:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n  }\n  .BaseButtonStyles_styles_variants_solid_pseudohover__jvi3ds1r:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_solid_pseudohoverSpan__jvi3ds1s:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_danger_pseudohover__jvi3ds1y:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-on-color);\n  }\n  .BaseButtonStyles_styles_variants_danger_pseudohoverSpan__jvi3ds1z:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-on-color);\n  }\n}.TextStyles_base__13t47my0 {\n  overflow-x: hidden;\n  overflow-y: hidden;\n  overflow-wrap: anywhere;\n  display: inline;\n}\n.TextStyles_base__13t47my0:focus-visible {\n  outline-style: dotted;\n  outline-offset: 1px;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n}\n.TextStyles_base__13t47my0::after {\n  content: \"\";\n  display: block;\n}\n.TextStyles_lineClamp__13t47my1 {\n  display: -webkit-box;\n  -webkit-box-orient: vertical;\n}\n.TextStyles_multiVariantStyles_size_2xs__13t47my2 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-2xs-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-2xs-line-height);\n}\n.TextStyles_multiVariantStyles_size_xs__13t47my3 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-line-height);\n}\n.TextStyles_multiVariantStyles_size_sm__13t47my4 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-line-height);\n}\n.TextStyles_multiVariantStyles_size_md__13t47my5 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height);\n}\n.TextStyles_multiVariantStyles_size_lg__13t47my6 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-lg-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-lg-line-height);\n}\n.TextStyles_multiVariantStyles_size_xl__13t47my7 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xl-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xl-line-height);\n}\n.TextStyles_multiVariantStyles_size_inherit__13t47my8 {\n  font-size: inherit;\n  line-height: inherit;\n}\n.TextStyles_multiVariantStyles_variant_primary__13t47my9 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.TextStyles_multiVariantStyles_variant_secondary__13t47mya {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n}\n.TextStyles_multiVariantStyles_variant_disabled__13t47myb {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-disabled);\n}\n.TextStyles_multiVariantStyles_variant_danger__13t47myc {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-danger);\n}\n.TextStyles_multiVariantStyles_variant_warning__13t47myd {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-warning);\n}\n.TextStyles_multiVariantStyles_variant_success__13t47mye {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-success);\n}\n.TextStyles_multiVariantStyles_variant_inherit__13t47myf {\n  color: inherit;\n}\n.TextStyles_multiVariantStyles_weight_normal__13t47myg {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_weight_semiBold__13t47myh {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_weight_bold__13t47myi {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_weight_inherit__13t47myj {\n  font-weight: inherit;\n}\n.TextStyles_multiVariantStyles_hyphens_auto__13t47myk {\n  -webkit-hyphens: auto;\n          hyphens: auto;\n}\n.TextStyles_multiVariantStyles_hyphens_none__13t47myl {\n  -webkit-hyphens: none;\n          hyphens: none;\n}\n.TextStyles_multiVariantStyles_truncation_clip__13t47myn {\n  text-overflow: clip;\n  white-space: nowrap;\n  width: 100%;\n  display: inline-block;\n}\n.TextStyles_multiVariantStyles_truncation_ellipsis__13t47myo {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  width: 100%;\n  display: inline-block;\n}\n.TextStyles_multiVariantStyles_overflowWrap_breakWord__13t47myp {\n  overflow-wrap: break-word;\n}\n.TextStyles_multiVariantStyles_overflowWrap_normal__13t47myq {\n  overflow-wrap: normal;\n}\n.TextStyles_multiVariantStyles_compound_0__13t47mys {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-2xs-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_1__13t47myt {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-2xs-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_2__13t47myu {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_compound_3__13t47myv {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_4__13t47myw {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_5__13t47myx {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_compound_6__13t47myy {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_7__13t47myz {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_8__13t47my10 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_compound_9__13t47my11 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_10__13t47my12 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_11__13t47my13 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_compound_12__13t47my14 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-lg-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_13__13t47my15 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-lg-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_14__13t47my16 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-lg-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_compound_15__13t47my17 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xl-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_16__13t47my18 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xl-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_17__13t47my19 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xl-font-weight-bold);\n}.ButtonLabelLayoutStyles_text__1g78mbn0 {\n  overflow-x: hidden;\n  overflow-y: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  display: inline-block;\n  & > * {\n    margin-top: 0 !important;\n    margin-bottom: 0 !important;\n    margin-left: 0 !important;\n    margin-right: 0 !important;\n  }\n}\n.ButtonLabelLayoutStyles_fill__1g78mbn1 {\n  width: 100%;\n}\n.ButtonLabelLayoutStyles_fillText__1g78mbn2 {\n  justify-content: center;\n}\n.ButtonLabelLayoutStyles_suffix__1g78mbn3 {\n  font-weight: 400;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  margin-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n  display: inline-flex;\n}\n.ButtonLabelLayoutStyles_icon__1g78mbn4 {\n  display: inline-flex;\n  font-size: var(--iconSize__1onk43q0);\n  font-weight: normal;\n  margin-top: 0;\n  margin-bottom: 0;\n}\n.ButtonLabelLayoutStyles_startIcon__1g78mbn5 {\n  margin-inline-end: var(--iconToTextPadding__1onk43q2);\n  margin-inline-start: var(--iconToEdgePadding__1onk43q1);\n}\n.ButtonLabelLayoutStyles_endIcon__1g78mbn6 {\n  margin-inline-start: var(--iconToTextPadding__1onk43q2);\n  margin-inline-end: var(--iconToEdgePadding__1onk43q1);\n}\n.ButtonLabelLayoutStyles_startText__1g78mbn7 {\n  margin-inline-start: var(--textToEdgePadding__1onk43q3);\n}\n.ButtonLabelLayoutStyles_endText__1g78mbn8 {\n  margin-inline-end: var(--textToEdgePadding__1onk43q3);\n}\n.ButtonLabelLayoutStyles_startIconWhenBothIconsOnly__1g78mbn9 {\n  margin-inline-end: 0;\n}\n.ButtonLabelLayoutStyles_container__1g78mbna {\n  cursor: inherit;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  height: 100%;\n}\n.ButtonLabelLayoutStyles_base__1g78mbnb {\n  cursor: inherit;\n}.ButtonLabelLayoutVariants_multiVariantStyles_size_xs__7jj5290 {\n  --iconSize__1onk43q0: var(--sizes-xs-iconSize__1onk43q4);\n  --iconToTextPadding__1onk43q2: var(--sizes-xs-iconToTextPadding__1onk43q6);\n  --iconToEdgePadding__1onk43q1: var(--sizes-xs-iconToEdgePadding__1onk43q5);\n  --textToEdgePadding__1onk43q3: var(--sizes-xs-textToEdgePadding__1onk43q7);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_sm__7jj5291 {\n  --iconSize__1onk43q0: var(--sizes-sm-iconSize__1onk43q8);\n  --iconToTextPadding__1onk43q2: var(--sizes-sm-iconToTextPadding__1onk43q9);\n  --iconToEdgePadding__1onk43q1: var(--sizes-sm-iconToEdgePadding__1onk43qa);\n  --textToEdgePadding__1onk43q3: var(--sizes-sm-textToEdgePadding__1onk43qb);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_md__7jj5292 {\n  --iconSize__1onk43q0: var(--sizes-md-iconSize__1onk43qc);\n  --iconToTextPadding__1onk43q2: var(--sizes-md-iconToTextPadding__1onk43qe);\n  --iconToEdgePadding__1onk43q1: var(--sizes-md-iconToEdgePadding__1onk43qd);\n  --textToEdgePadding__1onk43q3: var(--sizes-md-textToEdgePadding__1onk43qf);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_lg__7jj5293 {\n  --iconSize__1onk43q0: var(--sizes-lg-iconSize__1onk43qg);\n  --iconToTextPadding__1onk43q2: var(--sizes-lg-iconToTextPadding__1onk43qi);\n  --iconToEdgePadding__1onk43q1: var(--sizes-lg-iconToEdgePadding__1onk43qh);\n  --textToEdgePadding__1onk43q3: var(--sizes-lg-textToEdgePadding__1onk43qj);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_embeddedxs__7jj5294 {\n  --iconSize__1onk43q0: var(--sizes-embeddedxs-iconSize__1onk43qk);\n  --iconToTextPadding__1onk43q2: var(--sizes-embeddedxs-iconToTextPadding__1onk43qm);\n  --iconToEdgePadding__1onk43q1: var(--sizes-embeddedxs-iconToEdgePadding__1onk43ql);\n  --textToEdgePadding__1onk43q3: var(--sizes-embeddedxs-textToEdgePadding__1onk43qn);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_embeddedsm__7jj5295 {\n  --iconSize__1onk43q0: var(--sizes-embeddedsm-iconSize__1onk43qo);\n  --iconToTextPadding__1onk43q2: var(--sizes-embeddedsm-iconToTextPadding__1onk43qp);\n  --iconToEdgePadding__1onk43q1: var(--sizes-embeddedsm-iconToEdgePadding__1onk43qq);\n  --textToEdgePadding__1onk43q3: var(--sizes-embeddedsm-textToEdgePadding__1onk43qr);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_embeddedmd__7jj5296 {\n  --iconSize__1onk43q0: var(--sizes-embeddedmd-iconSize__1onk43qs);\n  --iconToTextPadding__1onk43q2: var(--sizes-embeddedmd-iconToTextPadding__1onk43qu);\n  --iconToEdgePadding__1onk43q1: var(--sizes-embeddedmd-iconToEdgePadding__1onk43qt);\n  --textToEdgePadding__1onk43q3: var(--sizes-embeddedmd-textToEdgePadding__1onk43qv);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_embeddedlg__7jj5297 {\n  --iconSize__1onk43q0: var(--sizes-embeddedlg-iconSize__1onk43qw);\n  --iconToTextPadding__1onk43q2: var(--sizes-embeddedlg-iconToTextPadding__1onk43qy);\n  --iconToEdgePadding__1onk43q1: var(--sizes-embeddedlg-iconToEdgePadding__1onk43qx);\n  --textToEdgePadding__1onk43q3: var(--sizes-embeddedlg-textToEdgePadding__1onk43qz);\n}.HiddenAccessibleStyles_hiddenAccessibleStyle__1lyg6yp0 {\n  border: 0;\n  clip: rect(0 0 0 0);\n  height: 1px;\n  margin: -1px;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  padding-top: 0;\n  padding-right: 0;\n  padding-bottom: 0;\n  padding-left: 0;\n  width: 1px;\n  position: absolute;\n}.FloatingStyles_baseStyle__1h7j7620 {\n  background-color: var(--backgroundColor__ihlnqb0);\n  display: block;\n  position: absolute;\n  width: auto;\n  height: auto;\n}\n.FloatingStyles_floatingVisibilityStyles_visible__1h7j7621 {\n  visibility: visible;\n}\n.FloatingStyles_floatingVisibilityStyles_hidden__1h7j7622 {\n  visibility: hidden;\n}\n.FloatingStyles_floatingTailBaseStyle__1h7j7623 {\n  position: absolute;\n  width: 0;\n  height: 0;\n}.TooltipContentStyles_wrapper__40ir7s0 {\n  display: flex;\n  align-items: flex-end;\n  overflow-y: hidden;\n}\n.TooltipContentStyles_inner__40ir7s1 {\n  opacity: 0;\n  max-height: 0;\n}\n.TooltipContentStyles_content__40ir7s2 {\n  width: -moz-max-content;\n  width: max-content;\n}\n.TooltipContentStyles_baseStyle__40ir7s3 {\n  max-width: var(--maxWidth__1x922a00);\n  color: var(--textColor__1x922a02);\n  background-color: var(--backgroundColor__1x922a01);\n  padding-top: var(--paddingVertical__1x922a08);\n  padding-left: var(--paddingHorizontal__1x922a07);\n  padding-right: var(--paddingHorizontal__1x922a07);\n  padding-bottom: var(--paddingVertical__1x922a08);\n  border-radius: var(--borderRadius__1x922a05);\n  border-color: var(--borderColor__1x922a06);\n  font-size: var(--fontSize__1x922a03);\n  line-height: var(--lineHeight__1x922a04);\n  border-width: 1px;\n  border-style: solid;\n}.TooltipContentVariants_multiVariantStyles_variant_tooltip__1ycsr170 {\n  --maxWidth__1x922a00: var(--variants-tooltip-maxWidth__1x922a09);\n  --backgroundColor__1x922a01: var(--variants-tooltip-backgroundColor__1x922a0a);\n  --textColor__1x922a02: var(--variants-tooltip-textColor__1x922a0b);\n  --fontSize__1x922a03: var(--variants-tooltip-fontSize__1x922a0c);\n  --lineHeight__1x922a04: var(--variants-tooltip-lineHeight__1x922a0d);\n  --borderRadius__1x922a05: var(--variants-tooltip-borderRadius__1x922a0e);\n  --borderColor__1x922a06: var(--variants-tooltip-borderColor__1x922a0f);\n  --paddingHorizontal__1x922a07: var(--variants-tooltip-paddingHorizontal__1x922a0g);\n  --paddingVertical__1x922a08: var(--variants-tooltip-paddingVertical__1x922a0h);\n}\n.TooltipContentVariants_multiVariantStyles_variant_datatip__1ycsr171 {\n  --maxWidth__1x922a00: var(--variants-datatip-maxWidth__1x922a0i);\n  --backgroundColor__1x922a01: var(--variants-datatip-backgroundColor__1x922a0j);\n  --textColor__1x922a02: var(--variants-datatip-textColor__1x922a0k);\n  --fontSize__1x922a03: var(--variants-datatip-fontSize__1x922a0l);\n  --lineHeight__1x922a04: var(--variants-datatip-lineHeight__1x922a0m);\n  --borderRadius__1x922a05: var(--variants-datatip-borderRadius__1x922a0n);\n  --borderColor__1x922a06: var(--variants-datatip-borderColor__1x922a0o);\n  --paddingHorizontal__1x922a07: var(--variants-datatip-paddingHorizontal__1x922a0p);\n  --paddingVertical__1x922a08: var(--variants-datatip-paddingVertical__1x922a0q);\n}oj-c-buttonset-single:not(.oj-complete) {\n  visibility: hidden;\n}\n\noj-c-buttonset-single {\n  display: inline-flex;\n  vertical-align: top;\n}\n\noj-c-buttonset-single[hidden] {\n  display: none;\n}oj-c-button:not(.oj-complete) {\n  visibility: hidden;\n}\n\noj-c-button {\n  display: inline-flex;\n  vertical-align: top;\n}\n\noj-c-button[hidden] {\n  display: none;\n}.FocusTrackerStyles_baseStyle__1g9mhde0 {\n  background-color: inherit;\n  display: contents;\n}\n.FocusTrackerStyles_baseStyle__1g9mhde0 > * {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n  margin-left: 0 !important;\n  margin-right: 0 !important;\n}\n.FocusTrackerStyles_guardStyle__1g9mhde1 {\n  height: 0px;\n  left: 0;\n  position: fixed;\n  top: 0;\n  width: 1px;\n}.ModalStyles_baseStyle__1src2tr0 {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n}\n.ModalStyles_backdropStyle__1src2tr1 {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n}\n.ModalStyles_backdropScrimStyle__1src2tr2 {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-overlay-scrim);\n}\n.ModalStyles_backdropTransparentStyle__1src2tr3 {\n  background-color: transparent;\n}.WindowOverlayStyles_windowOverlayStyles_notificationPosition__d5jpag0 {\n  position: relative;\n  pointer-events: initial;\n  width: -moz-max-content;\n  width: max-content;\n}\n.WindowOverlayStyles_windowOverlayStyles_top__d5jpag1 {\n  left: var(--notificationCrossAxisOffset__5h4cac1);\n  top: var(--notificationMainAxisOffset__5h4cac0);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpag2 {\n  left: var(--notificationCrossAxisOffset__5h4cac1);\n  top: var(--notificationMainAxisOffset__5h4cac0);\n}\n.WindowOverlayStyles_windowOverlayStyles_bottom__d5jpag3 {\n  left: var(--notificationCrossAxisOffset__5h4cac1);\n  bottom: var(--notificationMainAxisOffset__5h4cac0);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpag4 {\n  bottom: var(--notificationMainAxisOffset__5h4cac0);\n  left: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpag5 {\n  right: var(--notificationCrossAxisOffset__5h4cac1);\n  top: var(--notificationMainAxisOffset__5h4cac0);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpag6 {\n  right: var(--notificationCrossAxisOffset__5h4cac1);\n  bottom: var(--notificationMainAxisOffset__5h4cac0);\n}\n.WindowOverlayStyles_windowOverlayStyles_right__d5jpag7 {\n  right: var(--notificationMainAxisOffset__5h4cac0);\n  top: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles_left__d5jpag8 {\n  left: var(--notificationMainAxisOffset__5h4cac0);\n  top: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpag9 {\n  left: var(--notificationMainAxisOffset__5h4cac0);\n  top: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpaga {\n  left: var(--notificationMainAxisOffset__5h4cac0);\n  bottom: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpagb {\n  right: var(--notificationMainAxisOffset__5h4cac0);\n  top: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpagc {\n  right: var(--notificationMainAxisOffset__5h4cac0);\n  bottom: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_placementStyles_center__d5jpagd {\n  align-items: center;\n  justify-items: center;\n}\n.WindowOverlayStyles_placementStyles_top__d5jpage {\n  align-items: start;\n  justify-items: center;\n}\n.WindowOverlayStyles_placementStyles__d5jpagf {\n  align-items: start;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagg {\n  align-items: start;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagh {\n  align-items: start;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagi {\n  align-items: start;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagj {\n  align-items: start;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagk {\n  align-items: start;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles_end__d5jpagl {\n  align-items: center;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagm {\n  align-items: start;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagn {\n  align-items: end;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpago {\n  align-items: start;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagp {\n  align-items: end;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles_bottom__d5jpagq {\n  align-items: end;\n  justify-items: center;\n}\n.WindowOverlayStyles_placementStyles__d5jpagr {\n  align-items: end;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpags {\n  align-items: end;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagt {\n  align-items: end;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagu {\n  align-items: end;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagv {\n  align-items: end;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagw {\n  align-items: end;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles_start__d5jpagx {\n  align-items: center;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagy {\n  align-items: start;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagz {\n  align-items: end;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpag10 {\n  align-items: start;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpag11 {\n  align-items: end;\n  justify-items: start;\n}\n.WindowOverlayStyles_baseStyle__d5jpag12 {\n  position: fixed;\n  pointer-events: none;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n}\n.WindowOverlayStyles_gridStyles__d5jpag13 {\n  display: grid;\n}.PopupStyles_baseStyle__1xjjaoy0 {\n  border-color: var(--borderColor__2ugez71);\n  box-shadow: var(--boxShadow__2ugez73);\n  border-radius: var(--borderRadius__2ugez72);\n  background-color: var(--backgroundColor__2ugez70);\n  padding: var(--padding__2ugez74);\n  overflow-y: auto;\n}\n.PopupStyles_baseStyle__1xjjaoy0:focus-visible {\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-offset: -1px;\n}oj-c-popup:not(.oj-complete){\n  visibility: hidden;\n}\n\noj-c-popup {\n  display: none;\n}\n\noj-c-popup[hidden]\n{\n  display: none;\n}.boxalignment_alignItems_baseline__xnj0dy0 {\n  align-items: baseline;\n}\n.boxalignment_alignItems_center__xnj0dy1 {\n  align-items: center;\n}\n.boxalignment_alignItems_end__xnj0dy2 {\n  align-items: flex-end;\n}\n.boxalignment_alignItems_start__xnj0dy3 {\n  align-items: flex-start;\n}\n.boxalignment_alignItems_inherit__xnj0dy4 {\n  align-items: inherit;\n}\n.boxalignment_alignItems_initial__xnj0dy5 {\n  align-items: initial;\n}\n.boxalignment_alignItems_stretch__xnj0dy6 {\n  align-items: stretch;\n}\n.boxalignment_justifyContent_left__xnj0dy7 {\n  justify-content: left;\n}\n.boxalignment_justifyContent_center__xnj0dy8 {\n  justify-content: center;\n}\n.boxalignment_justifyContent_right__xnj0dy9 {\n  justify-content: right;\n}\n.boxalignment_justifyContent_end__xnj0dya {\n  justify-content: flex-end;\n}\n.boxalignment_justifyContent_start__xnj0dyb {\n  justify-content: flex-start;\n}\n.boxalignment_justifyContent_inherit__xnj0dyc {\n  justify-content: inherit;\n}\n.boxalignment_justifyContent_initial__xnj0dyd {\n  justify-content: initial;\n}\n.boxalignment_justifyContent_around__xnj0dye {\n  justify-content: space-around;\n}\n.boxalignment_justifyContent_between__xnj0dyf {\n  justify-content: space-between;\n}\n.boxalignment_justifyContent_evenly__xnj0dyg {\n  justify-content: space-evenly;\n}.flexbox_flexDirection_row__13x6ak30 {\n  flex-direction: row;\n}\n.flexbox_flexDirection_column__13x6ak31 {\n  flex-direction: column;\n}\n.flexbox_flexWrap_nowrap__13x6ak32 {\n  flex-wrap: nowrap;\n}\n.flexbox_flexWrap_wrap__13x6ak33 {\n  flex-wrap: wrap;\n}\n.flexbox_flexWrap_reverse__13x6ak34 {\n  flex-wrap: wrap-reverse;\n}\n.flexbox_flexWrap_inherit__13x6ak35 {\n  flex-wrap: inherit;\n}\n.flexbox_flexWrap_initial__13x6ak36 {\n  flex-wrap: initial;\n}.flexitem_alignSelf_baseline__1b6a9hn0 {\n  align-self: baseline;\n}\n.flexitem_alignSelf_center__1b6a9hn1 {\n  align-self: center;\n}\n.flexitem_alignSelf_end__1b6a9hn2 {\n  align-self: flex-end;\n}\n.flexitem_alignSelf_start__1b6a9hn3 {\n  align-self: flex-start;\n}\n.flexitem_alignSelf_inherit__1b6a9hn4 {\n  align-self: inherit;\n}\n.flexitem_alignSelf_initial__1b6a9hn5 {\n  align-self: initial;\n}\n.flexitem_alignSelf_stretch__1b6a9hn6 {\n  align-self: stretch;\n}.FlexStyles_baseStyles__10p93f60 {\n  display: flex;\n}\n.FlexStyles_marginZeroStyles__10p93f61 > * {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n  margin-left: 0 !important;\n  margin-right: 0 !important;\n}.MessageBannerStyles_variants_severity_confirmation__15yin4c0 {\n  --backgroundColor__l2hi9d0: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-success-low, var(--oj-core-success-secondary-3));\n  --startIconColor__l2hi9d1: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-success, var(--oj-core-success-3));\n  --summaryTextColor__l2hi9d3: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-success, var(--oj-core-success-3));\n}\n.MessageBannerStyles_variants_severity_info__15yin4c1 {\n  --backgroundColor__l2hi9d0: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-info-low, var(--oj-core-info-secondary-3));\n  --startIconColor__l2hi9d1: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-info, var(--oj-core-info-3));\n  --summaryTextColor__l2hi9d3: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-info, var(--oj-core-info-3));\n}.MessageBannerVariants_multiVariantStyles_severity_error__10p8l3t0 {\n  --backgroundColor__l2hi9d0: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-danger-low, var(--oj-core-danger-secondary-3));\n  --startIconColor__l2hi9d1: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-danger, var(--oj-core-danger-3));\n  --summaryTextColor__l2hi9d3: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-danger, var(--oj-core-danger-3));\n}\n.MessageBannerVariants_multiVariantStyles_severity_warning__10p8l3t1 {\n  --backgroundColor__l2hi9d0: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-warning-low, var(--oj-core-warning-secondary-3));\n  --startIconColor__l2hi9d1: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-warning, var(--oj-core-warning-3));\n  --summaryTextColor__l2hi9d3: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-warning, var(--oj-core-warning-3));\n}.IconStyle_primary__sdo2n60 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.IconStyle_secondary__sdo2n61 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n}\n.IconStyle_disabled__sdo2n62 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-disabled);\n}\n.IconStyle_danger__sdo2n63 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-danger);\n}\n.IconStyle_warning__sdo2n64 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-warning);\n}\n.IconStyle_success__sdo2n65 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-success);\n}\n.IconStyle_info__sdo2n66 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-info);\n}\n.IconStyle_currentColor__sdo2n67 {\n  color: currentColor;\n}.MessageStyles_messageStyles_base_banner__ie50yz0 {\n  background-color: var(--backgroundColor__l2hi9d0);\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n  border-bottom-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-divider, var(--oj-core-divider-color));\n}\n.MessageStyles_messageStyles_base_banner__ie50yz0:focus-visible {\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus, var(--oj-core-focus-border-color));\n  outline-offset: 1px;\n}\n.MessageStyles_messageStyles_base_toast__ie50yz1 {\n  background-color: var(--backgroundColor__zw7y740);\n  border-radius: 6px;\n  box-shadow: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-box-shadow-sm);\n  width: -moz-fit-content;\n  width: fit-content;\n}\n.MessageStyles_messageStyles_base_toast__ie50yz1:focus-visible {\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  outline-offset: 1px;\n}\n.MessageStyles_messageStyles_section__ie50yz2 {\n  border: 1px solid var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-divider);\n  border-radius: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-radius-lg);\n}\n.MessageStyles_messageStyles_content_base__ie50yz3 {\n  align-items: center;\n  box-sizing: border-box;\n  display: flex;\n  flex-wrap: wrap;\n  padding-top: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  padding-bottom: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.MessageStyles_messageStyles_content_banner__ie50yz4 {\n  padding-inline-start: var(--oj-core-gutter-start, var(--oj-core-gutter-start,calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem))));\n  padding-inline-end: var(--oj-core-gutter-end, var(--oj-core-gutter-start,calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem))));\n}\n.MessageStyles_messageStyles_content_toast__ie50yz5 {\n  padding-inline-start: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  padding-inline-end: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.MessageStyles_messageCloseButtonStyles_base__ie50yz6 {\n  align-self: flex-start;\n  display: flex;\n}\n.MessageStyles_messageCloseButtonStyles_banner__ie50yz7 {\n  margin-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n  margin-inline-end: calc(-2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  margin-top: calc(-2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  margin-bottom: calc(-2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.MessageStyles_messageCloseButtonStyles_toast__ie50yz8 {\n  margin-inline-start: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  margin-inline-end: calc(calc(-3 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem)) / 2);\n  margin-top: calc(calc(-3 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem)) / 2);\n  margin-bottom: calc(calc(-3 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem)) / 2);\n}\n.MessageStyles_messageStartIconStyles_base__ie50yz9 {\n  align-self: flex-start;\n  display: flex;\n}\n.MessageStyles_messageStartIconStyles_banner__ie50yza {\n  margin-inline-end: calc(2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.MessageStyles_messageStartIconStyles_toast__ie50yzb {\n  margin-inline-end: calc(2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.MessageStyles_messageStartIconStyles_inline__ie50yzc {\n  margin-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n  height: calc(var(--summaryTextSize__1aj7c364) * 1.333);\n  align-items: center;\n}\n.MessageStyles_messageStartIconStyles_customToast__ie50yzd {\n  height: var(--startIconSize__zw7y745);\n  width: var(--startIconSize__zw7y745);\n}\n.MessageStyles_messageDetailStyles_base__ie50yze {\n  overflow-wrap: anywhere;\n}\n.MessageStyles_messageDetailStyles_banner__ie50yzf {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-size, var(--oj-typography-body-sm-font-size));\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary, var(--oj-core-text-color-primary));\n}\n.MessageStyles_messageDetailStyles_toast__ie50yzg {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-size);\n  color: var(--detailTextColor__zw7y74a);\n}\n.MessageStyles_messageHeaderStyles_base__ie50yzh {\n  box-sizing: border-box;\n  display: flex;\n  flex-wrap: wrap;\n  flex-direction: row;\n}\n.MessageStyles_messageHeaderStyles_banner__ie50yzi {\n  line-height: var(--summaryLineHeight__l2hi9d6);\n}\n.MessageStyles_messageHeaderStyles_toast__ie50yzj {\n  line-height: var(--startIconSize__zw7y745);\n}\n.MessageStyles_messageStartIconBase__ie50yzk {\n  margin-inline-end: calc(2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  display: flex;\n  align-self: flex-start;\n}\n.MessageStyles_severityIconStyles_banner__ie50yzl {\n  color: var(--startIconColor__l2hi9d1);\n  font-size: var(--startIconSize__l2hi9d2);\n  height: var(--summaryLineHeight__l2hi9d6);\n}\n.MessageStyles_severityIconStyles_inline__ie50yzm {\n  color: var(--startIconColor__1aj7c360);\n  font-size: var(--startIconSize__1aj7c361);\n}\n.MessageStyles_severityIconStyles_toast__ie50yzn {\n  color: var(--startIconColor__zw7y744);\n  font-size: var(--startIconSize__zw7y745);\n  height: var(--startIconSize__zw7y745);\n  width: var(--startIconSize__zw7y745);\n}\n.MessageStyles_startIconContainerStyles_banner__ie50yzo {\n  height: calc(var(--summaryTextSize__l2hi9d5) * var(--summaryLineHeight__l2hi9d6));\n  display: flex;\n  align-items: center;\n}\n.MessageStyles_startIconContainerStyles_toast__ie50yzp {\n  height: 100%;\n}\n.MessageStyles_startIconContainerStyles_inline__ie50yzq {\n  height: var(--startIconSize__1aj7c361);\n  margin-block: auto;\n}\n.MessageStyles_messageSummaryStyles_base__ie50yzr {\n  flex: 1;\n  overflow-wrap: anywhere;\n}\n.MessageStyles_messageSummaryStyles_banner__ie50yzs {\n  font-size: var(--summaryTextSize__l2hi9d5);\n  font-weight: var(--summaryTextWeight__l2hi9d4);\n  color: var(--summaryTextColor__l2hi9d3);\n}\n.MessageStyles_messageSummaryStyles_inline__ie50yzt {\n  font-size: var(--inlineFontSize__1n9ixz61);\n  font-weight: 400;\n  color: var(--inlineTextColor__1n9ixz60);\n  line-height: 1.333;\n}\n.MessageStyles_messageSummaryStyles_toast__ie50yzu {\n  font-size: var(--summaryTextSize__zw7y748);\n  color: var(--summaryTextColor__zw7y746);\n}\n.MessageStyles_messageTimestampStyles_banner__ie50yzv {\n  flex-shrink: 0;\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-size, var(--oj-typography-body-xs-font-size));\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary, var(--oj-core-text-color-secondary));\n}\n@media screen and (max-width: 599.9px) {\n  .MessageStyles_messageHeaderStyles_base__ie50yzh {\n    flex-direction: column;\n  }\n}.LiveRegionStyles_offScreenStyle__1uvpdtw0 {\n  border: 0;\n  clip: rect(0 0 0 0);\n  height: 1px;\n  margin: -1px;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  padding-top: 0;\n  padding-right: 0;\n  padding-bottom: 0;\n  padding-left: 0;\n  width: 1px;\n  position: absolute;\n}.MessageToastStyles_styles_base__jym5gr0 {\n  height: -moz-fit-content;\n  height: fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}oj-c-message-toast:not(.oj-complete){\n  visibility: hidden;\n}\n\noj-c-message-toast[hidden]\n{\n  display: none;\n}\n.gTmpl-main-btn {\r\n  background-color: mediumpurple;\r\n  border-radius: 7%;\r\n}\r\n\r\n.gTmpl-white-text {\r\n  color: white;\r\n}\r\n\r\n.gTmpl-error-text {\r\n  color: var(--oj-core-danger-3);\r\n  font-size: small;\r\n}\r\n\r\n.gTmpl-help-text {\r\n  font-size: small;\r\n  color: #666666;\r\n}\r\n\r\n.gTmpl-dialog {\r\n  width: 500px;\r\n  margin: 20px auto;\r\n  display: flex;\r\n  flex-direction: column;\r\n}\r\n\r\n.gTmpl-dialog.gTmpl-wide-dialog {\r\n  width: 1000px;\r\n}\r\n\r\n/* --- Header --- */\r\n.gTmpl-header {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 16px 24px;\r\n  border-bottom: 1px solid #e0e6ed;\r\n}\r\n\r\n.gTmpl-header .gTmpl-title {\r\n  font-size: 1.25rem;\r\n  font-weight: bold;\r\n  color: #333;\r\n}\r\n\r\n.gTmpl-header .gTmpl-close-btn {\r\n  background: none;\r\n  border: none;\r\n  font-size: 1.5rem;\r\n  color: #888;\r\n  cursor: pointer;\r\n}\r\n\r\n/* --- Body & Form --- */\r\n.gTmpl-body {\r\n  padding: 24px;\r\n}\r\n\r\n.gTmpl-form-group {\r\n  margin-bottom: 16px;\r\n}\r\n\r\n.gTmpl-form-group label {\r\n  display: block;\r\n  margin-bottom: 8px;\r\n  font-weight: bold;\r\n  color: #555;\r\n}\r\n\r\n.gTmpl-form-group input[type=\"text\"] {\r\n  width: 100%;\r\n  padding: 10px;\r\n  border: 1px solid #ccc;\r\n  border-radius: 4px;\r\n}\r\n\r\n/* --- Footer & Buttons --- */\r\n\r\n.gTmpl-footer {\r\n  border-top: 1px solid #e0e6ed;\r\n  padding: 16px 24px;\r\n  flex: 1 1 100%;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n}\r\n\r\n.gTmpl-footer .gTmpl-save-btn {\r\n  padding: 10px 20px;\r\n  border: none;\r\n  border-radius: 4px;\r\n  background-color: #007bff;\r\n  color: #fff;\r\n  font-size: 1rem;\r\n  cursor: pointer;\r\n}\r\n\r\n/* The main container for the entire layout */\r\n.gTmpl-container {\r\n  width: 100%;\r\n  display: flex;\r\n  gap: 20px;\r\n  flex-wrap: wrap;\r\n  /* Allows columns to wrap on smaller screens */\r\n}\r\n\r\n/* Common styles for both columns */\r\n.gTmpl-column {\r\n  background-color: #fff;\r\n  border-radius: 8px;\r\n  padding: 20px;\r\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\r\n}\r\n\r\n/* Styles for the left column */\r\n.gTmpl-column-left {\r\n  flex: 2;\r\n  /* Takes up 2 parts of the available space */\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 20px;\r\n  min-width: 300px;\r\n  max-height: 284px;\r\n}\r\n\r\n/* Styles for the right column */\r\n.gTmpl-column-right {\r\n  flex: 1;\r\n  /* Takes up 1 part of the available space */\r\n  min-width: 250px;\r\n  overflow-y: auto;\r\n  max-height: 284px;\r\n}\r\n\r\n/* Styles for the rows in the left column */\r\n.gTmpl-row {\r\n  padding: 15px;\r\n  border: 1px solid #e0e0e0;\r\n  border-radius: 6px;\r\n}\r\n\r\n.gTmpl-row-select h3,\r\n.gTmpl-row-content h3 {\r\n  margin-top: 0;\r\n  color: #333;\r\n}\r\n\r\nselect {\r\n  width: 100%;\r\n  padding: 10px;\r\n  border: 1px solid #ccc;\r\n  border-radius: 4px;\r\n  font-size: 16px;\r\n}\r\n\r\n/* Styles for the summary list in the right column */\r\n.gTmpl-summary-list h3 {\r\n  margin-top: 0;\r\n  color: #333;\r\n}\r\n\r\n.gTmpl-summary-list ul {\r\n  list-style: none;\r\n  padding: 0;\r\n  margin: 0;\r\n}\r\n\r\n.gTmpl-summary-list li {\r\n  padding: 8px 0;\r\n  color: #555;\r\n}.dragCat-container {\r\n  /* width: 100vh; */\r\n  display: flex;\r\n  overflow-x: auto;\r\n  -webkit-overflow-scrolling: touch;\r\n  padding-bottom: 1rem;\r\n  padding-top: 1rem;\r\n  margin: 0 1em 0 1em;\r\n}\r\n\r\n.dc-noData {\r\n  color: gray;\r\n  font-size: small;\r\n}');
+('.LayerStyles_baseStyle__g9p4b90 {\n  position: relative;\n}\n.LayerStyles_popupPriorityStyle__g9p4b91 {\n  z-index: 1000;\n}\n.LayerStyles_dialogPriorityStyle__g9p4b92 {\n  z-index: 1050;\n}\n.LayerStyles_messagesPriorityStyle__g9p4b93 {\n  z-index: 2000;\n}.ButtonSetStyles_base__r2ajrb0 {\n  display: inline-flex;\n}\n.ButtonSetStyles_fullWidth__r2ajrb1 {\n  width: 100%;\n}.BaseButtonStyles_styles_base__jvi3ds0 {\n  cursor: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-cursor-clickable);\n  box-sizing: border-box;\n}\n.BaseButtonStyles_styles_styled__jvi3ds1 {\n  align-items: center;\n  border-style: solid;\n  border-width: 1px;\n  box-sizing: border-box;\n  display: inline-block;\n  font-family: inherit;\n  justify-content: center;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  padding-top: 0;\n  padding-bottom: 0;\n  pointer-events: auto;\n  text-overflow: ellipsis;\n  vertical-align: top;\n  -webkit-tap-highlight-color: rgba(0,0,0,0);\n  white-space: nowrap;\n  border-radius: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-border-radius);\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);\n}\n.BaseButtonStyles_styles_styled__jvi3ds1:focus-visible {\n  outline-style: dotted;\n  outline-offset: 1px;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  z-index: 2;\n}\n.BaseButtonStyles_styles_styled__jvi3ds1:has(input:focus-visible) {\n  outline-style: dotted;\n  outline-offset: 1px;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  z-index: 2;\n}\n.BaseButtonStyles_styles_outline__jvi3ds2 {\n  outline-style: dotted;\n  outline-offset: 1px;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  z-index: 2;\n}\n.BaseButtonStyles_styles_min__jvi3ds3 {\n  padding-inline-start: unset !important;\n  padding-inline-end: unset !important;\n}\n.BaseButtonStyles_styles_fill__jvi3ds4 {\n  width: 100%;\n}\n.BaseButtonStyles_styles_spanOnly__jvi3ds5 {\n  display: inline-flex;\n}\n.BaseButtonStyles_styles_embedded__jvi3ds6 {\n  height: 100%;\n  display: inline-flex;\n}\n.BaseButtonStyles_styles_embedded__jvi3ds6:focus-visible {\n  outline-style: none;\n}\n.BaseButtonStyles_styles_noBorderStart__jvi3ds7 {\n  border-inline-start-width: 0px;\n}\n.BaseButtonStyles_styles_noBorderEnd__jvi3ds8 {\n  border-inline-end-width: 0px;\n}\n.BaseButtonStyles_styles_noBorderStartButtonset__jvi3ds9 {\n  position: relative;\n  z-index: 0;\n  margin-inline-start: -1px;\n}\n.BaseButtonStyles_styles_noBorderEndButtonset__jvi3dsa {\n  position: relative;\n  z-index: 0;\n}\n.BaseButtonStyles_styles_unselectedBorderEnd__jvi3dsb {\n  border-inline-end-color: transparent;\n}\n.BaseButtonStyles_styles_unselectedBorderStart__jvi3dsc {\n  border-inline-start-color: transparent;\n}\n.BaseButtonStyles_styles_noBorderRadiusStart__jvi3dsd {\n  border-start-start-radius: 0;\n  border-end-start-radius: 0;\n}\n.BaseButtonStyles_styles_noBorderRadiusEnd__jvi3dse {\n  border-end-end-radius: 0;\n  border-start-end-radius: 0;\n}\n.BaseButtonStyles_styles_inputLabel__jvi3dsf {\n  cursor: inherit;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  height: 100%;\n}\n.BaseButtonStyles_styles_widthEqual__jvi3dsg {\n  flex: 1;\n  overflow: hidden;\n}\n.BaseButtonStyles_styles_widthAuto__jvi3dsh {\n  flex: auto;\n}\n.BaseButtonStyles_styles_bottom__jvi3dsi {\n  border-inline-start-width: 0;\n  border-right-width: 0;\n  border-block-end-width: 0;\n  width: 100%;\n  border-top-left-radius: 0;\n  border-top-right-radius: 0;\n}\n.BaseButtonStyles_styles_variants_outlined_base__jvi3dsj {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-base-color);\n}\n.BaseButtonStyles_styles_variants_outlined_disabled__jvi3dsk {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_outlined_hover__jvi3dsl:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color));\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-enabled);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_outlined_active__jvi3dsm {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-active-background-overlay-color));\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-enabled);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_outlined_selected__jvi3dsn {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-selected);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-selected);\n  z-index: 1;\n}\n.BaseButtonStyles_styles_variants_outlined_selectedDisabled__jvi3dso {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-disabled);\n}\n.BaseButtonStyles_styles_variants_outlined_container__jvi3dst {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_variants_outlined_buttonSetItem__jvi3dsu {\n  border-inline-start-color: transparent;\n  border-inline-start-width: 1px;\n}\n.BaseButtonStyles_styles_variants_outlined_buttonSetItemSelected__jvi3dsv {\n  border-inline-start-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-selected);\n  border-inline-start-width: 1px;\n}\n.BaseButtonStyles_styles_variants_outlined_buttonSetItemDisabled__jvi3dsw {\n  border-inline-start-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-disabled-border-color);\n  border-inline-start-width: 1px;\n}\n.BaseButtonStyles_styles_variants_callToAction_base__jvi3dsx {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-base-color);\n}\n.BaseButtonStyles_styles_variants_callToAction_disabled__jvi3dsy {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_callToAction_hover__jvi3dsz:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-inverse);\n}\n.BaseButtonStyles_styles_variants_callToAction_active__jvi3ds10 {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-active-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-inverse);\n}\n.BaseButtonStyles_styles_variants_callToAction_container__jvi3ds13 {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_variants_borderless_base__jvi3ds14 {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-base-color);\n}\n.BaseButtonStyles_styles_variants_borderless_disabled__jvi3ds15 {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_borderless_hover__jvi3ds16:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_borderless_active__jvi3ds17 {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-active-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_borderless_selected__jvi3ds18 {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-selected);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-selected);\n}\n.BaseButtonStyles_styles_variants_borderless_selectedDisabled__jvi3ds19 {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-disabled);\n}\n.BaseButtonStyles_styles_variants_borderless_container__jvi3ds1e {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_variants_borderless_buttonSetItem__jvi3ds1f {\n  margin-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n}\n.BaseButtonStyles_styles_variants_ghost_base__jvi3ds1g {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-color);\n}\n.BaseButtonStyles_styles_variants_ghost_disabled__jvi3ds1h {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_ghost_hover__jvi3ds1i:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n}\n.BaseButtonStyles_styles_variants_ghost_active__jvi3ds1j {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-active-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n}\n.BaseButtonStyles_styles_variants_ghost_container__jvi3ds1m {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_variants_solid_base__jvi3ds1n {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-base-color);\n}\n.BaseButtonStyles_styles_variants_solid_disabled__jvi3ds1o {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_solid_hover__jvi3ds1p:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_solid_active__jvi3ds1q {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-active-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.BaseButtonStyles_styles_variants_solid_container__jvi3ds1t {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_variants_danger_base__jvi3ds1u {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-base-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-base-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-base-color);\n}\n.BaseButtonStyles_styles_variants_danger_disabled__jvi3ds1v {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-disabled-background-color);\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-disabled-border-color);\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-disabled-color);\n  cursor: not-allowed;\n}\n.BaseButtonStyles_styles_variants_danger_hover__jvi3ds1w:not(:active) {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-on-color);\n}\n.BaseButtonStyles_styles_variants_danger_active__jvi3ds1x {\n  background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-active-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-active-background-overlay-color));\n  border-color: transparent;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-on-color);\n}\n.BaseButtonStyles_styles_variants_danger_container__jvi3ds20 {\n  background-color: transparent;\n  border-style: hidden;\n  cursor: none;\n  display: flex;\n}\n.BaseButtonStyles_styles_sizes_xs__jvi3ds21 {\n  height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-height);\n  min-width: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-height);\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-text-to-edge-padding);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);\n}\n.BaseButtonStyles_styles_sizes_sm__jvi3ds22 {\n  height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-height);\n  min-width: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-height);\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-text-to-edge-padding);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);\n}\n.BaseButtonStyles_styles_sizes_md__jvi3ds23 {\n  height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-height);\n  min-width: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-height);\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-text-to-edge-padding);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);\n}\n.BaseButtonStyles_styles_sizes_lg__jvi3ds24 {\n  height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-height);\n  min-width: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-height);\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-text-to-edge-padding);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);\n}\n.BaseButtonStyles_styles_labelSizes_xs__jvi3ds25 {\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-xs-text-to-edge-padding);\n}\n.BaseButtonStyles_styles_labelSizes_sm__jvi3ds26 {\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-sm-text-to-edge-padding);\n}\n.BaseButtonStyles_styles_labelSizes_md__jvi3ds27 {\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-md-text-to-edge-padding);\n}\n.BaseButtonStyles_styles_labelSizes_lg__jvi3ds28 {\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-text-to-edge-padding);\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-sizes-lg-text-to-edge-padding);\n}\n.BaseButtonStyles_styles_base__jvi3ds0 > * {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n  margin-left: 0 !important;\n  margin-right: 0 !important;\n}\n@media (hover: hover) {\n  .BaseButtonStyles_styles_variants_outlined_pseudohover__jvi3dsp:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color));\n    border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-enabled);\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_outlined_pseudohoverSelected__jvi3dsq:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color));\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_outlined_pseudohoverSpan__jvi3dsr:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color));\n    border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-enabled);\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_outlined_pseudohoverSpanSelected__jvi3dss:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-outlined-hover-background-overlay-color));\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_callToAction_pseudohover__jvi3ds11:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-inverse);\n  }\n  .BaseButtonStyles_styles_variants_callToAction_pseudohoverSpan__jvi3ds12:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-call-to-action-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-inverse);\n  }\n  .BaseButtonStyles_styles_variants_borderless_pseudohover__jvi3ds1a:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_borderless_pseudohoverSelected__jvi3ds1b:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color));\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_borderless_pseudohoverSpan__jvi3ds1c:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_borderless_pseudohoverSpanSelected__jvi3ds1d:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-borderless-hover-background-overlay-color));\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_ghost_pseudohover__jvi3ds1k:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n  }\n  .BaseButtonStyles_styles_variants_ghost_pseudohoverSpan__jvi3ds1l:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n  }\n  .BaseButtonStyles_styles_variants_solid_pseudohover__jvi3ds1r:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_solid_pseudohoverSpan__jvi3ds1s:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-solid-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  }\n  .BaseButtonStyles_styles_variants_danger_pseudohover__jvi3ds1y:hover:enabled:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-on-color);\n  }\n  .BaseButtonStyles_styles_variants_danger_pseudohoverSpan__jvi3ds1z:hover:not(:active) {\n    background-image: linear-gradient(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color),var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-danger-hover-background-overlay-color));\n    border-color: transparent;\n    color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-on-color);\n  }\n}.TextStyles_base__13t47my0 {\n  overflow-x: hidden;\n  overflow-y: hidden;\n  overflow-wrap: anywhere;\n  display: inline;\n}\n.TextStyles_base__13t47my0:focus-visible {\n  outline-style: dotted;\n  outline-offset: 1px;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n}\n.TextStyles_base__13t47my0::after {\n  content: \"\";\n  display: block;\n}\n.TextStyles_lineClamp__13t47my1 {\n  display: -webkit-box;\n  -webkit-box-orient: vertical;\n}\n.TextStyles_multiVariantStyles_size_2xs__13t47my2 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-2xs-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-2xs-line-height);\n}\n.TextStyles_multiVariantStyles_size_xs__13t47my3 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-line-height);\n}\n.TextStyles_multiVariantStyles_size_sm__13t47my4 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-line-height);\n}\n.TextStyles_multiVariantStyles_size_md__13t47my5 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height);\n}\n.TextStyles_multiVariantStyles_size_lg__13t47my6 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-lg-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-lg-line-height);\n}\n.TextStyles_multiVariantStyles_size_xl__13t47my7 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xl-font-size);\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xl-line-height);\n}\n.TextStyles_multiVariantStyles_size_inherit__13t47my8 {\n  font-size: inherit;\n  line-height: inherit;\n}\n.TextStyles_multiVariantStyles_variant_primary__13t47my9 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.TextStyles_multiVariantStyles_variant_secondary__13t47mya {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n}\n.TextStyles_multiVariantStyles_variant_disabled__13t47myb {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-disabled);\n}\n.TextStyles_multiVariantStyles_variant_danger__13t47myc {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-danger);\n}\n.TextStyles_multiVariantStyles_variant_warning__13t47myd {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-warning);\n}\n.TextStyles_multiVariantStyles_variant_success__13t47mye {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-success);\n}\n.TextStyles_multiVariantStyles_variant_inherit__13t47myf {\n  color: inherit;\n}\n.TextStyles_multiVariantStyles_weight_normal__13t47myg {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_weight_semiBold__13t47myh {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_weight_bold__13t47myi {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_weight_inherit__13t47myj {\n  font-weight: inherit;\n}\n.TextStyles_multiVariantStyles_hyphens_auto__13t47myk {\n  -webkit-hyphens: auto;\n          hyphens: auto;\n}\n.TextStyles_multiVariantStyles_hyphens_none__13t47myl {\n  -webkit-hyphens: none;\n          hyphens: none;\n}\n.TextStyles_multiVariantStyles_truncation_clip__13t47myn {\n  text-overflow: clip;\n  white-space: nowrap;\n  width: 100%;\n  display: inline-block;\n}\n.TextStyles_multiVariantStyles_truncation_ellipsis__13t47myo {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  width: 100%;\n  display: inline-block;\n}\n.TextStyles_multiVariantStyles_overflowWrap_breakWord__13t47myp {\n  overflow-wrap: break-word;\n}\n.TextStyles_multiVariantStyles_overflowWrap_normal__13t47myq {\n  overflow-wrap: normal;\n}\n.TextStyles_multiVariantStyles_compound_0__13t47mys {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-2xs-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_1__13t47myt {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-2xs-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_2__13t47myu {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_compound_3__13t47myv {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_4__13t47myw {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_5__13t47myx {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_compound_6__13t47myy {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_7__13t47myz {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_8__13t47my10 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_compound_9__13t47my11 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_10__13t47my12 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_11__13t47my13 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_compound_12__13t47my14 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-lg-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_13__13t47my15 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-lg-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_14__13t47my16 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-lg-font-weight-bold);\n}\n.TextStyles_multiVariantStyles_compound_15__13t47my17 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xl-font-weight-regular);\n}\n.TextStyles_multiVariantStyles_compound_16__13t47my18 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xl-font-weight-semibold);\n}\n.TextStyles_multiVariantStyles_compound_17__13t47my19 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xl-font-weight-bold);\n}.ButtonLabelLayoutStyles_text__1g78mbn0 {\n  overflow-x: hidden;\n  overflow-y: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  display: inline-block;\n  & > * {\n    margin-top: 0 !important;\n    margin-bottom: 0 !important;\n    margin-left: 0 !important;\n    margin-right: 0 !important;\n  }\n}\n.ButtonLabelLayoutStyles_fill__1g78mbn1 {\n  width: 100%;\n}\n.ButtonLabelLayoutStyles_fillText__1g78mbn2 {\n  justify-content: center;\n}\n.ButtonLabelLayoutStyles_suffix__1g78mbn3 {\n  font-weight: 400;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  margin-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n  display: inline-flex;\n}\n.ButtonLabelLayoutStyles_icon__1g78mbn4 {\n  display: inline-flex;\n  font-size: var(--iconSize__1onk43q0);\n  font-weight: normal;\n  margin-top: 0;\n  margin-bottom: 0;\n}\n.ButtonLabelLayoutStyles_startIcon__1g78mbn5 {\n  margin-inline-end: var(--iconToTextPadding__1onk43q2);\n  margin-inline-start: var(--iconToEdgePadding__1onk43q1);\n}\n.ButtonLabelLayoutStyles_endIcon__1g78mbn6 {\n  margin-inline-start: var(--iconToTextPadding__1onk43q2);\n  margin-inline-end: var(--iconToEdgePadding__1onk43q1);\n}\n.ButtonLabelLayoutStyles_startText__1g78mbn7 {\n  margin-inline-start: var(--textToEdgePadding__1onk43q3);\n}\n.ButtonLabelLayoutStyles_endText__1g78mbn8 {\n  margin-inline-end: var(--textToEdgePadding__1onk43q3);\n}\n.ButtonLabelLayoutStyles_startIconWhenBothIconsOnly__1g78mbn9 {\n  margin-inline-end: 0;\n}\n.ButtonLabelLayoutStyles_container__1g78mbna {\n  cursor: inherit;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 100%;\n  height: 100%;\n}\n.ButtonLabelLayoutStyles_base__1g78mbnb {\n  cursor: inherit;\n}.ButtonLabelLayoutVariants_multiVariantStyles_size_xs__7jj5290 {\n  --iconSize__1onk43q0: var(--sizes-xs-iconSize__1onk43q4);\n  --iconToTextPadding__1onk43q2: var(--sizes-xs-iconToTextPadding__1onk43q6);\n  --iconToEdgePadding__1onk43q1: var(--sizes-xs-iconToEdgePadding__1onk43q5);\n  --textToEdgePadding__1onk43q3: var(--sizes-xs-textToEdgePadding__1onk43q7);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_sm__7jj5291 {\n  --iconSize__1onk43q0: var(--sizes-sm-iconSize__1onk43q8);\n  --iconToTextPadding__1onk43q2: var(--sizes-sm-iconToTextPadding__1onk43q9);\n  --iconToEdgePadding__1onk43q1: var(--sizes-sm-iconToEdgePadding__1onk43qa);\n  --textToEdgePadding__1onk43q3: var(--sizes-sm-textToEdgePadding__1onk43qb);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_md__7jj5292 {\n  --iconSize__1onk43q0: var(--sizes-md-iconSize__1onk43qc);\n  --iconToTextPadding__1onk43q2: var(--sizes-md-iconToTextPadding__1onk43qe);\n  --iconToEdgePadding__1onk43q1: var(--sizes-md-iconToEdgePadding__1onk43qd);\n  --textToEdgePadding__1onk43q3: var(--sizes-md-textToEdgePadding__1onk43qf);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_lg__7jj5293 {\n  --iconSize__1onk43q0: var(--sizes-lg-iconSize__1onk43qg);\n  --iconToTextPadding__1onk43q2: var(--sizes-lg-iconToTextPadding__1onk43qi);\n  --iconToEdgePadding__1onk43q1: var(--sizes-lg-iconToEdgePadding__1onk43qh);\n  --textToEdgePadding__1onk43q3: var(--sizes-lg-textToEdgePadding__1onk43qj);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_embeddedxs__7jj5294 {\n  --iconSize__1onk43q0: var(--sizes-embeddedxs-iconSize__1onk43qk);\n  --iconToTextPadding__1onk43q2: var(--sizes-embeddedxs-iconToTextPadding__1onk43qm);\n  --iconToEdgePadding__1onk43q1: var(--sizes-embeddedxs-iconToEdgePadding__1onk43ql);\n  --textToEdgePadding__1onk43q3: var(--sizes-embeddedxs-textToEdgePadding__1onk43qn);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_embeddedsm__7jj5295 {\n  --iconSize__1onk43q0: var(--sizes-embeddedsm-iconSize__1onk43qo);\n  --iconToTextPadding__1onk43q2: var(--sizes-embeddedsm-iconToTextPadding__1onk43qp);\n  --iconToEdgePadding__1onk43q1: var(--sizes-embeddedsm-iconToEdgePadding__1onk43qq);\n  --textToEdgePadding__1onk43q3: var(--sizes-embeddedsm-textToEdgePadding__1onk43qr);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_embeddedmd__7jj5296 {\n  --iconSize__1onk43q0: var(--sizes-embeddedmd-iconSize__1onk43qs);\n  --iconToTextPadding__1onk43q2: var(--sizes-embeddedmd-iconToTextPadding__1onk43qu);\n  --iconToEdgePadding__1onk43q1: var(--sizes-embeddedmd-iconToEdgePadding__1onk43qt);\n  --textToEdgePadding__1onk43q3: var(--sizes-embeddedmd-textToEdgePadding__1onk43qv);\n}\n.ButtonLabelLayoutVariants_multiVariantStyles_size_embeddedlg__7jj5297 {\n  --iconSize__1onk43q0: var(--sizes-embeddedlg-iconSize__1onk43qw);\n  --iconToTextPadding__1onk43q2: var(--sizes-embeddedlg-iconToTextPadding__1onk43qy);\n  --iconToEdgePadding__1onk43q1: var(--sizes-embeddedlg-iconToEdgePadding__1onk43qx);\n  --textToEdgePadding__1onk43q3: var(--sizes-embeddedlg-textToEdgePadding__1onk43qz);\n}.HiddenAccessibleStyles_hiddenAccessibleStyle__1lyg6yp0 {\n  border: 0;\n  clip: rect(0 0 0 0);\n  height: 1px;\n  margin: -1px;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  padding-top: 0;\n  padding-right: 0;\n  padding-bottom: 0;\n  padding-left: 0;\n  width: 1px;\n  position: absolute;\n}.FloatingStyles_baseStyle__1h7j7620 {\n  background-color: var(--backgroundColor__ihlnqb0);\n  display: block;\n  position: absolute;\n  width: auto;\n  height: auto;\n}\n.FloatingStyles_floatingVisibilityStyles_visible__1h7j7621 {\n  visibility: visible;\n}\n.FloatingStyles_floatingVisibilityStyles_hidden__1h7j7622 {\n  visibility: hidden;\n}\n.FloatingStyles_floatingTailBaseStyle__1h7j7623 {\n  position: absolute;\n  width: 0;\n  height: 0;\n}.TooltipContentStyles_wrapper__40ir7s0 {\n  display: flex;\n  align-items: flex-end;\n  overflow-y: hidden;\n}\n.TooltipContentStyles_inner__40ir7s1 {\n  opacity: 0;\n  max-height: 0;\n}\n.TooltipContentStyles_content__40ir7s2 {\n  width: -moz-max-content;\n  width: max-content;\n}\n.TooltipContentStyles_baseStyle__40ir7s3 {\n  max-width: var(--maxWidth__1x922a00);\n  color: var(--textColor__1x922a02);\n  background-color: var(--backgroundColor__1x922a01);\n  padding-top: var(--paddingVertical__1x922a08);\n  padding-left: var(--paddingHorizontal__1x922a07);\n  padding-right: var(--paddingHorizontal__1x922a07);\n  padding-bottom: var(--paddingVertical__1x922a08);\n  border-radius: var(--borderRadius__1x922a05);\n  border-color: var(--borderColor__1x922a06);\n  font-size: var(--fontSize__1x922a03);\n  line-height: var(--lineHeight__1x922a04);\n  border-width: 1px;\n  border-style: solid;\n}.TooltipContentVariants_multiVariantStyles_variant_tooltip__1ycsr170 {\n  --maxWidth__1x922a00: var(--variants-tooltip-maxWidth__1x922a09);\n  --backgroundColor__1x922a01: var(--variants-tooltip-backgroundColor__1x922a0a);\n  --textColor__1x922a02: var(--variants-tooltip-textColor__1x922a0b);\n  --fontSize__1x922a03: var(--variants-tooltip-fontSize__1x922a0c);\n  --lineHeight__1x922a04: var(--variants-tooltip-lineHeight__1x922a0d);\n  --borderRadius__1x922a05: var(--variants-tooltip-borderRadius__1x922a0e);\n  --borderColor__1x922a06: var(--variants-tooltip-borderColor__1x922a0f);\n  --paddingHorizontal__1x922a07: var(--variants-tooltip-paddingHorizontal__1x922a0g);\n  --paddingVertical__1x922a08: var(--variants-tooltip-paddingVertical__1x922a0h);\n}\n.TooltipContentVariants_multiVariantStyles_variant_datatip__1ycsr171 {\n  --maxWidth__1x922a00: var(--variants-datatip-maxWidth__1x922a0i);\n  --backgroundColor__1x922a01: var(--variants-datatip-backgroundColor__1x922a0j);\n  --textColor__1x922a02: var(--variants-datatip-textColor__1x922a0k);\n  --fontSize__1x922a03: var(--variants-datatip-fontSize__1x922a0l);\n  --lineHeight__1x922a04: var(--variants-datatip-lineHeight__1x922a0m);\n  --borderRadius__1x922a05: var(--variants-datatip-borderRadius__1x922a0n);\n  --borderColor__1x922a06: var(--variants-datatip-borderColor__1x922a0o);\n  --paddingHorizontal__1x922a07: var(--variants-datatip-paddingHorizontal__1x922a0p);\n  --paddingVertical__1x922a08: var(--variants-datatip-paddingVertical__1x922a0q);\n}oj-c-buttonset-single:not(.oj-complete) {\n  visibility: hidden;\n}\n\noj-c-buttonset-single {\n  display: inline-flex;\n  vertical-align: top;\n}\n\noj-c-buttonset-single[hidden] {\n  display: none;\n}oj-c-button:not(.oj-complete) {\n  visibility: hidden;\n}\n\noj-c-button {\n  display: inline-flex;\n  vertical-align: top;\n}\n\noj-c-button[hidden] {\n  display: none;\n}.FocusTrackerStyles_baseStyle__1g9mhde0 {\n  background-color: inherit;\n  display: contents;\n}\n.FocusTrackerStyles_baseStyle__1g9mhde0 > * {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n  margin-left: 0 !important;\n  margin-right: 0 !important;\n}\n.FocusTrackerStyles_guardStyle__1g9mhde1 {\n  height: 0px;\n  left: 0;\n  position: fixed;\n  top: 0;\n  width: 1px;\n}.ModalStyles_baseStyle__1src2tr0 {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n}\n.ModalStyles_backdropStyle__1src2tr1 {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n}\n.ModalStyles_backdropScrimStyle__1src2tr2 {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-overlay-scrim);\n}\n.ModalStyles_backdropTransparentStyle__1src2tr3 {\n  background-color: transparent;\n}.WindowOverlayStyles_windowOverlayStyles_notificationPosition__d5jpag0 {\n  position: relative;\n  pointer-events: initial;\n  width: -moz-max-content;\n  width: max-content;\n}\n.WindowOverlayStyles_windowOverlayStyles_top__d5jpag1 {\n  left: var(--notificationCrossAxisOffset__5h4cac1);\n  top: var(--notificationMainAxisOffset__5h4cac0);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpag2 {\n  left: var(--notificationCrossAxisOffset__5h4cac1);\n  top: var(--notificationMainAxisOffset__5h4cac0);\n}\n.WindowOverlayStyles_windowOverlayStyles_bottom__d5jpag3 {\n  left: var(--notificationCrossAxisOffset__5h4cac1);\n  bottom: var(--notificationMainAxisOffset__5h4cac0);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpag4 {\n  bottom: var(--notificationMainAxisOffset__5h4cac0);\n  left: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpag5 {\n  right: var(--notificationCrossAxisOffset__5h4cac1);\n  top: var(--notificationMainAxisOffset__5h4cac0);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpag6 {\n  right: var(--notificationCrossAxisOffset__5h4cac1);\n  bottom: var(--notificationMainAxisOffset__5h4cac0);\n}\n.WindowOverlayStyles_windowOverlayStyles_right__d5jpag7 {\n  right: var(--notificationMainAxisOffset__5h4cac0);\n  top: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles_left__d5jpag8 {\n  left: var(--notificationMainAxisOffset__5h4cac0);\n  top: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpag9 {\n  left: var(--notificationMainAxisOffset__5h4cac0);\n  top: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpaga {\n  left: var(--notificationMainAxisOffset__5h4cac0);\n  bottom: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpagb {\n  right: var(--notificationMainAxisOffset__5h4cac0);\n  top: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_windowOverlayStyles__d5jpagc {\n  right: var(--notificationMainAxisOffset__5h4cac0);\n  bottom: var(--notificationCrossAxisOffset__5h4cac1);\n}\n.WindowOverlayStyles_placementStyles_center__d5jpagd {\n  align-items: center;\n  justify-items: center;\n}\n.WindowOverlayStyles_placementStyles_top__d5jpage {\n  align-items: start;\n  justify-items: center;\n}\n.WindowOverlayStyles_placementStyles__d5jpagf {\n  align-items: start;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagg {\n  align-items: start;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagh {\n  align-items: start;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagi {\n  align-items: start;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagj {\n  align-items: start;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagk {\n  align-items: start;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles_end__d5jpagl {\n  align-items: center;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagm {\n  align-items: start;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagn {\n  align-items: end;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpago {\n  align-items: start;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagp {\n  align-items: end;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles_bottom__d5jpagq {\n  align-items: end;\n  justify-items: center;\n}\n.WindowOverlayStyles_placementStyles__d5jpagr {\n  align-items: end;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpags {\n  align-items: end;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagt {\n  align-items: end;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagu {\n  align-items: end;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagv {\n  align-items: end;\n  justify-items: end;\n}\n.WindowOverlayStyles_placementStyles__d5jpagw {\n  align-items: end;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles_start__d5jpagx {\n  align-items: center;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagy {\n  align-items: start;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpagz {\n  align-items: end;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpag10 {\n  align-items: start;\n  justify-items: start;\n}\n.WindowOverlayStyles_placementStyles__d5jpag11 {\n  align-items: end;\n  justify-items: start;\n}\n.WindowOverlayStyles_baseStyle__d5jpag12 {\n  position: fixed;\n  pointer-events: none;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n}\n.WindowOverlayStyles_gridStyles__d5jpag13 {\n  display: grid;\n}.PopupStyles_baseStyle__1xjjaoy0 {\n  border-color: var(--borderColor__2ugez71);\n  box-shadow: var(--boxShadow__2ugez73);\n  border-radius: var(--borderRadius__2ugez72);\n  background-color: var(--backgroundColor__2ugez70);\n  padding: var(--padding__2ugez74);\n  overflow-y: auto;\n}\n.PopupStyles_baseStyle__1xjjaoy0:focus-visible {\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-offset: -1px;\n}oj-c-popup:not(.oj-complete){\n  visibility: hidden;\n}\n\noj-c-popup {\n  display: none;\n}\n\noj-c-popup[hidden]\n{\n  display: none;\n}.boxalignment_alignItems_baseline__xnj0dy0 {\n  align-items: baseline;\n}\n.boxalignment_alignItems_center__xnj0dy1 {\n  align-items: center;\n}\n.boxalignment_alignItems_end__xnj0dy2 {\n  align-items: flex-end;\n}\n.boxalignment_alignItems_start__xnj0dy3 {\n  align-items: flex-start;\n}\n.boxalignment_alignItems_inherit__xnj0dy4 {\n  align-items: inherit;\n}\n.boxalignment_alignItems_initial__xnj0dy5 {\n  align-items: initial;\n}\n.boxalignment_alignItems_stretch__xnj0dy6 {\n  align-items: stretch;\n}\n.boxalignment_justifyContent_left__xnj0dy7 {\n  justify-content: left;\n}\n.boxalignment_justifyContent_center__xnj0dy8 {\n  justify-content: center;\n}\n.boxalignment_justifyContent_right__xnj0dy9 {\n  justify-content: right;\n}\n.boxalignment_justifyContent_end__xnj0dya {\n  justify-content: flex-end;\n}\n.boxalignment_justifyContent_start__xnj0dyb {\n  justify-content: flex-start;\n}\n.boxalignment_justifyContent_inherit__xnj0dyc {\n  justify-content: inherit;\n}\n.boxalignment_justifyContent_initial__xnj0dyd {\n  justify-content: initial;\n}\n.boxalignment_justifyContent_around__xnj0dye {\n  justify-content: space-around;\n}\n.boxalignment_justifyContent_between__xnj0dyf {\n  justify-content: space-between;\n}\n.boxalignment_justifyContent_evenly__xnj0dyg {\n  justify-content: space-evenly;\n}.flexbox_flexDirection_row__13x6ak30 {\n  flex-direction: row;\n}\n.flexbox_flexDirection_column__13x6ak31 {\n  flex-direction: column;\n}\n.flexbox_flexWrap_nowrap__13x6ak32 {\n  flex-wrap: nowrap;\n}\n.flexbox_flexWrap_wrap__13x6ak33 {\n  flex-wrap: wrap;\n}\n.flexbox_flexWrap_reverse__13x6ak34 {\n  flex-wrap: wrap-reverse;\n}\n.flexbox_flexWrap_inherit__13x6ak35 {\n  flex-wrap: inherit;\n}\n.flexbox_flexWrap_initial__13x6ak36 {\n  flex-wrap: initial;\n}.flexitem_alignSelf_baseline__1b6a9hn0 {\n  align-self: baseline;\n}\n.flexitem_alignSelf_center__1b6a9hn1 {\n  align-self: center;\n}\n.flexitem_alignSelf_end__1b6a9hn2 {\n  align-self: flex-end;\n}\n.flexitem_alignSelf_start__1b6a9hn3 {\n  align-self: flex-start;\n}\n.flexitem_alignSelf_inherit__1b6a9hn4 {\n  align-self: inherit;\n}\n.flexitem_alignSelf_initial__1b6a9hn5 {\n  align-self: initial;\n}\n.flexitem_alignSelf_stretch__1b6a9hn6 {\n  align-self: stretch;\n}.FlexStyles_baseStyles__10p93f60 {\n  display: flex;\n}\n.FlexStyles_marginZeroStyles__10p93f61 > * {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n  margin-left: 0 !important;\n  margin-right: 0 !important;\n}.MessageBannerStyles_variants_severity_confirmation__15yin4c0 {\n  --backgroundColor__l2hi9d0: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-success-low, var(--oj-core-success-secondary-3));\n  --startIconColor__l2hi9d1: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-success, var(--oj-core-success-3));\n  --summaryTextColor__l2hi9d3: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-success, var(--oj-core-success-3));\n}\n.MessageBannerStyles_variants_severity_info__15yin4c1 {\n  --backgroundColor__l2hi9d0: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-info-low, var(--oj-core-info-secondary-3));\n  --startIconColor__l2hi9d1: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-info, var(--oj-core-info-3));\n  --summaryTextColor__l2hi9d3: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-info, var(--oj-core-info-3));\n}.MessageBannerVariants_multiVariantStyles_severity_error__10p8l3t0 {\n  --backgroundColor__l2hi9d0: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-danger-low, var(--oj-core-danger-secondary-3));\n  --startIconColor__l2hi9d1: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-danger, var(--oj-core-danger-3));\n  --summaryTextColor__l2hi9d3: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-danger, var(--oj-core-danger-3));\n}\n.MessageBannerVariants_multiVariantStyles_severity_warning__10p8l3t1 {\n  --backgroundColor__l2hi9d0: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-warning-low, var(--oj-core-warning-secondary-3));\n  --startIconColor__l2hi9d1: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-warning, var(--oj-core-warning-3));\n  --summaryTextColor__l2hi9d3: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-warning, var(--oj-core-warning-3));\n}.IconStyle_primary__sdo2n60 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.IconStyle_secondary__sdo2n61 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary);\n}\n.IconStyle_disabled__sdo2n62 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-disabled);\n}\n.IconStyle_danger__sdo2n63 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-danger);\n}\n.IconStyle_warning__sdo2n64 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-warning);\n}\n.IconStyle_success__sdo2n65 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-success);\n}\n.IconStyle_info__sdo2n66 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-info);\n}\n.IconStyle_currentColor__sdo2n67 {\n  color: currentColor;\n}.MessageStyles_messageStyles_base_banner__ie50yz0 {\n  background-color: var(--backgroundColor__l2hi9d0);\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n  border-bottom-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-divider, var(--oj-core-divider-color));\n}\n.MessageStyles_messageStyles_base_banner__ie50yz0:focus-visible {\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus, var(--oj-core-focus-border-color));\n  outline-offset: 1px;\n}\n.MessageStyles_messageStyles_base_toast__ie50yz1 {\n  background-color: var(--backgroundColor__zw7y740);\n  border-radius: 6px;\n  box-shadow: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-box-shadow-sm);\n  width: -moz-fit-content;\n  width: fit-content;\n}\n.MessageStyles_messageStyles_base_toast__ie50yz1:focus-visible {\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  outline-offset: 1px;\n}\n.MessageStyles_messageStyles_section__ie50yz2 {\n  border: 1px solid var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-divider);\n  border-radius: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-radius-lg);\n}\n.MessageStyles_messageStyles_content_base__ie50yz3 {\n  align-items: center;\n  box-sizing: border-box;\n  display: flex;\n  flex-wrap: wrap;\n  padding-top: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  padding-bottom: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.MessageStyles_messageStyles_content_banner__ie50yz4 {\n  padding-inline-start: var(--oj-core-gutter-start, var(--oj-core-gutter-start,calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem))));\n  padding-inline-end: var(--oj-core-gutter-end, var(--oj-core-gutter-start,calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem))));\n}\n.MessageStyles_messageStyles_content_toast__ie50yz5 {\n  padding-inline-start: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  padding-inline-end: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.MessageStyles_messageCloseButtonStyles_base__ie50yz6 {\n  align-self: flex-start;\n  display: flex;\n}\n.MessageStyles_messageCloseButtonStyles_banner__ie50yz7 {\n  margin-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n  margin-inline-end: calc(-2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  margin-top: calc(-2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  margin-bottom: calc(-2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.MessageStyles_messageCloseButtonStyles_toast__ie50yz8 {\n  margin-inline-start: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  margin-inline-end: calc(calc(-3 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem)) / 2);\n  margin-top: calc(calc(-3 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem)) / 2);\n  margin-bottom: calc(calc(-3 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem)) / 2);\n}\n.MessageStyles_messageStartIconStyles_base__ie50yz9 {\n  align-self: flex-start;\n  display: flex;\n}\n.MessageStyles_messageStartIconStyles_banner__ie50yza {\n  margin-inline-end: calc(2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.MessageStyles_messageStartIconStyles_toast__ie50yzb {\n  margin-inline-end: calc(2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.MessageStyles_messageStartIconStyles_inline__ie50yzc {\n  margin-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n  height: calc(var(--summaryTextSize__1aj7c364) * 1.333);\n  align-items: center;\n}\n.MessageStyles_messageStartIconStyles_customToast__ie50yzd {\n  height: var(--startIconSize__zw7y745);\n  width: var(--startIconSize__zw7y745);\n}\n.MessageStyles_messageDetailStyles_base__ie50yze {\n  overflow-wrap: anywhere;\n}\n.MessageStyles_messageDetailStyles_banner__ie50yzf {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-size, var(--oj-typography-body-sm-font-size));\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary, var(--oj-core-text-color-primary));\n}\n.MessageStyles_messageDetailStyles_toast__ie50yzg {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-size);\n  color: var(--detailTextColor__zw7y74a);\n}\n.MessageStyles_messageHeaderStyles_base__ie50yzh {\n  box-sizing: border-box;\n  display: flex;\n  flex-wrap: wrap;\n  flex-direction: row;\n}\n.MessageStyles_messageHeaderStyles_banner__ie50yzi {\n  line-height: var(--summaryLineHeight__l2hi9d6);\n}\n.MessageStyles_messageHeaderStyles_toast__ie50yzj {\n  line-height: var(--startIconSize__zw7y745);\n}\n.MessageStyles_messageStartIconBase__ie50yzk {\n  margin-inline-end: calc(2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  display: flex;\n  align-self: flex-start;\n}\n.MessageStyles_severityIconStyles_banner__ie50yzl {\n  color: var(--startIconColor__l2hi9d1);\n  font-size: var(--startIconSize__l2hi9d2);\n  height: var(--summaryLineHeight__l2hi9d6);\n}\n.MessageStyles_severityIconStyles_inline__ie50yzm {\n  color: var(--startIconColor__1aj7c360);\n  font-size: var(--startIconSize__1aj7c361);\n}\n.MessageStyles_severityIconStyles_toast__ie50yzn {\n  color: var(--startIconColor__zw7y744);\n  font-size: var(--startIconSize__zw7y745);\n  height: var(--startIconSize__zw7y745);\n  width: var(--startIconSize__zw7y745);\n}\n.MessageStyles_startIconContainerStyles_banner__ie50yzo {\n  height: calc(var(--summaryTextSize__l2hi9d5) * var(--summaryLineHeight__l2hi9d6));\n  display: flex;\n  align-items: center;\n}\n.MessageStyles_startIconContainerStyles_toast__ie50yzp {\n  height: 100%;\n}\n.MessageStyles_startIconContainerStyles_inline__ie50yzq {\n  height: var(--startIconSize__1aj7c361);\n  margin-block: auto;\n}\n.MessageStyles_messageSummaryStyles_base__ie50yzr {\n  flex: 1;\n  overflow-wrap: anywhere;\n}\n.MessageStyles_messageSummaryStyles_banner__ie50yzs {\n  font-size: var(--summaryTextSize__l2hi9d5);\n  font-weight: var(--summaryTextWeight__l2hi9d4);\n  color: var(--summaryTextColor__l2hi9d3);\n}\n.MessageStyles_messageSummaryStyles_inline__ie50yzt {\n  font-size: var(--inlineFontSize__1n9ixz61);\n  font-weight: 400;\n  color: var(--inlineTextColor__1n9ixz60);\n  line-height: 1.333;\n}\n.MessageStyles_messageSummaryStyles_toast__ie50yzu {\n  font-size: var(--summaryTextSize__zw7y748);\n  color: var(--summaryTextColor__zw7y746);\n}\n.MessageStyles_messageTimestampStyles_banner__ie50yzv {\n  flex-shrink: 0;\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-xs-font-size, var(--oj-typography-body-xs-font-size));\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-secondary, var(--oj-core-text-color-secondary));\n}\n@media screen and (max-width: 599.9px) {\n  .MessageStyles_messageHeaderStyles_base__ie50yzh {\n    flex-direction: column;\n  }\n}.LiveRegionStyles_offScreenStyle__1uvpdtw0 {\n  border: 0;\n  clip: rect(0 0 0 0);\n  height: 1px;\n  margin: -1px;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  padding-top: 0;\n  padding-right: 0;\n  padding-bottom: 0;\n  padding-left: 0;\n  width: 1px;\n  position: absolute;\n}.MessageToastStyles_styles_base__jym5gr0 {\n  height: -moz-fit-content;\n  height: fit-content;\n  width: -moz-fit-content;\n  width: fit-content;\n}oj-c-message-toast:not(.oj-complete){\n  visibility: hidden;\n}\n\noj-c-message-toast[hidden]\n{\n  display: none;\n}\n.gTmpl-main-btn {\r\n  background-color: mediumpurple;\r\n  border-radius: 7%;\r\n}\r\n\r\n.gTmpl-white-text {\r\n  color: white;\r\n}\r\n\r\n.gTmpl-error-text {\r\n  color: var(--oj-core-danger-3);\r\n  font-size: small;\r\n}\r\n\r\n.gTmpl-help-text {\r\n  font-size: small;\r\n  color: #666666;\r\n}\r\n\r\n.gTmpl-dialog {\r\n  width: 500px;\r\n  margin: 20px auto;\r\n  display: flex;\r\n  flex-direction: column;\r\n}\r\n\r\n.gTmpl-dialog.gTmpl-wide-dialog {\r\n  width: 1000px;\r\n}\r\n\r\n/* --- Header --- */\r\n.gTmpl-header {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 16px 24px;\r\n  border-bottom: 1px solid #e0e6ed;\r\n}\r\n\r\n.gTmpl-header .gTmpl-title {\r\n  font-size: 1.25rem;\r\n  font-weight: bold;\r\n  color: #333;\r\n}\r\n\r\n.gTmpl-header .gTmpl-close-btn {\r\n  background: none;\r\n  border: none;\r\n  font-size: 1.5rem;\r\n  color: #888;\r\n  cursor: pointer;\r\n}\r\n\r\n/* --- Body & Form --- */\r\n.gTmpl-body {\r\n  padding: 24px;\r\n}\r\n\r\n.gTmpl-form-group {\r\n  margin-bottom: 16px;\r\n}\r\n\r\n.gTmpl-form-group label {\r\n  display: block;\r\n  margin-bottom: 8px;\r\n  font-weight: bold;\r\n  color: #555;\r\n}\r\n\r\n.gTmpl-form-group input[type=\"text\"] {\r\n  width: 100%;\r\n  padding: 10px;\r\n  border: 1px solid #ccc;\r\n  border-radius: 4px;\r\n}\r\n\r\n/* --- Footer & Buttons --- */\r\n\r\n.gTmpl-footer {\r\n  border-top: 1px solid #e0e6ed;\r\n  padding: 16px 24px;\r\n  flex: 1 1 100%;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n}\r\n\r\n.gTmpl-footer .gTmpl-save-btn {\r\n  padding: 10px 20px;\r\n  border: none;\r\n  border-radius: 4px;\r\n  background-color: #007bff;\r\n  color: #fff;\r\n  font-size: 1rem;\r\n  cursor: pointer;\r\n}\r\n\r\n/* The main container for the entire layout */\r\n.gTmpl-container {\r\n  width: 100%;\r\n  display: flex;\r\n  gap: 20px;\r\n  flex-wrap: wrap;\r\n  /* Allows columns to wrap on smaller screens */\r\n}\r\n\r\n/* Common styles for both columns */\r\n.gTmpl-column {\r\n  background-color: #fff;\r\n  border-radius: 8px;\r\n  padding: 20px;\r\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\r\n}\r\n\r\n/* Styles for the left column */\r\n.gTmpl-column-left {\r\n  flex: 2;\r\n  /* Takes up 2 parts of the available space */\r\n  display: flex;\r\n  flex-direction: column;\r\n  gap: 20px;\r\n  min-width: 300px;\r\n  max-height: fit-content;\r\n}\r\n\r\n/* Styles for the right column */\r\n.gTmpl-column-right {\r\n  flex: 1;\r\n  /* Takes up 1 part of the available space */\r\n  min-width: 250px;\r\n  overflow-y: auto;\r\n  max-height: 320px;\r\n}\r\n\r\n/* Styles for the rows in the left column */\r\n.gTmpl-row {\r\n  padding: 15px;\r\n  border: 1px solid #e0e0e0;\r\n  border-radius: 6px;\r\n}\r\n\r\n.gTmpl-row-select h3,\r\n.gTmpl-row-content h3 {\r\n  margin-top: 0;\r\n  color: #333;\r\n}\r\n\r\nselect {\r\n  width: 100%;\r\n  padding: 10px;\r\n  border: 1px solid #ccc;\r\n  border-radius: 4px;\r\n  font-size: 16px;\r\n}\r\n\r\n/* Styles for the summary list in the right column */\r\n.gTmpl-summary-list h3 {\r\n  margin-top: 0;\r\n  color: #333;\r\n}\r\n\r\n.gTmpl-summary-list ul {\r\n  list-style: none;\r\n  padding: 0;\r\n  margin: 0;\r\n}\r\n\r\n.gTmpl-summary-list li {\r\n  padding: 8px 0;\r\n  color: #555;\r\n  border-left: 5px solid red;\r\n  margin: 0.5em 0 0.5em 0;\r\n  padding-left: 0.5em;\r\n}.dragCat-container {\r\n  /* width: 100vh; */\r\n  display: flex;\r\n  overflow-x: auto;\r\n  -webkit-overflow-scrolling: touch;\r\n  padding-bottom: 1rem;\r\n  padding-top: 1rem;\r\n  margin: 0 1em 0 1em;\r\n}\r\n\r\n.dc-noData {\r\n  color: gray;\r\n  font-size: small;\r\n}.UserAssistanceStyles_helpTextStyles__14qa8xb0 {\n  margin-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n}\n.UserAssistanceStyles_helpSourceStyles__14qa8xb1 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-link);\n  line-height: inherit;\n  -webkit-text-decoration-line: none;\n          text-decoration-line: none;\n  cursor: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-cursor-clickable);\n}\n.UserAssistanceStyles_helpSourceStyles__14qa8xb1:visited {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-link);\n}\n.UserAssistanceStyles_helpSourceStyles__14qa8xb1:active {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-link);\n}\n.UserAssistanceStyles_helpSourceStyles__14qa8xb1:hover {\n  -webkit-text-decoration-line: underline;\n          text-decoration-line: underline;\n  transition-property: -webkit-text-decoration;\n  transition-property: text-decoration;\n  transition-property: text-decoration, -webkit-text-decoration;\n  transition-duration: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-duration-xl);\n}\n.UserAssistanceStyles_helpSourceStyles__14qa8xb1:focus-visible {\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-offset: -1px;\n}\n.UserAssistanceStyles_inlineContainerBaseStyles__14qa8xb2 {\n  margin-top: calc(0 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  color: var(--inlineTextColor__1n9ixz60);\n  font-size: var(--inlineFontSize__1n9ixz61);\n  font-weight: normal;\n  line-height: 1.333;\n  word-break: break-word;\n}\n.UserAssistanceStyles_assistiveStyles__14qa8xb3 {\n  display: block;\n  color: var(--inlineTextColor__1n9ixz60);\n  font-size: var(--inlineFontSize__1n9ixz61);\n  font-weight: normal;\n  line-height: 1;\n}\n.UserAssistanceStyles_dividerStyle__14qa8xb4 {\n  display: block;\n  padding-top: calc(5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  padding-bottom: calc(2.5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.UserAssistanceStyles_helpIconBase__14qa8xb5 {\n  display: block;\n  float: right;\n  margin-left: calc(1.5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  margin-right: 0;\n  margin-top: calc((var(--fontSize__kn3t7f9) * var(--lineHeight__kn3t7f1) - var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size))/ 2);\n  margin-bottom: calc((var(--fontSize__kn3t7f9) * var(--lineHeight__kn3t7f1) - var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size))/ -2);\n  color: rgb(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-palette-neutral-200));\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size);\n  font-weight: 400;\n  line-height: inherit;\n  -webkit-text-decoration-line: none;\n          text-decoration-line: none;\n  cursor: pointer;\n}\n.UserAssistanceStyles_helpIconBase__14qa8xb5:focus-visible {\n  outline-style: none;\n}\n.UserAssistanceStyles_helpIconBase__14qa8xb5:focus-visible > svg {\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-offset: -1px;\n}\n.UserAssistanceStyles_helpIconLabelEdgeStart__14qa8xb6 {\n  display: inline;\n  float: none;\n  margin-left: 0;\n  margin-right: calc(1.5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.UserAssistanceStyles_helpContentStyles__14qa8xb7 {\n  max-width: calc(80 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.UserAssistanceStyles_requiredIconBase__14qa8xb8 {\n  display: inline-block;\n  margin-left: calc(1.5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  margin-right: 0;\n  margin-top: calc((var(--fontSize__kn3t7f9) * var(--lineHeight__kn3t7f1) - var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size))/ 2);\n  margin-bottom: calc((var(--fontSize__kn3t7f9) * var(--lineHeight__kn3t7f1) - var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size))/ -2);\n  color: rgb(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-palette-brand-110));\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-font-size);\n  font-weight: 400;\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-sm-line-height);\n  font-family: inherit;\n}\n.UserAssistanceStyles_requiredIconBase__14qa8xb8::before {\n  content: \"*\";\n  display: inline-block;\n}\n.UserAssistanceStyles_requiredIconLabelEdgeStart__14qa8xb9 {\n  margin-left: 0;\n  margin-right: calc(1.5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.UserAssistanceStyles_iconUserAssistanceIcon__14qa8xba {\n  display: inline-block;\n  height: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  position: relative;\n  top: calc(0.6 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  cursor: pointer;\n  padding-top: calc(2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  padding-bottom: calc(3 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  padding-inline-end: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n  margin-top: calc(-2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  margin-bottom: calc(-3 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  margin-inline-end: calc(-4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.UserAssistanceStyles_iconUserAssistanceIcon__14qa8xba:focus {\n  outline: 0;\n}\n.UserAssistanceStyles_iconUserAssistanceIcon__14qa8xba:focus-visible {\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n}\n.UserAssistanceStyles_iconUserAssistancePopupFocus__14qa8xbb:focus-visible {\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-offset: var(--padding__2ugez74);\n}\n.UserAssistanceStyles_variants_align_start__14qa8xbc {\n  padding-inline-end: calc(0.5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  text-align: start;\n}\n.UserAssistanceStyles_variants_align_end__14qa8xbd {\n  padding-inline-start: calc(0.5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  text-align: end;\n}\n.UserAssistanceStyles_variants_visible_hide__14qa8xbe {\n  display: none;\n}\n.UserAssistanceStyles_variants_container_reflow__14qa8xbf:empty {\n  margin-top: 0px;\n}\n.UserAssistanceStyles_variants_container_efficient__14qa8xbg {\n  min-height: calc(5.332 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}.ComponentMessageStyles_componentMessageBase__12i4io40 {\n  box-sizing: border-box;\n  display: flex;\n  flex-wrap: wrap;\n}\n.ComponentMessageStyles_componentMessageContainerBase__12i4io41 {\n  overflow-x: hidden;\n  overflow-y: hidden;\n}\n.ComponentMessageStyles_variants_severity_error__12i4io42 {\n  --startIconColor__1aj7c360: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-danger) !important;\n}\n.ComponentMessageStyles_variants_severity_warning__12i4io43 {\n  --startIconColor__1aj7c360: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-warning) !important;\n}\n.ComponentMessageStyles_variants_severity_confirmation__12i4io44 {\n  --startIconColor__1aj7c360: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-success) !important;\n}\n.ComponentMessageStyles_variants_severity_info__12i4io45 {\n  --startIconColor__1aj7c360: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-info) !important;\n}.SeparatorStyles_separatorBase__219ew20 {\n  display: block;\n  width: 100%;\n  height: 0;\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-divider);\n  border-style: solid;\n  font-size: 0;\n  line-height: 0;\n  margin: 0;\n  padding: 0;\n}\n.SeparatorStyles_separatorVerticalWrapper__219ew21 {\n  display: inline-flex;\n  align-self: stretch;\n}\n.SeparatorStyles_multiVariantStyles_orientation_horizontal__219ew22 {\n  border-width: 1px 0 0 0;\n}\n.SeparatorStyles_multiVariantStyles_orientation_vertical__219ew23 {\n  display: inline-block;\n  border-width: 0 0 0 1px;\n  height: 100%;\n}.LabelStyles_baseStyle__t9j3mr0 {\n  font-size: var(--fontSize__kn3t7f9);\n  font-weight: var(--fontWeight__kn3t7f0);\n  line-height: var(--lineHeight__kn3t7f1);\n  box-sizing: border-box;\n  word-break: break-word;\n}\n.LabelStyles_startBase__t9j3mr1 {\n  color: var(--color__kn3t7f2);\n  text-align: var(--formLayoutTopEdgeLabelTextAlign__kn3t7f8);\n  width: 100%;\n}\n.LabelStyles_topBase__t9j3mr2 {\n  color: var(--color__kn3t7f2);\n}\n.LabelStyles_insideBase__t9j3mr3 {\n  padding-inline-end: calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  color: var(--insideEdgeColor__kn3t7f7);\n  max-width: calc(100% - calc(4 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem)));\n}\n.LabelStyles_insideBaseUADensityEfficientReflow__t9j3mr4 {\n  display: block;\n}\n.LabelStyles_insideReadonlyInEnabledForm__t9j3mr5 {\n  inset-inline-start: var(--textToEdgePadding__w6gg1y9);\n  top: var(--insideEdgePositionTop__kn3t7fa);\n  font-size: var(--insideEdgeFontSize__kn3t7f4);\n  font-weight: var(--insideEdgeFontWeight__kn3t7f5);\n  line-height: var(--insideEdgeLineHeight__kn3t7f6);\n  transition-property: none;\n  transform: none;\n  background-color: transparent;\n  position: absolute;\n  margin-bottom: var(--formLayoutTopEdgeLabelToValuePadding__kn3t7fb);\n  white-space: nowrap;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  text-overflow: ellipsis;\n}\n.LabelStyles_insideReadonlyNotInEnabledForm__t9j3mr6 {\n  font-size: var(--insideEdgeFontSize__kn3t7f4);\n  font-weight: var(--insideEdgeFontWeight__kn3t7f5);\n  line-height: var(--insideEdgeLineHeight__kn3t7f6);\n}\n.LabelStyles_insideNonReadonly__t9j3mr7 {\n  position: absolute;\n  inset-inline-start: var(--textToEdgePadding__w6gg1y9);\n  top: calc(var(--insideEdgeHeight__w6gg1yh)/ 2);\n  transform: translateY(-50%);\n  transition-property: all;\n  transition-duration: .25s;\n  transition-timing-function: ease;\n  transition-delay: .1s;\n  white-space: nowrap;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  text-overflow: ellipsis;\n}\n.LabelStyles_insideNonReadonlyHasValue__t9j3mr8 {\n  transition-property: top, font-weight, font-size, transform;\n  transition-duration: .25s;\n  transition-timing-function: ease;\n  transition-delay: .1s;\n  font-size: var(--insideEdgeFontSize__kn3t7f4);\n  font-weight: var(--insideEdgeFontWeight__kn3t7f5);\n  line-height: var(--insideEdgeLineHeight__kn3t7f6);\n  transform: none;\n  top: var(--insideEdgePositionTop__kn3t7fa);\n}\n.LabelStyles_insideDisabled__t9j3mr9 {\n  transition-property: none;\n  color: var(--colorDisabled__kn3t7f3) !important;\n}\n.LabelStyles_noWrap__t9j3mra {\n  white-space: nowrap;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  text-overflow: ellipsis;\n}\n.LabelStyles_uaDensityCompact__t9j3mrb {\n  display: inline-flex;\n}\n.LabelStyles_uaDensityCompactStart__t9j3mrc {\n  display: block;\n}\n.LabelStyles_uaDensityCompactTop__t9j3mrd {\n  max-width: 100%;\n}\n.LabelStyles_uaDensityCompactLabel__t9j3mre {\n  overflow-x: inherit;\n  overflow-y: inherit;\n  text-overflow: inherit;\n}\n.LabelStyles_uaDensityCompactLabelStart__t9j3mrf {\n  display: inline;\n}\n.LabelStyles_uaDensityCompactLabelTopInside__t9j3mrg {\n  width: inherit;\n}@keyframes SkeletonStyles_skeletonAnimation__19fl8u0 {\n  0% {\n    background-color: var(--bgColor-end__1mh02731);\n  }\n  100% {\n    background-color: var(--bgColor-start__1mh02730);\n  }\n}\n.SkeletonStyles_skeletonBase__19fl8u1 {\n  animation-name: SkeletonStyles_skeletonAnimation__19fl8u0;\n  animation-iteration-count: infinite;\n  animation-direction: alternate;\n  animation-duration: 1.5s;\n}.TextFieldLoadingStyles_loadingStyles__1aqgcm00 {\n  background-color: var(--bgColor-end__1mh02731);\n  background-size: 200% 200%;\n  border-width: 0 !important;\n  animation-name: SkeletonStyles_skeletonAnimation__19fl8u0;\n  animation-iteration-count: infinite;\n  animation-direction: alternate;\n  animation-duration: 1.5s;\n  opacity: 1;\n}@keyframes TextFieldStyles_placeholderAnimation__952vaf0 {\n  from {\n    opacity: 0.001;\n  }\n  to {\n    opacity: 1;\n  }\n}\n.TextFieldStyles_textFieldContainerBase__952vaf1 {\n  position: relative;\n  box-sizing: border-box;\n  display: flex;\n  align-items: center;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  transition-property: border-color;\n  transition-duration: .1s;\n  transition-timing-function: linear;\n}\n.TextFieldStyles_textFieldEndContent__952vaf2 {\n  padding-inline-end: calc(2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.TextFieldStyles_textFieldBase__952vaf3 {\n  display: inline-block;\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height);\n  max-width: 100%;\n  width: 100%;\n  box-sizing: border-box;\n}\n.TextFieldStyles_textFieldEmbedded__952vaf4 {\n  height: 100%;\n}\n.TextFieldStyles_formControlBase__952vaf5 {\n  vertical-align: top;\n}.TextFieldVariants_multiVariantStyles_styleVariant_default__1f8p3fe0 {\n  background-color: var(--bgColor__w6gg1y3);\n  border-color: var(--borderColor__w6gg1y0);\n  border-radius: var(--borderRadius__w6gg1y2);\n  height: var(--height__w6gg1yg);\n  border-style: solid;\n  border-width: var(--borderWidth__w6gg1y1);\n}\n.TextFieldVariants_multiVariantStyles_styleVariant_embedded__1f8p3fe1 {\n  background-color: inherit;\n  height: 100%;\n  width: 100%;\n}\n.TextFieldVariants_multiVariantStyles_startContent_hasInsideLabel__1f8p3fe7 {\n  font-size: calc(6 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.TextFieldVariants_multiVariantStyles_resize_horizontal__1f8p3feb {\n  resize: horizontal;\n}\n.TextFieldVariants_multiVariantStyles_resize_vertical__1f8p3fec {\n  resize: vertical;\n}\n.TextFieldVariants_multiVariantStyles_resize_both__1f8p3fed {\n  resize: both;\n}\n.TextFieldVariants_multiVariantStyles_disabled_isDisabled__1f8p3fef {\n  background-color: var(--bgColorDisabled__w6gg1yc);\n  border-color: var(--borderColorDisabled__w6gg1yd);\n}\n.TextFieldVariants_multiVariantStyles_readonly_notReadonly__1f8p3fem {\n  font-weight: 400;\n  font-size: var(--fontSize__w6gg1y6);\n}\n.TextFieldVariants_multiVariantStyles_formControlInsideLabel_hasInsideLabel__1f8p3fen {\n  max-width: 100%;\n}\n.TextFieldVariants_multiVariantStyles_startContentMargin_hasStartMargin__1f8p3fet {\n  margin-inline-start: var(--iconToEdgePadding__w6gg1y8);\n  font-size: calc(5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.TextFieldVariants_multiVariantStyles_startContentMargin_noStartMargin__1f8p3feu {\n  margin-inline-start: calc(2 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n  font-size: calc(5 * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem));\n}\n.TextFieldVariants_multiVariantStyles_startContentDisabled_isDisabled__1f8p3fev {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-disabled);\n}\n.TextFieldVariants_multiVariantStyles_middleContent_input__1f8p3fex {\n  position: relative;\n  display: inline-flex;\n  flex: 1;\n  width: 100%;\n  height: 100%;\n  box-sizing: border-box;\n  overflow: hidden;\n}\n.TextFieldVariants_multiVariantStyles_middleContent_textarea__1f8p3fey {\n  position: relative;\n  display: inline-flex;\n  flex: 1;\n  width: 100%;\n  height: 100%;\n  box-sizing: border-box;\n  overflow: visible;\n  padding-inline-end: 1px;\n  flex-direction: column;\n}\n.TextFieldVariants_multiVariantStyles_textAreaResizeDirection_ltr__1f8p3fez {\n  -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);\n          clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);\n}\n.TextFieldVariants_multiVariantStyles_textAreaResizeDirection_rtl__1f8p3fe10 {\n  -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100% , 0 calc(100% - 10px));\n          clip-path: polygon(0 0, 100% 0, 100% 100%, 10px 100% , 0 calc(100% - 10px));\n}\n.TextFieldVariants_multiVariantStyles_compound_0__1f8p3fe11 {\n  border-style: solid;\n  border-width: var(--borderWidth__w6gg1y1);\n}\n.TextFieldVariants_multiVariantStyles_compound_1__1f8p3fe12 {\n  border-style: solid;\n  border-width: var(--borderWidth__w6gg1y1);\n}\n.TextFieldVariants_multiVariantStyles_compound_2__1f8p3fe13 {\n  min-height: var(--insideEdgeHeight__w6gg1yh);\n}\n.TextFieldVariants_multiVariantStyles_compound_3__1f8p3fe14 {\n  border-color: var(--borderColorFocus__w6gg1y4);\n  box-shadow: var(--boxShadowFocus__w6gg1y5);\n}\n.TextFieldVariants_multiVariantStyles_compound_4__1f8p3fe15 {\n  height: auto;\n}\n.TextFieldVariants_multiVariantStyles_compound_5__1f8p3fe16 {\n  --boxShadowFocus__w6gg1y5: 0 0 0 1px var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-danger) inset !important;\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-danger);\n}\n.TextFieldVariants_multiVariantStyles_compound_6__1f8p3fe17 {\n  --boxShadowFocus__w6gg1y5: 0 0 0 1px var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-warning) inset !important;\n  border-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-warning);\n}\n.TextFieldVariants_multiVariantStyles_compound_7__1f8p3fe18 {\n  z-index: 1;\n}\n.TextFieldVariants_multiVariantStyles_compound_8__1f8p3fe19 {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n}\n.TextFieldVariants_multiVariantStyles_compound_9__1f8p3fe1a {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n  margin-left: -1px;\n}\n.TextFieldVariants_multiVariantStyles_compound_10__1f8p3fe1b {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n  margin-left: -1px;\n}\n.TextFieldVariants_multiVariantStyles_compound_11__1f8p3fe1c {\n  min-height: var(--insideEdgeHeight__w6gg1yh);\n}.PrefixSuffixStyles_styles_base__yu43bw0 {\n  display: flex;\n  align-items: center;\n  white-space: nowrap;\n  box-sizing: border-box;\n  font-family: inherit;\n  line-height: inherit;\n  font-weight: inherit;\n  font-size: 100%;\n  border: 0;\n  background-color: transparent;\n  color: var(--textColor__w6gg1yb);\n}\n.PrefixSuffixStyles_multiVariantStyles_isFocused_yes__yu43bw3 {\n  opacity: .45;\n}\n.PrefixSuffixStyles_multiVariantStyles_isDisabled_yes__yu43bw5 {\n  color: var(--textColorDisabled__w6gg1ye);\n}\n.PrefixSuffixStyles_multiVariantStyles_hasInsideLabel_yes__yu43bw7 {\n  min-height: var(--insideEdgeHeight__w6gg1yh);\n  padding-top: var(--insideEdgePaddingTop__w6gg1yi);\n}\n.PrefixSuffixStyles_multiVariantStyles_compound_0__yu43bwd {\n  padding-inline-start: var(--iconToTextPadding__w6gg1y7);\n}\n.PrefixSuffixStyles_multiVariantStyles_compound_1__yu43bwe {\n  padding-inline-start: var(--textToEdgePadding__w6gg1y9);\n}\n.PrefixSuffixStyles_multiVariantStyles_compound_2__yu43bwf {\n  padding-inline-end: var(--iconToTextPadding__w6gg1y7);\n}\n.PrefixSuffixStyles_multiVariantStyles_compound_3__yu43bwg {\n  padding-inline-end: var(--textToEdgePadding__w6gg1y9);\n}.text_textAlign_start__1h8gevb0 {\n  text-align: start;\n}\n.text_textAlign_end__1h8gevb1 {\n  text-align: end;\n}\n.text_textAlign_right__1h8gevb2 {\n  text-align: right;\n}.TextFieldInputStyles_textFieldInputBase__lkfh4l0 {\n  outline-style: none;\n  outline-width: 0;\n  box-sizing: border-box;\n  font-family: inherit;\n  height: 100%;\n  line-height: inherit;\n  font-weight: inherit;\n  border: 0;\n  background-color: transparent;\n  width: 100%;\n}\n.TextFieldInputStyles_textFieldInputBase__lkfh4l0::-moz-selection {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-selected);\n}\n.TextFieldInputStyles_textFieldInputBase__lkfh4l0::selection {\n  background-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-surface-selected);\n}\n.TextFieldInputStyles_textFieldInputBase__lkfh4l0::-webkit-search-decoration {\n  display: none;\n}\n.TextFieldInputStyles_textFieldInputBase__lkfh4l0::-webkit-search-cancel-button {\n  display: none;\n}\n.TextFieldInputStyles_textFieldInputBase__lkfh4l0::-webkit-search-results-button {\n  display: none;\n}\n.TextFieldInputStyles_textFieldInputBase__lkfh4l0::-webkit-search-results-decoration {\n  display: none;\n}\n.TextFieldInputStyles_labelDefaultPadding__lkfh4l1 {\n  padding-top: 0;\n  padding-bottom: 0;\n}\n.TextFieldInputStyles_textFieldInputEmbedded__lkfh4l2 {\n  color: inherit;\n  font-size: inherit;\n  height: 100%;\n  margin: 0;\n  padding-block: 0;\n  padding-inline: var(--textToEdgePadding__w6gg1y9);\n  resize: none;\n}\n.TextFieldInputStyles_textFieldInputEmbedded__lkfh4l2::-ms-reveal {\n  display: none;\n}.TextFieldInputVariants_multiVariantStyles_styleVariant_default__1c85q7n0 {\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size);\n}\n.TextFieldInputVariants_multiVariantStyles_insideLabel_hasInsideLabel__1c85q7n8 {\n  min-height: var(--insideEdgeHeight__w6gg1yh);\n  padding-top: var(--insideEdgePaddingTop__w6gg1yi);\n  padding-bottom: 0;\n}\n.TextFieldInputVariants_multiVariantStyles_insideLabel_hasInsideLabel__1c85q7n8:hover {\n  background-color: transparent;\n}\n.TextFieldInputVariants_multiVariantStyles_disabled_isDisabled__1c85q7na {\n  color: var(--textColorDisabled__w6gg1ye);\n}\n.TextFieldInputVariants_multiVariantStyles_disabled_notDisabled__1c85q7nb {\n  color: var(--textColor__w6gg1yb);\n}\n.TextFieldInputVariants_multiVariantStyles_type_isPassword__1c85q7nc::-ms-reveal {\n  display: none;\n}\n.TextFieldInputVariants_multiVariantStyles_startContent_hasStartContent__1c85q7ne {\n  padding-inline-start: var(--iconToTextPadding__w6gg1y7);\n}\n.TextFieldInputVariants_multiVariantStyles_prefix_hasPrefix__1c85q7ni {\n  padding-inline-start: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n}\n.TextFieldInputVariants_multiVariantStyles_compound_0__1c85q7nq {\n  padding-top: calc((var(--height__w6gg1yg) - 1rem * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height))/ 2 - 1px);\n  padding-bottom: calc((var(--height__w6gg1yg) - 1rem * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height))/ 2 - 1px);\n  resize: none;\n}\n.TextFieldInputVariants_multiVariantStyles_compound_1__1c85q7nr {\n  margin: 0;\n}\n.TextFieldInputVariants_multiVariantStyles_compound_2__1c85q7ns::-ms-reveal {\n  display: none;\n}\n.TextFieldInputVariants_multiVariantStyles_compound_3__1c85q7nt {\n  padding-inline-start: var(--textToEdgePadding__w6gg1y9);\n}\n.TextFieldInputVariants_multiVariantStyles_compound_4__1c85q7nu {\n  padding-inline-end: var(--textToEdgePadding__w6gg1y9);\n}\n.TextFieldInputVariants_multiVariantStyles_compound_5__1c85q7nv {\n  padding-top: var(--insideEdgePaddingTopMask__w6gg1yk);\n}\n.TextFieldInputVariants_multiVariantStyles_compound_6__1c85q7nw {\n  padding-top: var(--defaultPaddingTopMask__w6gg1yj);\n}\n.TextFieldInputVariants_multiVariantStyles_compound_7__1c85q7nx {\n  padding-top: 0;\n  padding-bottom: 0;\n  border-color: transparent;\n  border-style: solid;\n  border-block-start-width: calc(var(--insideEdgeFontSize__kn3t7f4) * var(--insideEdgeLineHeight__kn3t7f6) + var(--insideEdgePositionTop__kn3t7fa));\n  border-block-end-width: calc(0.25rem + var(--oj-c-EXPERIMENTAL-DO-NOT-USE-density-units, 0px));\n}\n.TextFieldInputVariants_multiVariantStyles_compound_8__1c85q7ny {\n  animation-name: var(--placeholderAnimationName__w6gg1yf);\n  animation-duration: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-duration-2xl);\n  animation-timing-function: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-easing-exit);\n}\n.TextFieldInputVariants_multiVariantStyles_compound_10__1c85q7nz {\n  padding-inline-start: var(--iconToTextPadding__w6gg1y7);\n}\n.TextFieldInputVariants_multiVariantStyles_compound_11__1c85q7n10 {\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n}\n.TextFieldInputVariants_multiVariantStyles_compound_12__1c85q7n11 {\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n}\n.TextFieldInputVariants_multiVariantStyles_compound_13__1c85q7n12 {\n  padding-inline-end: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-size-units, 0.25rem);\n}\n.TextFieldInputVariants_multiVariantStyles_compound_14__1c85q7n13 {\n  padding-inline-end: var(--textToEdgePadding__w6gg1y9);\n}.ObfuscatedTextFieldInputStyles_containerStyles__9rhzn00 {\n  width: 100%;\n  display: flex;\n}.ReadonlyTextFieldInputStyles_readOnlyTextFieldInputBase__ybkgi50 {\n  min-height: calc(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height) * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size));\n  word-break: break-word;\n  white-space: pre-wrap;\n  background-color: transparent;\n  border-color: transparent;\n  border-width: 0;\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n  box-sizing: border-box;\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  font-family: inherit;\n  font-size: 100%;\n  font-weight: inherit;\n  line-height: inherit;\n  outline-width: 0;\n}\n.ReadonlyTextFieldInputStyles_readOnlyTextFieldInputBase__ybkgi50:focus {\n  outline-style: dotted;\n  outline-width: 1px;\n  outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  outline-offset: 1px;\n}\n.ReadonlyTextFieldInputStyles_readOnlyTextFieldInputTextareaBase__ybkgi51 {\n  resize: none;\n  padding-block-start: 0;\n  padding-inline-start: 0;\n}\n.ReadonlyTextFieldInputStyles_readOnlyTextFieldInputTextareaBase__ybkgi51:focus {\n  outline-offset: -1px;\n}\n.ReadonlyTextFieldInputStyles_inEnabledFormBase__ybkgi52 {\n  white-space: nowrap;\n  overflow-x: scroll;\n  overflow-y: hidden;\n  scrollbar-width: none;\n}\n.ReadonlyTextFieldInputStyles_textareaInEnabledFormBase__ybkgi53 {\n  margin-top: calc((var(--height__w6gg1yg) - 1rem * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height))/ 2 - 1px);\n  margin-bottom: calc((var(--height__w6gg1yg) - 1rem * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height))/ 2 - 1px);\n  margin-left: 0.25rem;\n  margin-right: 0.25rem;\n  padding-left: calc(var(--textToEdgePadding__w6gg1y9) - 0.25rem);\n  padding-right: 0;\n  overflow-x: auto;\n  overflow-y: auto;\n  white-space: pre-wrap;\n  width: auto;\n}\n.ReadonlyTextFieldInputStyles_inEnabledFormLabelInside__ybkgi54 {\n  margin-top: calc(var(--insideEdgePaddingTop__w6gg1yi) + 0.1875rem);\n  padding-top: 0;\n  min-height: calc(var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height) * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size));\n}\n.ReadonlyTextFieldInputStyles_textareaInEnabledFormLabelInside__ybkgi55 {\n  padding-top: 0;\n  padding-bottom: 0;\n  border-color: transparent;\n  border-style: solid;\n  margin-top: calc(var(--insideEdgeFontSize__kn3t7f4) * var(--insideEdgeLineHeight__kn3t7f6) + var(--insideEdgePositionTop__kn3t7fa));\n  margin-bottom: 0.25rem;\n}\n.ReadonlyTextFieldInputStyles_inEnabledFormNoLabelInside__ybkgi56 {\n  justify-content: center;\n}\n.ReadonlyTextFieldInputStyles_inEnabledFormNoStartContent__ybkgi57 {\n  margin-left: var(--textToEdgePadding__w6gg1y9);\n  margin-right: var(--textToEdgePadding__w6gg1y9);\n  padding-left: 0;\n  padding-right: 0;\n}\n.ReadonlyTextFieldInputStyles_hideScrollbar__ybkgi58::-webkit-scrollbar {\n  width: 0;\n  height: 0;\n}.LabelValueLayoutStyles_labelSlotStyles_base__z3rxc50 {\n  display: block;\n  flex-grow: 0;\n  flex-shrink: 1;\n  box-sizing: border-box;\n}\n.LabelValueLayoutStyles_labelSlotStyles_start__z3rxc51 {\n  padding-inline-end: var(--startEdgeLabelToValuePadding__vm51h40);\n}\n.LabelValueLayoutStyles_labelSlotStyles_top__z3rxc52 {\n  flex-basis: 100%;\n  width: 100%;\n  max-width: 100%;\n  padding-block-end: var(--topEdgeLabelToValuePadding__vm51h42);\n}\n.LabelValueLayoutStyles_labelSlotStyles_topAndTopUA__z3rxc53 {\n  padding-block-end: 0;\n}\n.LabelValueLayoutStyles_labelSlotStyles_topPureReadonly__z3rxc54 {\n  padding-block-end: 0;\n}\n.LabelValueLayoutStyles_labelInnerStyles_base__z3rxc55 {\n  display: block;\n  color: var(--color__kn3t7f2);\n  font-size: var(--fontSize__kn3t7f9);\n  line-height: var(--lineHeight__kn3t7f1);\n  width: 100%;\n}\n.LabelValueLayoutStyles_labelInnerStyles_start__z3rxc56 {\n  display: inline-flex;\n  align-items: center;\n  height: 100%;\n}\n.LabelValueLayoutStyles_labelInnerStyles_startNotPureReadonly__z3rxc57 {\n  min-height: var(--height__w6gg1yg);\n}\n.LabelValueLayoutStyles_labelInnerStyles_startWithNoTopRadioSetUA__z3rxc58 {\n  padding-block-start: calc((var(--rowHeight__11tjnon2) - var(--fontSize__kn3t7f9) * var(--lineHeight__kn3t7f1)) * 0.5);\n}\n.LabelValueLayoutStyles_labelInnerStyles_insideRadioSet__z3rxc59 {\n  padding-block-start: calc(\n      (var(--rowHeight__11tjnon2) - var(--fontSize__kn3t7f9) * var(--lineHeight__kn3t7f1))*0.5 + var(--oj-c-EXPERIMENTAL-DO-NOT-USE-density-units, 0px)\n    );\n}\n.LabelValueLayoutStyles_labelInnerStyles_startWithNoTopCheckboxSetUA__z3rxc5a {\n  padding-block-start: calc((var(--rowHeight__1qyga5a2) - var(--fontSize__kn3t7f9) * var(--lineHeight__kn3t7f1)) * 0.5);\n}\n.LabelValueLayoutStyles_labelInnerStyles_insideCheckboxSet__z3rxc5b {\n  padding-block-start: calc(\n      (var(--rowHeight__1qyga5a2) - var(--fontSize__kn3t7f9) * var(--lineHeight__kn3t7f1))*0.5 + var(--oj-c-EXPERIMENTAL-DO-NOT-USE-density-units, 0px)\n    );\n}\n.LabelValueLayoutStyles_labelInnerStyles_noWrap__z3rxc5c {\n  white-space: nowrap;\n  overflow-x: hidden;\n  overflow-y: hidden;\n  text-overflow: ellipsis;\n}\n.LabelValueLayoutStyles_valueSlotStyles__z3rxc5d {\n  flex: 1 1 100%;\n  width: 100%;\n  max-width: 100%;\n}.RadioStyles_radioBaseStyle__o9of5r0 {\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height);\n  min-height: var(--rowHeight__11tjnon2);\n  display: inline-flex;\n  align-items: flex-start;\n  gap: var(--iconToTextGap__11tjnon1);\n}\n.RadioStyles_radioBaseStyle__o9of5r0:focus {\n  outline: none;\n}\n.RadioStyles_radioBaseStyle__o9of5r0:focus-visible {\n  outline: none;\n}\n.RadioStyles_radioBaseStyle__o9of5r0:hover {\n  cursor: pointer;\n}\n.RadioStyles_valueLabelStyle__o9of5r1 {\n  font-family: inherit;\n  font-weight: inherit;\n  padding-block-start: calc((var(--rowHeight__11tjnon2) - var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height) * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size) + 1px) * 0.5);\n  padding-block-end: calc((var(--rowHeight__11tjnon2) - var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height) * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size) - 1px) * 0.5);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size);\n}\n.RadioStyles_radioDefaultColor__o9of5r2 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n.RadioStyles_radioDisabledColor__o9of5r3 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-disabled);\n}\n@supports selector(:has(*)) {\n  .RadioStyles_radioFocused__o9of5r4:has(input:focus-visible) {\n    outline-style: dotted;\n    outline-width: var(--outlineWidth__11tjnon0);\n    outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  }\n}\n@supports not selector(:has(*)) {\n  .RadioStyles_radioFocused__o9of5r4 {\n    outline-style: dotted;\n    outline-width: var(--outlineWidth__11tjnon0);\n    outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  }\n}.CheckboxStyles_checkboxBaseStyle__13w91qj0 {\n  line-height: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height);\n  min-height: var(--rowHeight__1qyga5a2);\n  display: inline-flex;\n  align-items: flex-start;\n  gap: var(--iconToTextGap__1qyga5a1);\n}\n.CheckboxStyles_checkboxBaseStyle__13w91qj0:focus {\n  outline: none;\n}\n.CheckboxStyles_checkboxBaseStyle__13w91qj0:focus-visible {\n  outline: none;\n}\n.CheckboxStyles_checkboxBaseStyle__13w91qj0:hover {\n  cursor: pointer;\n}\n.CheckboxStyles_checkboxSpanStyle__13w91qj1 {\n  height: var(--rowHeight__1qyga5a2);\n  display: flex;\n  align-items: center;\n}\n.CheckboxStyles_valueLabelStyle__13w91qj2 {\n  font-family: inherit;\n  font-weight: inherit;\n  padding-block-start: calc((var(--rowHeight__1qyga5a2) - var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height) * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size) + 1px) * 0.5);\n  padding-block-end: calc((var(--rowHeight__1qyga5a2) - var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-line-height) * var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size) - 1px) * 0.5);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size);\n}.CheckboxVariants_multiVariantStyles_disabled_isDisabled__yta2nm0 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-disabled);\n}\n.CheckboxVariants_multiVariantStyles_disabled_notDisabled__yta2nm1 {\n  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-text-icon-primary);\n}\n@supports selector(:has(*)) {\n  .CheckboxVariants_multiVariantStyles_focused_isFocused__yta2nm2:has(input:focus-visible) {\n    outline-style: dotted;\n    outline-width: var(--outlineWidth__1qyga5a0);\n    outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  }\n}\n@supports not selector(:has(*)) {\n  .CheckboxVariants_multiVariantStyles_focused_isFocused__yta2nm2 {\n    outline-style: dotted;\n    outline-width: var(--outlineWidth__1qyga5a0);\n    outline-color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-border-keyboard-focus);\n  }\n}.LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b1 {\n  grid-column: span 1;\n}\n.LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b2 {\n  grid-column: span 1;\n}\n.LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b3 {\n  grid-column: span 1;\n}\n.LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b4 {\n  grid-column: span 1;\n}\n.LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b5 {\n  grid-column: span 1;\n}\n@container (min-width: 576px) {\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b1 {\n    grid-column: span min(2,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b2 {\n    grid-column: span min(2,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b3 {\n    grid-column: span min(2,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b4 {\n    grid-column: span min(2,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b5 {\n    grid-column: span min(2,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n}\n@container (min-width: 864px) {\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b2 {\n    grid-column: span min(3,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b3 {\n    grid-column: span min(3,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b4 {\n    grid-column: span min(3,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b5 {\n    grid-column: span min(3,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n}\n@container (min-width: 1152px) {\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b3 {\n    grid-column: span min(4,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b4 {\n    grid-column: span min(4,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b5 {\n    grid-column: span min(4,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n}\n@container (min-width: 1440px) {\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b4 {\n    grid-column: span min(5,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b5 {\n    grid-column: span min(5,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n}\n@container (min-width: 1728px) {\n  .LayoutStyles_layoutSpanStyles_layoutSpanColumn__5qy13b5 {\n    grid-column: span min(1,var(--layoutLocalVars_columnCount__5qy13b0));\n  }\n}.ReadonlyTextFieldStyles_readOnlyBase__71tiu80 {\n  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-regular);\n  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-size);\n  position: relative;\n  border-style: solid;\n  transition-property: border-color;\n  transition-duration: 0.1s;\n  transition-timing-function: linear;\n  border-radius: var(--borderRadius__w6gg1y2);\n  flex-direction: row;\n  align-items: center;\n  width: 100%;\n  box-sizing: border-box;\n  display: flex;\n  overflow: hidden;\n}\n.ReadonlyTextFieldStyles_readonlyTextFieldMiddleBase__71tiu81 {\n  display: inline-flex;\n  flex: 1;\n  width: 100%;\n  height: 100%;\n  box-sizing: border-box;\n}\n.ReadonlyTextFieldStyles_readonlyTextFieldMiddleNotInEnabledForm__71tiu82 {\n  display: block;\n}\n.ReadonlyTextFieldStyles_readonlyTextFieldMiddleInEnabledForm__71tiu83 {\n  position: relative;\n}\n.ReadonlyTextFieldStyles_readonlyTextFieldMiddleInEnabledFormNotTextarea__71tiu84 {\n  align-items: center;\n}.ReadonlyTextFieldVariants_multiVariantStyles_insideNonReadonlyForm_isInsideNonReadonlyForm__ck0nxo0 {\n  border-width: var(--borderWidth__w6gg1y1);\n  border-color: var(--borderColorDisabled__w6gg1yd);\n  background-color: transparent;\n  height: var(--height__w6gg1yg);\n  min-width: 1em;\n  flex: 1;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_insideNonReadonlyForm_notInsideNonReadonlyForm__ck0nxo1 {\n  border-width: 0;\n  background-color: transparent;\n  height: auto;\n  vertical-align: top;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_textarea_isTextArea__ck0nxo4 {\n  height: auto;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_resize_horizontal__ck0nxoc {\n  resize: horizontal;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_resize_vertical__ck0nxod {\n  resize: vertical;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_resize_both__ck0nxoe {\n  resize: both;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_resize_none__ck0nxof {\n  max-width: 100%;\n  overflow: visible;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_compound_0__ck0nxog {\n  padding-top: 0;\n  padding-bottom: 0;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_compound_1__ck0nxoh {\n  min-height: var(--insideEdgeHeight__w6gg1yh);\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_compound_2__ck0nxoi {\n  height: auto;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_compound_3__ck0nxoj {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_compound_4__ck0nxok {\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n  margin-left: -1px;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_compound_5__ck0nxol {\n  border-top-right-radius: 0;\n  border-bottom-right-radius: 0;\n  border-top-left-radius: 0;\n  border-bottom-left-radius: 0;\n  margin-left: -1px;\n}\n.ReadonlyTextFieldVariants_multiVariantStyles_compound_6__ck0nxom {\n  min-height: var(--insideEdgeHeight__w6gg1yh);\n}oj-c-input-text:not(.oj-complete) {\n  visibility: hidden;\n}\n\noj-c-input-text {\n\tdisplay: inline-block;\n  max-width: 100%;\n  width: 100%;\n}\n\noj-c-input-text[hidden] {\n  display: none;\n}.GridStyles_baseStyles__11rn47i0 {\n  display: grid;\n}oj-c-input-number:not(.oj-complete) {\n  visibility: hidden;\n}\n\noj-c-input-number {\n\tdisplay: inline-block;\n  max-width: 100%;\n  width: 100%;\n}\n\noj-c-input-number[hidden] {\n  display: none;\n}.refA-main {\r\n  width: 100%;\r\n  height: 100%;\r\n  display: flex;\r\n  flex-direction: column;\r\n  /* background-color: red; */\r\n}\r\n\r\n.refA-main .title {\r\n  flex-grow: 0;\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: end;\r\n}\r\n\r\n.refA-main .title .subHeader {\r\n  display: flex;\r\n  align-items: center;\r\n}\r\n\r\n.refA-main .title .subHeader span {\r\n  margin-right: 1em;\r\n  font-size: small;\r\n}\r\n\r\n.refA-main .body {\r\n  flex-grow: 1;\r\n  display: flex;\r\n  flex-direction: column;\r\n  margin-top: 1rem;\r\n  overflow-y: auto;\r\n  max-height: 370px;\r\n}\r\n\r\n.refA-main .footer {\r\n  flex-grow: 0;\r\n  display: flex;\r\n  justify-content: end;\r\n  align-items: end;\r\n}\r\n\r\n.refA-main .footer .error {\r\n  font-size: small;\r\n  color: rgba(168, 28, 28, 0.774);\r\n}\r\n\r\n.refA-row {\r\n  display: flex;\r\n  width: 100%;\r\n  margin: 0.6em 0 0.6em 0;\r\n  padding: 0.6rem 0 0.6em 0;\r\n  min-height: 2.5rem;\r\n}\r\n\r\n.refA-row .stripe {\r\n  width: 0.6rem;\r\n  background-color: rgba(192, 192, 192, 0.719);\r\n  /* margin-right: 1rem; */\r\n}\r\n\r\n.refA-row .form {\r\n  /* background-color: blue; */\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  /* color: white; */\r\n  width: 100%;\r\n}\r\n\r\n.refA-row .form>div {\r\n  padding: 0 0.5em 0 0.5em\r\n}\r\n\r\n.refA-row .form .name {\r\n  flex-grow: 2;\r\n}\r\n\r\n.refA-row .form .number {\r\n  flex-grow: 0;\r\n}\r\n\r\n.refA-row .form .color {\r\n  flex-grow: 1;\r\n}');
