@@ -135,7 +135,7 @@ body.nkiGraphs-main {
 .nkiCard-container {
   width: 100%;
   max-width: 250px;
-  min-width: 175px;
+  min-width: 200px;
   background-color: var(--nkiCard-bg);
   border-radius: var(--nkiCard-border-radius);
   border: 1px solid var(--nkiGraphs-border-color);
@@ -145,7 +145,6 @@ body.nkiGraphs-main {
   flex-direction: column;
   gap: var(--nkiCard-gap);
   position: relative;
-  margin: 0em 0.3em 0.6em 0.3em;
   cursor: grab;
 }
 
@@ -153,12 +152,18 @@ body.nkiGraphs-main {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-grow: 0;
+  padding-right: 0.5rem;
+  /* border: 1px solid red; */
 }
 
 .nkiCard-category {
   font-size: var(--nkiCard-category-size);
   font-weight: var(--nkiCard-font-weight-bold);
   color: var(--nkiCard-text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 h3.nkiCard-category {
@@ -170,12 +175,36 @@ h3.nkiCard-category {
   font-weight: var(--nkiCard-font-weight-bold);
   color: var(--nkiCard-text-darker);
   line-height: 1;
+  flex-grow: 1;
+  /* border: 1px solid red; */
+}
+
+.nkiCard-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-grow: 0;
+  /* border: 1px solid red; */
 }
 
 .nkiCard-scale {
   font-size: var(--nkiCard-scale-size);
   color: var(--nkiGraphs-text-muted);
-  margin-top: var(--nkiCard-scale-margin-top);
+}
+
+.nkiCard-options {
+  gap: 0.5rem;
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+}
+
+.nkiCard-container:hover .nkiCard-options {
+  opacity: 1;
+}
+
+.nkiCard-options span {
+  font-size: 1.3rem;
 }
 
 .nkiCard-color-line {

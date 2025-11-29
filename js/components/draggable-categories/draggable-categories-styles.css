@@ -3,9 +3,9 @@
   display: flex;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 1rem;
-  padding-top: 1rem;
-  margin: 0 1em 0 1em;
+  padding: 1rem 0;
+  margin: 0 1rem;
+  gap: 1.3rem;
 }
 
 .dc-noData {

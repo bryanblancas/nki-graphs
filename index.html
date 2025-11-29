@@ -339,7 +339,7 @@
                 ></div>
                 <!-- Header with Category -->
                 <div class="nkiCard-header">
-                  <h3 class="nkiCard-category">
+                  <h3 class="nkiCard-category" :title="[[ currentCategory.name ]]">
                     <oj-bind-text value="[[ currentCategory.name ]]"></oj-bind-text>
                   </h3>
                 </div>
@@ -348,25 +348,24 @@
                   <oj-bind-text value="[[ currentCategory.value ?? '--' ]]"></oj-bind-text>
                 </div>
                 <!-- Scale Text -->
-                <div class="nkiCard-scale">
-                  <oj-bind-text value="[[ scalesObject[currentCategory.scale] ]]"></oj-bind-text>
-                </div>
-                <!-- Container for the icons, now at the bottom right -->
-                <div class="nkiCard-icon-container">
-                  <!-- Edit Icon -->
-                  <span
-                    class="material-icons nkiGraphs-clickable-icon"
-                    on-click="[[handleEditCategory]]"
-                  >
-                    edit
-                  </span>
-                  <!-- Delete Icon -->
-                  <span
-                    class="material-icons nkiGraphs-clickable-icon nkiGraphs-warn-icon"
-                    on-click="[[handleRemoveCategory]]"
-                  >
-                    delete_forever
-                  </span>
+                <div class="nkiCard-footer">
+                  <div class="nkiCard-scale">
+                    <span
+                      ><oj-bind-text
+                        value="[[ scalesObject[currentCategory.scale] ]]"
+                      ></oj-bind-text
+                    ></span>
+                  </div>
+                  <div class="nkiCard-options">
+                    <div class="nkiGraphs-clickable-icon" on-click="[[handleEditCategory]]">
+                      <span class="material-icons"> edit </span>
+                    </div>
+                    <div class="nkiGraphs-clickable-icon nkiGraphs-warn-icon">
+                      <span class="material-icons" on-click="[[handleRemoveCategory]]">
+                        delete_forever
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </template>
