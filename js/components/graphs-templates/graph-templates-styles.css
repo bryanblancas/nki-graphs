@@ -33,7 +33,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
+  padding: 0.5rem 1rem;
   border-bottom: 1px solid #e0e6ed;
 }
 
@@ -56,29 +56,11 @@
   padding: 24px;
 }
 
-.gTmpl-form-group {
-  margin-bottom: 16px;
-}
-
-.gTmpl-form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #555;
-}
-
-.gTmpl-form-group input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
 /* --- Footer & Buttons --- */
 
 .gTmpl-footer {
   border-top: 1px solid #e0e6ed;
-  padding: 16px 24px;
+  padding: 0.5rem 1rem;
   flex: 1 1 100%;
   display: flex;
   justify-content: space-between;
@@ -101,7 +83,6 @@
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-  /* Allows columns to wrap on smaller screens */
 }
 
 /* Common styles for both columns */
@@ -110,65 +91,57 @@
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 300px;
 }
 
 /* Styles for the left column */
 .gTmpl-column-left {
-  flex: 2;
-  /* Takes up 2 parts of the available space */
+  flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: start;
   gap: 20px;
-  min-width: 300px;
-  max-height: fit-content;
 }
 
 /* Styles for the right column */
 .gTmpl-column-right {
   flex: 1;
-  /* Takes up 1 part of the available space */
-  min-width: 250px;
-  overflow-y: auto;
-  max-height: 320px;
 }
 
 /* Styles for the rows in the left column */
 .gTmpl-row {
-  padding: 15px;
+  padding: 1rem;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
 }
 
-.gTmpl-row-select h3,
-.gTmpl-row-content h3 {
-  margin-top: 0;
-  color: #333;
-}
-
-select {
+.gTmpl-miniChart-container {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Styles for the summary list in the right column */
-.gTmpl-summary-list h3 {
-  margin-top: 0;
-  color: #333;
+.gTmpl-miniChart {
+  flex-grow: 1;
 }
 
-.gTmpl-summary-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.gTmpl-miniChart-styles {
+  max-height: 250px;
+  overflow: none;
+  height: 100%;
+  width: 100%;
 }
 
-.gTmpl-summary-list li {
-  padding: 8px 0;
-  color: #555;
-  border-left: 5px solid red;
-  margin: 0.5em 0 0.5em 0;
-  padding-left: 0.5em;
+.gTmpl-miniChart-noData {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.gTmpl-graph-desc {
+  overflow-y: auto;
+  max-height: 140px;
 }

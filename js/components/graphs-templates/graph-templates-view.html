@@ -102,7 +102,7 @@
     </div>
     <div class="gTmpl-body">
       <div class="gTmpl-container">
-        <!-- Left Column: Contains two rows -->
+        <!-- Left Column -->
         <div class="gTmpl-column gTmpl-column-left">
           <div class="gTmpl-row gTmpl-row-select">
             <oj-select-single
@@ -122,45 +122,69 @@
             </p>
           </div>
           <div class="gTmpl-row gTmpl-row-content">
-            <h6><span class="gTmpl-title">Detalles del gráfico</span></h6>
             <oj-bind-if test="[[!selectedChartObj()]]">
-              <p class="gTmpl-help-text">Selecciona un gráfico para ver su información</p>
+              <p class="gTmpl-help-text">Selecciona un gráfico para ver su descripción</p>
             </oj-bind-if>
             <oj-bind-if test="[[selectedChartObj()]]">
-              <p>
-                <strong>Name:</strong>
-                <oj-bind-text value="[[selectedChartObj().name]]"></oj-bind-text>
-              </p>
-              <p>
-                <strong>Description:</strong>
-                <oj-bind-text value="[[selectedChartObj().description]]"></oj-bind-text>
-              </p>
-              <p>
-                <strong>Areas de referencia:</strong>
-                <oj-bind-text
-                  value="[[selectedChartObj().chartData?.graphSettings?.referenceAreas?.length ?? 0]]"
-                ></oj-bind-text>
-              </p>
+              <div class="gTmpl-graph-desc">
+                <p><strong>Descripción</strong></p>
+                <p>
+                  <oj-bind-text
+                    value="[[selectedChartObj().description || '-Sin descripción-']]"
+                  ></oj-bind-text>
+                </p>
+              </div>
             </oj-bind-if>
           </div>
         </div>
-
-        <!-- Right Column: Contains a single row with a summary -->
-        <div class="gTmpl-column gTmpl-column-right gTmpl-summary-list">
-          <h6>Categorías</h6>
+        <!-- Right Column-->
+        <div class="gTmpl-column gTmpl-column-right">
           <oj-bind-if test="[[!selectedChartObj()]]">
-            <p class="gTmpl-help-text">Selecciona un gráfico para ver su información</p>
+            <div class="gTmpl-miniChart-noData">
+              <p class="gTmpl-help-text">Selecciona un gráfico para previsualizarlo.</p>
+            </div>
           </oj-bind-if>
           <oj-bind-if test="[[selectedChartObj()]]">
-            <ul>
-              <oj-bind-for-each data="[[selectedChartObj().chartData.categories ]]">
-                <template data-oj-as="curCat">
-                  <li :style.border-color="[[curCat.data.color]]">
-                    <span><oj-bind-text value="[[curCat.data.name]]"></oj-bind-text></span>
-                  </li>
-                </template>
-              </oj-bind-for-each>
-            </ul>
+            <div class="gTmpl-miniChart-container">
+              <div>
+                <p><strong>Preview</strong></p>
+              </div>
+              <div class="gTmpl-miniChart">
+                <oj-chart
+                  id="nki-mini-graph-preview"
+                  coordinate-system="[[ MiniGraphPreviewProperties.getCoordinateSystem(selectedChartObj()) ]]"
+                  data="[[ miniChartDataDp ]]"
+                  y-axis.reference-objects="[[ MiniGraphPreviewProperties.getReferenceObjects(selectedChartObj()) ]]"
+                  y-axis.max="[[ MiniGraphPreviewProperties.getYMax(selectedChartObj()) ]]"
+                  y-axis.step="[[ MiniGraphPreviewProperties.getStep(selectedChartObj()) ]]"
+                  orientation="[[ MiniGraphPreviewProperties.getOrientation(selectedChartObj()) ]]"
+                  translations.label-no-data="[[ labelNoData ]]"
+                  type="bar"
+                  stack="on"
+                  polar-grid-shape="circle"
+                  style-defaults.data-label-position="none"
+                  animation-on-display="zoom"
+                  animation-on-data-change="slideToLeft"
+                  legend.rendered="off"
+                  hover-behavior="dim"
+                  class="gTmpl-miniChart-styles"
+                  drilling="off"
+                  hover-behavior="dim"
+                >
+                  <template slot="itemTemplate" data-oj-as="item">
+                    <oj-chart-item
+                      value="[[ item.data.value ]]"
+                      group-id="[[ [item.data.group] ]]"
+                      series-id="[[ item.data.group ]]"
+                      label="[[ item.data.value ]]"
+                    ></oj-chart-item>
+                  </template>
+                  <template slot="seriesTemplate" data-oj-as="series">
+                    <oj-chart-series color="[[series.items[0].data.color]]"></oj-chart-series>
+                  </template>
+                </oj-chart>
+              </div>
+            </div>
           </oj-bind-if>
         </div>
       </div>
