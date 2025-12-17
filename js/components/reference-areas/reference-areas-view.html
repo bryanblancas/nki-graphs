@@ -1,4 +1,4 @@
-<div class="refA-main">
+<div class="refA-main" id="refA-modal">
   <div class="title">
     <div class="start">
       <span class="nkiGraphs-strong-text"></span>
@@ -20,9 +20,9 @@
     <oj-bind-for-each data="[[mappedAreas]]">
       <template data-oj-as="area">
         <div class="refA-row">
-          <div class="stripe" :style.background-color="[[area.data.color]]"></div>
           <div class="form">
             <div class="name">
+              <div class="stripe" :style.background-color="[[area.data.color]]"></div>
               <oj-c-input-text
                 value="{{area.data.name}}"
                 label-hint="Nombre"
@@ -52,6 +52,10 @@
                 label-hint="Color"
                 on-value-changed="[[handleValueChanged]]"
               ></oj-c-input-text>
+              <a class="opener-link" href="#" on-click="[[() => openColorPicker(area)]]">
+                Elegir
+                <span class="material-icons opener-link"> call_made </span>
+              </a>
             </div>
             <div class="number">
               <div class="nkiGraphs-clickable-icon-cont" on-click="[[() => removeArea(area)]]">
@@ -72,3 +76,32 @@
     </span>
   </div>
 </div>
+<oj-c-popup
+  id="refA-colorPicker"
+  opened="{{colorPickerOpened}}"
+  auto-dismiss="focusLoss"
+  anchor="window"
+  modality="modal"
+>
+  <div class="refA-color-picker">
+    <div class="header">
+      <div class="title">
+        <span>Selecciona un color</span>
+      </div>
+      <div class="close">
+        <a href="#" on-click="[[() => colorPickerOpened(false)]]">
+          <span class="material-icons"> close </span>
+        </a>
+      </div>
+    </div>
+    <div class="body">
+      <oj-color-spectrum
+        label-hint="Selecciona un Color"
+        label-edge="none"
+        value="{{areaColor}}"
+        on-value-changed="[[ handleAreaColorChange ]]"
+      ></oj-color-spectrum>
+    </div>
+    <div class="footer"></div>
+  </div>
+</oj-c-popup>

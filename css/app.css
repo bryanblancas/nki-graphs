@@ -286,10 +286,10 @@ h3.nkiCard-category {
   width: 100%;
 }
 
-.nkiDialog-column-content {
+.nkiDialog__collapsible-content {
   display: flex;
   flex-direction: column;
-  margin: 1em;
+  padding: 1rem 1rem 1rem 2rem;
 }
 
 .nkiDialog-flex-row {
@@ -402,4 +402,10 @@ h3.nkiCard-category {
 
 .nkiDialog-column-title .end {
   flex-grow: 0;
+}
+
+.nkiDialog__collapsible-container {
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
 }

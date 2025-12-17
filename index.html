@@ -63,6 +63,7 @@
             tail="none"
             anchor="window"
             on-oj-close="[[ () => graphSettingsOpened(false) ]]"
+            initial-focus="none"
           >
             <div class="nkiDialog-dialog nkiDialog-wide-dialog">
               <div class="nkiDialog-header">
@@ -77,87 +78,95 @@
                 </oj-button>
               </div>
               <div class="nkiDialog-body">
-                <div class="nkiDialog-container nkiDialog-settings-height">
-                  <div class="nkiDialog-column nkiDialog-column-width">
-                    <div class="nkiDialog-column-title">
-                      <div class="start">
-                        <span class="nkiGraphs-strong-text">Estilo del gráfico</span>
-                      </div>
-                    </div>
-                    <div class="nkiDialog-column-content">
-                      <div class="nkiDialog-flex-row nkiDialog-flex-justify">
-                        <div>
-                          <oj-input-number
-                            id="maxy"
-                            value="{{maxY}}"
-                            label-hint="Valor Máximo"
-                          ></oj-input-number>
-                        </div>
-                        <div>
-                          <oj-input-number
-                            id="stepy"
-                            value="{{stepY}}"
-                            label-hint="Salto Mínimo"
-                          ></oj-input-number>
-                        </div>
-                        <div class="oj-flex-item">
-                          <oj-select-single
-                            id="legendPositionSelect"
-                            data="[[legendPositionDp]]"
-                            value="{{legendPosition}}"
-                            label-hint="Leyendas"
-                          ></oj-select-single>
+                <div class="nkiDialog-settings-height">
+                  <div class="nkiDialog__collapsible-container">
+                    <oj-c-collapsible variant="horizontal-rule">
+                      <div slot="header">
+                        <div class="nkiDialog-column-title">
+                          <div class="start">
+                            <span class="nkiGraphs-strong-text">Estilo del gráfico</span>
+                          </div>
                         </div>
                       </div>
-                      <div class="nkiDialog-flex-row nkiDialog-flex-justify">
-                        <div>
-                          <span class="nkiGraphs-cst-lbl">Tipo de Gráfico</span>
-                          <oj-c-buttonset-single
-                            id="chartTypeBtn"
-                            display="label"
-                            items="[[chartTypeOptions]]"
-                            value="{{chartType}}"
-                            layout-width="equal"
-                            aria-label="Tipo de Gráfico"
-                          >
-                          </oj-c-buttonset-single>
+                      <div class="nkiDialog__collapsible-content">
+                        <div class="nkiDialog-flex-row nkiDialog-flex-justify">
+                          <div>
+                            <oj-input-number
+                              id="maxy"
+                              value="{{maxY}}"
+                              label-hint="Valor Máximo"
+                            ></oj-input-number>
+                          </div>
+                          <div>
+                            <oj-input-number
+                              id="stepy"
+                              value="{{stepY}}"
+                              label-hint="Salto Mínimo"
+                            ></oj-input-number>
+                          </div>
+                          <div class="oj-flex-item">
+                            <oj-select-single
+                              id="legendPositionSelect"
+                              data="[[legendPositionDp]]"
+                              value="{{legendPosition}}"
+                              label-hint="Leyendas"
+                            ></oj-select-single>
+                          </div>
                         </div>
-                        <div>
-                          <span class="nkiGraphs-cst-lbl">Etiquetas</span>
-                          <oj-c-buttonset-single
-                            id="labelPositionBtn"
-                            display="label"
-                            items="[[labelPositionOptions]]"
-                            value="{{labelPosition}}"
-                            layout-width="equal"
-                            aria-label="Data Labels"
-                            disabled="[[chartType() === 'cartesian' ? false : true]]"
-                          >
-                          </oj-c-buttonset-single>
-                        </div>
-                        <div>
-                          <span class="nkiGraphs-cst-lbl">Orientación</span>
-                          <oj-c-buttonset-single
-                            id="labelPositionBtn"
-                            display="label"
-                            items="[[orientationOptions]]"
-                            value="{{chartOrientation}}"
-                            layout-width="equal"
-                            aria-label="Chart Orientation"
-                            disabled="[[chartType() === 'cartesian' ? false : true]]"
-                          >
-                          </oj-c-buttonset-single>
+                        <div class="nkiDialog-flex-row nkiDialog-flex-justify">
+                          <div>
+                            <span class="nkiGraphs-cst-lbl">Tipo de Gráfico</span>
+                            <oj-c-buttonset-single
+                              id="chartTypeBtn"
+                              display="label"
+                              items="[[chartTypeOptions]]"
+                              value="{{chartType}}"
+                              layout-width="equal"
+                              aria-label="Tipo de Gráfico"
+                            >
+                            </oj-c-buttonset-single>
+                          </div>
+                          <div>
+                            <span class="nkiGraphs-cst-lbl">Etiquetas</span>
+                            <oj-c-buttonset-single
+                              id="labelPositionBtn"
+                              display="label"
+                              items="[[labelPositionOptions]]"
+                              value="{{labelPosition}}"
+                              layout-width="equal"
+                              aria-label="Data Labels"
+                              disabled="[[chartType() === 'cartesian' ? false : true]]"
+                            >
+                            </oj-c-buttonset-single>
+                          </div>
+                          <div>
+                            <span class="nkiGraphs-cst-lbl">Orientación</span>
+                            <oj-c-buttonset-single
+                              id="labelPositionBtn"
+                              display="label"
+                              items="[[orientationOptions]]"
+                              value="{{chartOrientation}}"
+                              layout-width="equal"
+                              aria-label="Chart Orientation"
+                              disabled="[[chartType() === 'cartesian' ? false : true]]"
+                            >
+                            </oj-c-buttonset-single>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="nkiDialog-column-title">
-                      <div class="start">
-                        <span class="nkiGraphs-strong-text">Areas de referencia</span>
+                    </oj-c-collapsible>
+                    <oj-c-collapsible variant="horizontal-rule">
+                      <div slot="header">
+                        <div class="nkiDialog-column-title">
+                          <div class="start">
+                            <span class="nkiGraphs-strong-text">Áreas de referencia</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="nkiDialog-column-content">
-                      <reference-areas areas="{{ referenceAreas }}"> </reference-areas>
-                    </div>
+                      <div class="nkiDialog__collapsible-content">
+                        <reference-areas areas="{{ referenceAreas }}"> </reference-areas>
+                      </div>
+                    </oj-c-collapsible>
                   </div>
                 </div>
               </div>
