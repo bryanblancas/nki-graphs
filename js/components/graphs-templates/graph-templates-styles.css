@@ -1,3 +1,7 @@
+.gTmpl__container {
+  display: flex;
+}
+
 .gTmpl-main-btn {
   background-color: mediumpurple;
   border-radius: 7%;
@@ -7,9 +11,11 @@
   color: white;
 }
 
-.gTmpl-error-text {
-  color: var(--oj-core-danger-3);
+p.gTmpl-error-text {
+  color: #9c2828a1;
+
   font-size: small;
+  margin: 0;
 }
 
 .gTmpl-help-text {
@@ -37,18 +43,22 @@
   border-bottom: 1px solid #e0e6ed;
 }
 
-.gTmpl-header .gTmpl-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #333;
+.gTmpl-header .title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.gTmpl-header .gTmpl-close-btn {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  color: #888;
-  cursor: pointer;
+.gTmpl__options--state {
+  font-size: 0.8rem;
+}
+
+.gTmpl__options--state .info {
+  color: #28609cb4;
+}
+
+.gTmpl__options--state .error {
+  color: #9c2828a1;
 }
 
 /* --- Body & Form --- */
@@ -115,6 +125,22 @@
   border-radius: 6px;
 }
 
+.gTmpl-row.gTmpl-row-select {
+  display: flex;
+  flex-direction: column;
+}
+
+.gTmpl__template-selection {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+}
+
+.gTmpl__template-selection .select-list {
+  flex-grow: 1;
+}
+
 .gTmpl-miniChart-container {
   width: 100%;
   height: 100%;
@@ -144,4 +170,47 @@
 .gTmpl-graph-desc {
   overflow-y: auto;
   max-height: 140px;
+}
+
+.gTmpl__import-tmpls {
+  height: fit-content;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space;
+  gap: 1rem;
+}
+
+.gTmpl__file-picker {
+  width: 100% !important;
+}
+
+.gTmpl__import-tmpls .header {
+  display: flex;
+  justify-content: end;
+  border-bottom: 1px solid rgba(179, 179, 179, 0.322);
+}
+
+.gTmpl__import-tmpls .body {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem;
+}
+
+.gTmpl__import-tmpls .file-upload-status span {
+  font-size: 0.8rem;
+  color: #9c2828a1;
+}
+
+.gTmpl__import-tmpls .file-summary span.emphasis {
+  color: mediumpurple;
+  font-weight: bold;
+}
+
+.gTmpl__import-tmpls .confirmation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }

@@ -1,4 +1,4 @@
-<div class="oj-flex">
+<div class="gTmpl__container">
   <div on-click="[[() => saveTmplOpened(true)]]">
     <oj-bind-slot name="save"></oj-bind-slot>
   </div>
@@ -82,7 +82,8 @@
 
 <!-- Load Template modal -->
 <oj-c-popup
-  opened="[[applyTmplOpened]]"
+  opened="[[ applyTmplOpened ]]"
+  on-oj-open="[[ handleApplyTmplOpened ]]"
   auto-dismiss="none"
   modality="modal"
   anchor="window"
@@ -90,31 +91,53 @@
 >
   <div class="gTmpl-dialog gTmpl-wide-dialog">
     <div class="gTmpl-header">
-      <h4>Cargar gráfico</h4>
-      <oj-button
-        class="oj-button-sm oj-sm-margin-2x-vertical"
-        chroming="borderless"
-        display="icons"
-        on-oj-action="[[() => {applyTmplOpened(false)}]]"
-      >
-        <span class="material-icons"> close </span>
-      </oj-button>
+      <div class="title">
+        <h4>Cargar gráfico</h4>
+        <oj-c-menu-button
+          label="Menu"
+          items="[[ templatesOptions ]]"
+          display="icons"
+          chroming="borderless"
+          on-oj-menu-action="[[ handleOptionClick ]]"
+        >
+          <span slot="endIcon" class="material-icons"> keyboard_arrow_down </span>
+        </oj-c-menu-button>
+        <div class="gTmpl__options--state">
+          <span :class="[[ optionsState().type ]]">
+            <oj-bind-text value="[[ optionsState().text ]]"></oj-bind-text>
+          </span>
+        </div>
+      </div>
+      <div>
+        <oj-button
+          class="oj-button-sm oj-sm-margin-2x-vertical"
+          chroming="borderless"
+          display="icons"
+          on-oj-action="[[() => {applyTmplOpened(false)}]]"
+        >
+          <span class="material-icons"> close </span>
+        </oj-button>
+      </div>
     </div>
     <div class="gTmpl-body">
       <div class="gTmpl-container">
         <!-- Left Column -->
         <div class="gTmpl-column gTmpl-column-left">
           <div class="gTmpl-row gTmpl-row-select">
-            <oj-select-single
-              id="chartTmplSelectList"
-              data="[[templatesDP]]"
-              value="{{selectedChart}}"
-              label-hint="Selecciona un gráfico"
-              required="true"
-              translations.required="[[ inputTextTranslations ]]"
-              item-text="name"
-              on-value-changed="[[handleSelectedChartChange]]"
-            ></oj-select-single>
+            <div class="gTmpl__template-selection">
+              <div class="select-list">
+                <oj-select-single
+                  id="chartTmplSelectList"
+                  data="[[templatesDP]]"
+                  value="{{selectedChart}}"
+                  label-hint="Selecciona un gráfico"
+                  required="true"
+                  translations.required="[[ inputTextTranslations ]]"
+                  item-text="name"
+                  on-value-changed="[[ handleSelectedChartChange ]]"
+                ></oj-select-single>
+              </div>
+            </div>
             <p class="gTmpl-error-text">
               <oj-bind-if test="[[showError]]">
                 <oj-bind-text value="[[errorMessage]]"></oj-bind-text
@@ -210,6 +233,76 @@
           <div class="gTmpl-white-text">Aplicar</div></oj-button
         >
       </div>
+    </div>
+  </div>
+</oj-c-popup>
+
+<!-- Import templates modal -->
+<oj-c-popup
+  opened="[[ importTmplsOpened ]]"
+  on-oj-open="[[ handleImportTmplsOpened ]]"
+  on-oj-close="[[ () => importTmplsOpened(false) ]]"
+  auto-dismiss="focusLoss"
+  modality="modal"
+  anchor="window"
+  tail="none"
+>
+  <div class="gTmpl__import-tmpls">
+    <div class="header">
+      <oj-button
+        class="oj-button-sm oj-sm-margin-2x-vertical"
+        chroming="borderless"
+        display="icons"
+        on-oj-action="[[ () => importTmplsOpened(false) ]]"
+      >
+        <span class="material-icons"> close </span>
+      </oj-button>
+    </div>
+    <div class="body">
+      <oj-bind-if test="[[ !isValidFile() ]]">
+        <oj-c-file-picker
+          accept="[[ ['application/json'] ]]"
+          selection-mode="single"
+          primary-text="Arrastra o selecciona tu archivo"
+          secondary-text="Sólo se permite un archivo .json"
+          class="gTmpl__file-picker"
+          on-oj-select="[[ handleFileSelect ]]"
+        ></oj-c-file-picker>
+      </oj-bind-if>
+      <oj-bind-if test="[[ !isValidFile() ]]">
+        <div class="file-upload-status">
+          <span><oj-bind-text value="[[ fileUploadStatus ]]"></oj-bind-text></span>
+        </div>
+      </oj-bind-if>
+      <oj-bind-if test="[[ isValidFile() ]]">
+        <div class="file-summary">
+          <p>
+            Se importarán
+            <span class="emphasis"
+              ><oj-bind-text value="[[ fileSummary().numberOfGraphs ]]"></oj-bind-text
+            ></span>
+            gráficos exportados el día
+            <span class="emphasis"
+              ><oj-bind-text value="[[ fileSummary().date ]]"></oj-bind-text>.</span
+            >
+          </p>
+          <p>Si continúas, tus gráficos actuales serán reemplazados.</p>
+        </div>
+        <div class="confirmation">
+          <oj-button chroming="solid" on-oj-action="[[ () => importTmplsOpened(false) ]]">
+            <span slot="startIcon" class="oj-sm-padding-2x-top"
+              ><span class="material-icons"> chevron_left </span></span
+            >
+            Regresar</oj-button
+          >
+          <oj-button chroming="solid" class="gTmpl-main-btn" on-oj-action="[[ handleApplyImport ]]">
+            <span slot="startIcon" class="gTmpl-white-text oj-sm-padding-2x-top"
+              ><span class="material-icons"> check</span></span
+            >
+            <div class="gTmpl-white-text">Continuar</div></oj-button
+          >
+        </div>
+      </oj-bind-if>
     </div>
   </div>
 </oj-c-popup>

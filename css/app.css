@@ -35,6 +35,8 @@
   --nkiCard-scale-size: 0.875rem;
   --nkiCard-scale-margin-top: -0.5rem;
   --nkiCard-font-weight-bold: 700;
+  --nkiGraphs-color-black: #1f2937;
+  --nkiGraphs-color-main: mediumpurple;
 }
 
 body.nkiGraphs-main {
@@ -65,11 +67,15 @@ body.nkiGraphs-main {
   color: var(--oj-label-inside-edge-color);
 }
 
-.nkiGraphs-btm-lbl {
-  color: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-variants-ghost-base-color);
-  font-size: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-base-button-font-size);
-  font-weight: var(--oj-c-EXPERIMENTAL-DO-NOT-USE-body-md-font-weight-semibold);
+.nkiGraphs__graph-watermark {
+  color: var(--nkiGraphs-color-black);
+  font-size: 0.9rem;
+  font-weight: bold;
   text-align: end;
+}
+
+.nkiGraphs__graph-watermark .emphasis {
+  color: var(--nkiGraphs-color-main);
 }
 
 .nkiGraphs-egg {
@@ -96,7 +102,7 @@ body.nkiGraphs-main {
   padding: 0.6em;
 }
 
-.nkiGraphs-chart-container {
+.nkiGraphs__chart-container {
   display: flex;
   flex-direction: column;
   resize: vertical;
@@ -107,29 +113,40 @@ body.nkiGraphs-main {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 2rem;
-  padding: 2rem;
+  padding: 0rem 2rem;
   padding-top: 0;
+  background-color: white;
 }
 
-.chart-section {
-  flex-grow: 1;
+.nkiGraphs__chart-container .header {
+  height: var(--nkiGraphs-chartCont-header-height);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
-.title-section {
-  height: var(--nkiGraphs-chartCont-header-height);
+.nkiGraphs__chart-container .header .title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-.footer-section {
-  height: var(--nkiGraphs-chartCont-footer-height);
+.nkiGraphs__chart-container .body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-.nkiGraphs-graph-style {
+.nkiGraphs__chart-container .body .footer {
+  background-color: white;
+  padding-right: 1rem;
+}
+
+.nkiGraphs__graph--style {
   min-height: var(--nkiGraphs-chartCont-chart-min-height);
   max-height: var(--nkiGraphs-chartCont-chart-max-height);
   height: 100%;
+  background-color: white;
 }
 
 .nkiCard-container {
@@ -356,6 +373,7 @@ h3.nkiCard-category {
 
 .nkiGraphs-clickable-icon-cont:hover {
   background-color: var(--nkiGraphs-clickIcon-cont-hover-color);
+  text-decoration: none;
 }
 
 .nkiGraphs-clickable-icon-cont:hover .nkiGraphs-clickable-icon {

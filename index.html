@@ -15,10 +15,6 @@
 <link rel="stylesheet" href="css/redwood/17.0.3/web/redwood.min.css" id="basestyles" />
 <link rel="stylesheet" href="css/theme-redwood/17.0.3/web/theme.css" id="themestyle" />
 <!-- endinjector -->
-    <!-- This contains icon fonts used by the starter template -->
-<!-- injector:font -->
-<link rel="stylesheet" id="uxiconFont" href="https://static.oracle.com/cdn/fnd/gallery/2404.0.0/images/iconfont/ojuxIconFont.min.css" />
-<!-- endinjector:font -->
 
     <!-- This is where you would add any app specific styling -->
     <link rel="stylesheet" href="css/app.css" type="text/css" />
@@ -381,30 +377,35 @@
           </draggable-categories>
         </div>
         <!-- Graph settings and Graph -->
-        <div class="nkiGraphs-chart-container">
+        <div class="nkiGraphs__chart-container">
           <!-- Chart title and settings -->
-          <div class="title-section">
-            <div class="oj-flex oj-sm-align-items-center">
+          <div class="header">
+            <div class="title">
               <h3>
                 <oj-bind-if test="[[templateApplied()]]">
                   <oj-bind-text value="[[templateAppliedName]]"></oj-bind-text>
                 </oj-bind-if>
                 <oj-bind-if test="[[!templateApplied()]]"> [Gráfico sin nombre] </oj-bind-if>
               </h3>
-
-              <div
+              <a
+                href="#"
                 class="nkiGraphs-clickable-icon-cont"
-                :id="[[btnOpenGraphSettingsId]]"
-                on-click="[[() => graphSettingsOpened(true)]]"
+                :id="[[ btnOpenGraphSettingsId ]]"
+                on-click="[[ () => graphSettingsOpened(true) ]]"
               >
                 <span class="material-icons nkiGraphs-clickable-icon"> settings </span>
-              </div>
+              </a>
+            </div>
+            <div class="download">
+              <a href="#" class="nkiGraphs-clickable-icon-cont" on-click="[[ exportImage ]]">
+                <span class="material-icons nkiGraphs-clickable-icon"> download </span>
+              </a>
             </div>
           </div>
           <!-- Chart -->
-          <div class="chart-section">
+          <div id="nkiGraph__chart-section" class="body">
             <oj-chart
-              id="nki-graph"
+              id="nkiGraph__chart"
               coordinate-system="[[ chartType ]]"
               type="bar"
               stack="on"
@@ -420,7 +421,7 @@
               y-axis.step="[[stepY]]"
               hover-behavior="dim"
               orientation="[[chartOrientation]]"
-              class="nkiGraphs-graph-style"
+              class="nkiGraphs__graph--style"
               drilling="on"
               on-oj-item-drill="[[ handleItemDrilling ]]"
             >
@@ -436,15 +437,15 @@
                 <oj-chart-series color="[[series.items[0].data.color]]"></oj-chart-series>
               </template>
             </oj-chart>
-          </div>
-          <!-- NKI Legend -->
-          <div class="footer-section">
-            <p class="nkiGraphs-btm-lbl">Hecho con NKI Graphs</p>
+            <div class="footer">
+              <p class="nkiGraphs__graph-watermark">
+                Hecho con <span class="emphasis">nki</span>Graphs
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
     <!-- This injects script tags for the main javascript files -->
 <!-- injector:scripts -->
 <script type='text/javascript' src='js/libs/require/require.js'></script>
