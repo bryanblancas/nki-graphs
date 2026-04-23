@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <!-- By: Bryan Blancas -->
 <html lang="en-us">
   <head>
-    <title>nki Graphs</title>
+    <title>nkiGraphs</title>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1" />
@@ -63,7 +63,14 @@
           >
             <div class="nkiDialog-dialog nkiDialog-wide-dialog">
               <div class="nkiDialog-header">
-                <h4>Ajustes del gráfico <span>Los cambios se aplican automáticamente</span></h4>
+                <h4>
+                  <oj-bind-text value="[[magicStrings.GRAPH_SETTINGS_MODAL.title]]"></oj-bind-text
+                  ><span
+                    ><oj-bind-text
+                      value="[[magicStrings.GRAPH_SETTINGS_MODAL.subtitle]]"
+                    ></oj-bind-text
+                  ></span>
+                </h4>
                 <oj-button
                   class="oj-button-sm oj-sm-margin-2x-vertical"
                   chroming="borderless"
@@ -76,74 +83,89 @@
               <div class="nkiDialog-body">
                 <div class="nkiDialog-settings-height">
                   <div class="nkiDialog__collapsible-container">
-                    <oj-c-collapsible variant="horizontal-rule">
+                    <oj-c-collapsible variant="horizontal-rule" expanded="true">
                       <div slot="header">
                         <div class="nkiDialog-column-title">
                           <div class="start">
-                            <span class="nkiGraphs-strong-text">Estilo del gráfico</span>
+                            <span class="nkiGraphs-strong-text"
+                              ><oj-bind-text
+                                value="[[magicStrings.GRAPH_SETTINGS_MODAL.style]]"
+                              ></oj-bind-text
+                            ></span>
                           </div>
                         </div>
                       </div>
                       <div class="nkiDialog__collapsible-content">
                         <div class="nkiDialog-flex-row nkiDialog-flex-justify">
-                          <div>
-                            <oj-input-number
-                              id="maxy"
-                              value="{{maxY}}"
-                              label-hint="Valor Máximo"
-                            ></oj-input-number>
-                          </div>
-                          <div>
-                            <oj-input-number
-                              id="stepy"
-                              value="{{stepY}}"
-                              label-hint="Salto Mínimo"
-                            ></oj-input-number>
-                          </div>
-                          <div class="oj-flex-item">
+                          <div class="oj-flex-item oj-flex-grow-1">
                             <oj-select-single
                               id="legendPositionSelect"
                               data="[[legendPositionDp]]"
                               value="{{legendPosition}}"
-                              label-hint="Leyendas"
+                              label-hint="[[magicStrings.GRAPH_SETTINGS_MODAL.legends]]"
                             ></oj-select-single>
+                          </div>
+                          <div class="">
+                            <oj-c-input-number
+                              id="maxy"
+                              value="{{maxY}}"
+                              step="10"
+                              label-hint="[[magicStrings.GRAPH_SETTINGS_MODAL.maxValue]]"
+                            ></oj-c-input-number>
+                          </div>
+                          <div class="">
+                            <oj-c-input-number
+                              id="stepy"
+                              value="{{stepY}}"
+                              step="10"
+                              label-hint="[[magicStrings.GRAPH_SETTINGS_MODAL.stepY]]"
+                            ></oj-c-input-number>
                           </div>
                         </div>
                         <div class="nkiDialog-flex-row nkiDialog-flex-justify">
                           <div>
-                            <span class="nkiGraphs-cst-lbl">Tipo de Gráfico</span>
+                            <span class="nkiGraphs-cst-lbl"
+                              ><oj-bind-text
+                                value="[[magicStrings.GRAPH_SETTINGS_MODAL.chartType]]"
+                              ></oj-bind-text
+                            ></span>
                             <oj-c-buttonset-single
                               id="chartTypeBtn"
                               display="label"
                               items="[[chartTypeOptions]]"
                               value="{{chartType}}"
                               layout-width="equal"
-                              aria-label="Tipo de Gráfico"
                             >
                             </oj-c-buttonset-single>
                           </div>
                           <div>
-                            <span class="nkiGraphs-cst-lbl">Etiquetas</span>
+                            <span class="nkiGraphs-cst-lbl"
+                              ><oj-bind-text
+                                value="[[magicStrings.GRAPH_SETTINGS_MODAL.labels]]"
+                              ></oj-bind-text
+                            ></span>
                             <oj-c-buttonset-single
                               id="labelPositionBtn"
                               display="label"
                               items="[[labelPositionOptions]]"
                               value="{{labelPosition}}"
                               layout-width="equal"
-                              aria-label="Data Labels"
                               disabled="[[chartType() === 'cartesian' ? false : true]]"
                             >
                             </oj-c-buttonset-single>
                           </div>
                           <div>
-                            <span class="nkiGraphs-cst-lbl">Orientación</span>
+                            <span class="nkiGraphs-cst-lbl"
+                              ><oj-bind-text
+                                value="[[magicStrings.GRAPH_SETTINGS_MODAL.orientation]]"
+                              ></oj-bind-text
+                            ></span>
                             <oj-c-buttonset-single
                               id="labelPositionBtn"
                               display="label"
                               items="[[orientationOptions]]"
                               value="{{chartOrientation}}"
                               layout-width="equal"
-                              aria-label="Chart Orientation"
                               disabled="[[chartType() === 'cartesian' ? false : true]]"
                             >
                             </oj-c-buttonset-single>
@@ -155,12 +177,16 @@
                       <div slot="header">
                         <div class="nkiDialog-column-title">
                           <div class="start">
-                            <span class="nkiGraphs-strong-text">Áreas de referencia</span>
+                            <span class="nkiGraphs-strong-text"
+                              ><oj-bind-text
+                                value="[[magicStrings.GRAPH_SETTINGS_MODAL.referenceAreas]]"
+                              ></oj-bind-text
+                            ></span>
                           </div>
                         </div>
                       </div>
                       <div class="nkiDialog__collapsible-content">
-                        <reference-areas areas="{{ referenceAreas }}"> </reference-areas>
+                        <ns-reference-areas areas="{{ referenceAreas }}"> </ns-reference-areas>
                       </div>
                     </oj-c-collapsible>
                   </div>
@@ -181,7 +207,7 @@
           >
             <div class="nkiDialog-dialog nkiDialog-wide-dialog">
               <div class="nkiDialog-header">
-                <h4>Editar categoría</h4>
+                <h4><oj-bind-text value="[[categoryFormTitle]]"></oj-bind-text></h4>
                 <oj-button
                   class="oj-button-sm oj-sm-margin-2x-vertical"
                   chroming="borderless"
@@ -205,7 +231,7 @@
                     <div class="oj-flex oj-sm-12 oj-sm-margin-4x-vertical">
                       <oj-input-text
                         value="{{curCategoryNameToUpdate}}"
-                        label-hint="Categoría"
+                        label-hint="[[magicStrings.EDIT_CATEGORY_MODAL.category]]"
                         label-edge="inside"
                         required="true"
                         translations.required="[[ inputTextTranslations ]]"
@@ -216,7 +242,7 @@
                     <div class="oj-flex oj-sm-12 oj-sm-margin-4x-vertical">
                       <oj-input-text
                         value="{{curColorAuxiliar}}"
-                        label-hint="Color"
+                        label-hint="[[magicStrings.EDIT_CATEGORY_MODAL.color]]"
                         label-edge="inside"
                         on-value-changed="[[handleColorInputTextChange]]"
                         length.max="35"
@@ -228,27 +254,30 @@
                     </div>
                     <div class="oj-flex oj-sm-12 oj-sm-margin-4x-vertical">
                       <div class="oj-flex-item oj-sm-4 oj-sm-padding-2x-end">
-                        <oj-input-number
+                        <oj-c-input-number
                           value="{{curCategoryValueToUpdate}}"
                           on-value-changed="[[handleCatValueChanged]]"
-                          label-hint="Valor"
+                          label-hint="[[magicStrings.EDIT_CATEGORY_MODAL.value]]"
                           required="true"
+                          step="5"
                           translations.required="[[ inputTextTranslations ]]"
-                        ></oj-input-number>
+                        ></oj-c-input-number>
                       </div>
                       <div class="oj-flex-item oj-sm-8 oj-sm-padding-2x-start">
                         <oj-select-single
                           data="[[scalesDp]]"
                           value="{{curCategoryScaleToUpdate}}"
                           on-value-changed="[[handleCatValueChanged]]"
-                          label-hint="Escala"
+                          label-hint="[[magicStrings.EDIT_CATEGORY_MODAL.scale]]"
                           required="true"
                           translations.required="[[ inputTextTranslations ]]"
                         ></oj-select-single>
                       </div>
                     </div>
                     <div class="oj-flex oj-sm-justify-content-flex-end">
-                      Equivalencia Percentil:
+                      <oj-bind-text
+                        value="[[magicStrings.EDIT_CATEGORY_MODAL.equivalenceToPercentil]]"
+                      ></oj-bind-text>
                       <oj-bind-text value="[[curCategoryPeScaleToUpdate() ?? '-']]"></oj-bind-text>
                     </div>
                     <div class="oj-flex oj-sm-padding-4x-top">
@@ -270,8 +299,11 @@
                     <span slot="startIcon" class="nkiGraphs-white-text oj-sm-padding-2x-top"
                       ><span class="material-icons"> save </span></span
                     >
-                    <div class="nkiGraphs-white-text">Guardar</div></oj-button
-                  >
+                    <div class="nkiGraphs-white-text">
+                      <oj-bind-text
+                        value="[[magicStrings.EDIT_CATEGORY_MODAL.save]]"
+                      ></oj-bind-text></div
+                  ></oj-button>
                 </div>
               </div>
             </div>
@@ -287,9 +319,11 @@
                   <oj-bind-if test="[[templateApplied()]]">
                     <oj-bind-text value="[[templateAppliedName]]"></oj-bind-text>
                   </oj-bind-if>
-                  <oj-bind-if test="[[!templateApplied()]]"> [Gráfico sin nombre] </oj-bind-if>
+                  <oj-bind-if test="[[!templateApplied()]]">
+                    <oj-bind-text value="[[magicStrings.GRAPH_WITH_NO_NAME]]"></oj-bind-text>
+                  </oj-bind-if>
                 </p>
-                <graph-templates
+                <ns-graph-templates
                   get-current-chart="[[handleGetCurrentGraph]]"
                   apply-chart-template="[[handleApplyGraph]]"
                   on-chart-saved="[[handleGraphSaved]]"
@@ -300,7 +334,7 @@
                   <div slot="save" class="nkiGraphs-clickable-icon-cont">
                     <span class="material-icons nkiGraphs-clickable-icon"> save </span>
                   </div>
-                </graph-templates>
+                </ns-graph-templates>
               </div>
             </div>
             <div class="oj-flex-item">
@@ -314,8 +348,8 @@
                   <span slot="startIcon" class="oj-sm-padding-2x-top"
                     ><span class="material-icons"> add </span></span
                   >
-                  Agregar Categoría</oj-button
-                >
+                  <oj-bind-text value="[[magicStrings.ADD_CATEGORY_BTN]]"></oj-bind-text
+                ></oj-button>
                 <oj-button
                   id="graph"
                   chroming="solid"
@@ -325,13 +359,14 @@
                   <span slot="startIcon" class="nkiGraphs-white-text oj-sm-padding-2x-top"
                     ><span class="material-icons"> query_stats </span></span
                   >
-                  <div class="nkiGraphs-white-text">Graficar</div></oj-button
-                >
+                  <div class="nkiGraphs-white-text">
+                    <oj-bind-text value="[[magicStrings.GRAPH_BTN]]"></oj-bind-text></div
+                ></oj-button>
               </div>
             </div>
           </div>
           <!-- Categories -->
-          <draggable-categories
+          <ns-draggable-categories
             data="[[JSON.stringify(graphCategories())]]"
             on-sort-end="[[handleCategoriesOnSortEnd]]"
           >
@@ -365,6 +400,9 @@
                     <div class="nkiGraphs-clickable-icon" on-click="[[handleEditCategory]]">
                       <span class="material-icons"> edit </span>
                     </div>
+                    <div class="nkiGraphs-clickable-icon" on-click="[[handleCopyCategory]]">
+                      <span class="material-icons"> file_copy </span>
+                    </div>
                     <div class="nkiGraphs-clickable-icon nkiGraphs-warn-icon">
                       <span class="material-icons" on-click="[[handleRemoveCategory]]">
                         delete_forever
@@ -374,7 +412,7 @@
                 </div>
               </div>
             </template>
-          </draggable-categories>
+          </ns-draggable-categories>
         </div>
         <!-- Graph settings and Graph -->
         <div class="nkiGraphs__chart-container">
@@ -385,7 +423,9 @@
                 <oj-bind-if test="[[templateApplied()]]">
                   <oj-bind-text value="[[templateAppliedName]]"></oj-bind-text>
                 </oj-bind-if>
-                <oj-bind-if test="[[!templateApplied()]]"> [Gráfico sin nombre] </oj-bind-if>
+                <oj-bind-if test="[[!templateApplied()]]"
+                  ><oj-bind-text value="[[magicStrings.GRAPH_WITH_NO_NAME]]"></oj-bind-text
+                ></oj-bind-if>
               </h3>
               <a
                 href="#"
@@ -415,7 +455,8 @@
               data="[[chartDataDp]]"
               animation-on-display="zoom"
               animation-on-data-change="slideToLeft"
-              legend.position="[[legendPosition]]"
+              legend.position="[[comp_legendPosition]]"
+              legend.rendered="[[comp_legendRendered]]"
               y-axis.max="[[maxY]]"
               y-axis.reference-objects="[[yReferenceObjects]]"
               y-axis.step="[[stepY]]"

@@ -213,7 +213,7 @@ h3.nkiCard-category {
   gap: 0.5rem;
   display: flex;
   opacity: 0;
-  transition: opacity 0.1s ease-in-out;
+  transition: opacity 0.08s ease-in-out;
 }
 
 .nkiCard-container:hover .nkiCard-options {
